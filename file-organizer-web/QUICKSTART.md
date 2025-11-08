@@ -18,7 +18,14 @@ A full-stack file organization application:
 # Navigate to backend directory
 cd /home/chaps/projects/file-organizer-web/backend
 
-# Install dependencies (if not already done)
+# First time setup - Install python3-venv if needed
+sudo apt install python3.12-venv
+
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
 
 # Run the server
@@ -26,6 +33,8 @@ python main.py
 # OR
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
+
+**Note:** The virtual environment keeps dependencies isolated. Always activate it with `source venv/bin/activate` before running the backend.
 
 The backend will be running at: **http://localhost:8000**
 
