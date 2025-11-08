@@ -87,7 +87,7 @@ class API {
    * @param {boolean} recursive - Include subdirectories
    */
   async browse(path, recursive = false) {
-    return this.get('/api/browse', { path, recursive });
+    return this.get('/api/v1/browse', { path, recursive });
   }
 
   /**
@@ -95,7 +95,7 @@ class API {
    * @param {string} path - File path
    */
   async getFileInfo(path) {
-    return this.get('/api/file-info', { path });
+    return this.get('/api/v1/file-info', { path });
   }
 
   /**
@@ -103,7 +103,7 @@ class API {
    * @param {string} path - File path
    */
   async previewFile(path) {
-    return this.get('/api/preview', { path });
+    return this.get('/api/v1/preview', { path });
   }
 
   /**
@@ -113,7 +113,7 @@ class API {
    * @param {boolean} recursive - Include subdirectories
    */
   async searchFiles(directory, pattern, recursive = true) {
-    return this.get('/api/search', { directory, pattern, recursive });
+    return this.get('/api/v1/search', { directory, pattern, recursive });
   }
 
   // =====================================================
@@ -125,14 +125,14 @@ class API {
    * @param {object} options - Organization options
    */
   async organize(options) {
-    return this.post('/api/organize', options);
+    return this.post('/api/v1/organize', options);
   }
 
   /**
    * Get organization rules
    */
   async getRules() {
-    return this.get('/api/rules');
+    return this.get('/api/v1/rules');
   }
 
   /**
@@ -140,7 +140,7 @@ class API {
    * @param {object} rule - Rule definition
    */
   async addRule(rule) {
-    return this.post('/api/rules', rule);
+    return this.post('/api/v1/rules', rule);
   }
 
   /**
@@ -159,7 +159,7 @@ class API {
    * Get all schedules
    */
   async getSchedules() {
-    return this.get('/api/schedules');
+    return this.get('/api/v1/schedules');
   }
 
   /**
@@ -175,7 +175,7 @@ class API {
    * @param {object} schedule - Schedule definition
    */
   async createSchedule(schedule) {
-    return this.post('/api/schedules', schedule);
+    return this.post('/api/v1/schedules', schedule);
   }
 
   /**
@@ -213,7 +213,7 @@ class API {
    * @param {number} offset - Offset for pagination
    */
   async getHistory(limit = 50, offset = 0) {
-    return this.get('/api/history', { limit, offset });
+    return this.get('/api/v1/history', { limit, offset });
   }
 
   /**
@@ -228,7 +228,7 @@ class API {
    * Clear history
    */
   async clearHistory() {
-    return this.delete('/api/history');
+    return this.delete('/api/v1/history');
   }
 
   // =====================================================
@@ -241,7 +241,7 @@ class API {
    */
   async getAnalytics(path = null) {
     const params = path ? { path } : {};
-    return this.get('/api/analytics', params);
+    return this.get('/api/v1/analytics', params);
   }
 
   /**
@@ -249,7 +249,7 @@ class API {
    * @param {string} path - Directory path
    */
   async getFileTypeDistribution(path) {
-    return this.get('/api/analytics/file-types', { path });
+    return this.get('/api/v1/analytics/file-types', { path });
   }
 
   // =====================================================
@@ -267,7 +267,7 @@ class API {
    * Get system info
    */
   async getSystemInfo() {
-    return this.get('/api/system-info');
+    return this.get('/api/v1/system-info');
   }
 }
 
