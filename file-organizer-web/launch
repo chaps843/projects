@@ -1,0 +1,126 @@
+#!/bin/bash
+# All-in-one launcher for File Organizer Web
+# Just run: ./launch
+
+set -e
+
+echo "=========================================="
+echo "🚀 File Organizer Web Launcher"
+echo "=========================================="
+echo ""
+
+# Check if we're in the right directory
+if [ ! -f "launch" ]; then
+    echo "Error: Please run this script from the file-organizer-web directory"
+    exit 1
+fi
+
+# Check if setup has been run
+if [ ! -d "backend/venv" ]; then
+    echo "❌ Virtual environment not found."
+    echo ""
+    echo "Running setup first..."
+    echo ""
+    ./setup.sh
+    echo ""
+fi
+
+# Function to cleanup on exit
+cleanup() {
+    echo ""
+    echo "=========================================="
+    echo "🛑 Shutting down File Organizer..."
+    echo "=========================================="
+    
+    # Kill background processes
+    if [ ! -z "$BACKEND_PID" ]; then
+        echo "Stopping backend (PID: $BACKEND_PID)..."
+        kill $BACKEND_PID 2>/dev/null || true
+    fi
+    
+    if [ ! -z "$FRONTEND_PID" ]; then
+        echo "Stopping frontend (PID: $FRONTEND_PID)..."
+        kill $FRONTEND_PID 2>/dev/null || true
+    fi
+    
+    echo ""
+    echo "✅ Stopped successfully. Goodbye!"
+    exit 0
+}
+
+# Trap Ctrl+C and call cleanup
+trap cleanup INT TERM
+
+echo "Step 1/4: Starting backend server..."
+cd backend
+source venv/bin/activate
+python main.py > ../logs/backend.log 2>&1 &
+BACKEND_PID=$!
+cd ..
+echo "  ✓ Backend started (PID: $BACKEND_PID)"
+echo "  📝 Backend logs: logs/backend.log"
+echo ""
+
+# Wait for backend to be ready
+echo "Step 2/4: Waiting for backend to be ready..."
+for i in {1..30}; do
+    if curl -s http://localhost:8000/health > /dev/null 2>&1; then
+        echo "  ✓ Backend is ready!"
+        break
+    fi
+    if [ $i -eq 30 ]; then
+        echo "  ❌ Backend failed to start. Check logs/backend.log"
+        cleanup
+    fi
+    sleep 1
+done
+echo ""
+
+echo "Step 3/4: Starting frontend server..."
+cd frontend
+python3 -m http.server 8080 > ../logs/frontend.log 2>&1 &
+FRONTEND_PID=$!
+cd ..
+sleep 2
+echo "  ✓ Frontend started (PID: $FRONTEND_PID)"
+echo "  📝 Frontend logs: logs/frontend.log"
+echo ""
+
+echo "Step 4/4: Opening browser..."
+# Detect browser and open
+if command -v xdg-open > /dev/null; then
+    xdg-open http://localhost:8080 2>/dev/null &
+    echo "  ✓ Browser opened"
+elif command -v gnome-open > /dev/null; then
+    gnome-open http://localhost:8080 2>/dev/null &
+    echo "  ✓ Browser opened"
+elif command -v open > /dev/null; then
+    open http://localhost:8080 2>/dev/null &
+    echo "  ✓ Browser opened"
+else
+    echo "  ⚠️  Could not detect browser"
+    echo "  📱 Open manually: http://localhost:8080"
+fi
+echo ""
+
+echo "=========================================="
+echo "✅ File Organizer is Running!"
+echo "=========================================="
+echo ""
+echo "🌐 Web Interface:  http://localhost:8080"
+echo "📚 API Docs:       http://localhost:8000/docs"
+echo ""
+echo "📝 Logs are being saved to:"
+echo "   • logs/backend.log"
+echo "   • logs/frontend.log"
+echo ""
+echo "💡 To view logs in real-time:"
+echo "   tail -f logs/backend.log"
+echo "   tail -f logs/frontend.log"
+echo ""
+echo "🛑 Press Ctrl+C to stop all servers"
+echo "=========================================="
+echo ""
+
+# Keep script running and wait for Ctrl+C
+wait

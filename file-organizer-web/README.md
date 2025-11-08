@@ -2,45 +2,48 @@
 
 A beautiful, feature-rich web application for organizing files with scheduling, analytics, and more!
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Super Easy!)
 
-### 1. Install Backend Dependencies
-
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-### 2. Configure Environment
+### One Command Launch 🎯
 
 ```bash
-cd backend
-cp .env.example .env
-# Edit .env to set ALLOWED_PATHS (directories you want to organize)
+cd /home/chaps/projects/file-organizer-web
+./launch
 ```
 
-### 3. Start the Backend
+That's it! The script will:
+- ✅ Run setup if needed (first time only)
+- ✅ Start the backend server
+- ✅ Start the frontend server
+- ✅ Open your browser automatically
+- ✅ Show you logs and status
 
+Press **Ctrl+C** to stop everything.
+
+---
+
+### Manual Setup (Alternative)
+
+If you prefer to do it manually:
+
+**1. First-time setup:**
 ```bash
-cd backend
-chmod +x run.sh
-./run.sh
+./setup.sh
 ```
 
-Backend will be available at: **http://localhost:8000**
-API docs at: **http://localhost:8000/docs**
-
-### 4. Start the Frontend
-
-In a new terminal:
-
+**2. Start servers:**
 ```bash
-cd frontend
-chmod +x serve.sh
-./serve.sh
+# Option A: All-in-one launcher
+./launch
+
+# Option B: Separate terminals
+./start-backend.sh    # Terminal 1
+./start-frontend.sh   # Terminal 2
 ```
 
-Frontend will be available at: **http://localhost:8080**
+**3. Access:**
+- **Web Interface:** http://localhost:8080
+- **API Docs:** http://localhost:8000/docs
 
 ## ✨ Features
 
