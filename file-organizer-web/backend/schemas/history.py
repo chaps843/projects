@@ -59,4 +59,4 @@ class HistoryAnalytics(BaseModel):
     files_moved_over_time: List[TimeSeriesPoint]
     operations_over_time: List[TimeSeriesPoint]
     category_distribution: Dict[str, int]
-    busiest_directories: List[Dict[str, any]]
+    busiest_directories: List[Dict[str, Any]]
