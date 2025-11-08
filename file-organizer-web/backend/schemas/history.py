@@ -2,7 +2,7 @@
 Schemas for operation history.
 """
 
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 from pydantic import BaseModel
 
