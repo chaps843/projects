@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Organizer - Smart File Management</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="static/css/main.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary shadow-sm sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-folder-tree me-2 fs-4"></i>
+                <span class="fw-bold">File Organizer</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-tab="dashboard">
+                            <i class="fas fa-chart-line me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-tab="browser">
+                            <i class="fas fa-folder-open me-1"></i> Browse
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-tab="organize">
+                            <i class="fas fa-magic me-1"></i> Organize
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-tab="schedule">
+                            <i class="fas fa-clock me-1"></i> Schedule
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-tab="history">
+                            <i class="fas fa-history me-1"></i> History
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="sidebar-header mb-3">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">
+                            <span>Quick Actions</span>
+                        </h6>
+                    </div>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="selectDirectoryBtn">
+                                <i class="fas fa-folder-plus me-2"></i>
+                                Select Directory
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="quickOrganizeBtn">
+                                <i class="fas fa-bolt me-2"></i>
+                                Quick Organize
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="refreshBtn">
+                                <i class="fas fa-sync-alt me-2"></i>
+                                Refresh
+                            </a>
+                        </li>
+                    </ul>
+
+                    <hr class="my-3">
+
+                    <div class="sidebar-header mb-3">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">
+                            <span>Directory Tree</span>
+                            <button class="btn btn-sm btn-link text-muted" id="expandAllBtn" title="Expand All">
+                                <i class="fas fa-plus-square"></i>
+                            </button>
+                        </h6>
+                    </div>
+
+                    <div id="directoryTree" class="px-3">
+                        <div class="text-muted small">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Select a directory to begin
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+
+                    <div class="sidebar-stats px-3">
+                        <h6 class="sidebar-heading text-muted mb-2">System Info</h6>
+                        <div class="small">
+                            <div class="mb-2">
+                                <i class="fas fa-server text-primary me-1"></i>
+                                <span id="systemStatus" class="badge bg-success">Connected</span>
+                            </div>
+                            <div class="mb-2">
+                                <i class="fas fa-folder text-warning me-1"></i>
+                                <span id="currentPath" class="text-muted">No directory selected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2" id="pageTitle">
+                        <i class="fas fa-chart-line me-2"></i>Dashboard
+                    </h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="viewGridBtn" title="Grid View">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="viewListBtn" title="List View">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary" id="mainActionBtn">
+                            <i class="fas fa-plus me-1"></i>
+                            <span id="mainActionText">New Action</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="tabContent">
+                    <!-- Dashboard Tab -->
+                    <div id="dashboardTab" class="tab-pane">
+                        <div class="row mb-4">
+                            <div class="col-md-3 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="text-muted mb-1">Total Files</h6>
+                                                <h3 class="mb-0" id="statTotalFiles">0</h3>
+                                            </div>
+                                            <div class="stat-icon bg-primary">
+                                                <i class="fas fa-file"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="text-muted mb-1">Total Size</h6>
+                                                <h3 class="mb-0" id="statTotalSize">0 B</h3>
+                                            </div>
+                                            <div class="stat-icon bg-success">
+                                                <i class="fas fa-hdd"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="text-muted mb-1">Operations</h6>
+                                                <h3 class="mb-0" id="statOperations">0</h3>
+                                            </div>
+                                            <div class="stat-icon bg-info">
+                                                <i class="fas fa-tasks"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="text-muted mb-1">Schedules</h6>
+                                                <h3 class="mb-0" id="statSchedules">0</h3>
+                                            </div>
+                                            <div class="stat-icon bg-warning">
+                                                <i class="fas fa-clock"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-lg-8 mb-3">
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="mb-0">File Type Distribution</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="fileTypeChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="mb-0">Storage Overview</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="storageChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="mb-0">Recent Activity</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="recentActivity" class="list-group list-group-flush">
+                                            <div class="text-center text-muted py-3">
+                                                <i class="fas fa-inbox fa-3x mb-3"></i>
+                                                <p>No recent activity</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Browser Tab -->
+                    <div id="browserTab" class="tab-pane active">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn btn-outline-secondary btn-sm me-2" id="browseBackBtn" disabled>
+                                                <i class="fas fa-arrow-left"></i>
+                                            </button>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-folder"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="currentPathInput" placeholder="Select a directory..." readonly>
+                                                <button class="btn btn-primary" type="button" id="browseSelectBtn">
+                                                    <i class="fas fa-folder-open me-1"></i>
+                                                    Browse
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Files & Folders</h5>
+                                        <div>
+                                            <input type="text" class="form-control form-control-sm" id="searchFiles" placeholder="Search files...">
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div id="fileBrowser" class="file-browser">
+                                            <div class="text-center text-muted py-5">
+                                                <i class="fas fa-folder-open fa-4x mb-3"></i>
+                                                <h5>No Directory Selected</h5>
+                                                <p>Click the Browse button to select a directory</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Organize Tab -->
+                    <div id="organizeTab" class="tab-pane">
+                        <div class="row mb-4">
+                            <div class="col-lg-4 mb-3">
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="mb-0">Organization Rules</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="organizeForm">
+                                            <div class="mb-3">
+                                                <label for="organizeDir" class="form-label">Source Directory</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="organizeDir" placeholder="Select directory..." readonly required>
+                                                    <button class="btn btn-outline-secondary" type="button" id="selectOrgDirBtn">
+                                                        <i class="fas fa-folder-open"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="organizeMethod" class="form-label">Organize By</label>
+                                                <select class="form-select" id="organizeMethod" required>
+                                                    <option value="type">File Type</option>
+                                                    <option value="date">Date Modified</option>
+                                                    <option value="size">File Size</option>
+                                                    <option value="extension">Extension</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="organizeRecursive">
+                                                    <label class="form-check-label" for="organizeRecursive">
+                                                        Include subdirectories
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="organizeDryRun" checked>
+                                                    <label class="form-check-label" for="organizeDryRun">
+                                                        Preview only (dry run)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-grid gap-2">
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fas fa-magic me-1"></i>
+                                                    Generate Preview
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="card mt-3">
+                                    <div class="card-header bg-white">
+                                        <h5 class="mb-0">Custom Rules</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="customRuleName" class="form-label">Rule Name</label>
+                                            <input type="text" class="form-control form-control-sm" id="customRuleName" placeholder="My Rule">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="customRulePattern" class="form-label">Pattern</label>
+                                            <input type="text" class="form-control form-control-sm" id="customRulePattern" placeholder="*.pdf">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="customRuleTarget" class="form-label">Target Folder</label>
+                                            <input type="text" class="form-control form-control-sm" id="customRuleTarget" placeholder="Documents">
+                                        </div>
+                                        <button class="btn btn-sm btn-secondary w-100">
+                                            <i class="fas fa-plus me-1"></i>
+                                            Add Rule
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-8 mb-3">
+                                <div class="card">
+                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Preview Changes</h5>
+                                        <div id="previewStats" class="text-muted small">
+                                            No preview generated
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="organizePreview">
+                                            <div class="text-center text-muted py-5">
+                                                <i class="fas fa-eye fa-4x mb-3"></i>
+                                                <h5>No Preview Available</h5>
+                                                <p>Configure rules and click "Generate Preview" to see changes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-white" id="previewActions" style="display: none;">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-outline-secondary" id="cancelPreviewBtn">
+                                                <i class="fas fa-times me-1"></i>
+                                                Cancel
+                                            </button>
+                                            <button class="btn btn-success" id="applyOrganizeBtn">
+                                                <i class="fas fa-check me-1"></i>
+                                                Apply Changes
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schedule Tab -->
+                    <div id="scheduleTab" class="tab-pane">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Scheduled Tasks</h5>
+                                        <button class="btn btn-primary btn-sm" id="addScheduleBtn">
+                                            <i class="fas fa-plus me-1"></i>
+                                            New Schedule
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="scheduleList">
+                                            <div class="text-center text-muted py-5">
+                                                <i class="fas fa-clock fa-4x mb-3"></i>
+                                                <h5>No Scheduled Tasks</h5>
+                                                <p>Create a schedule to automatically organize files</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- History Tab -->
+                    <div id="historyTab" class="tab-pane">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Operation History</h5>
+                                        <div>
+                                            <button class="btn btn-outline-secondary btn-sm me-2" id="filterHistoryBtn">
+                                                <i class="fas fa-filter me-1"></i>
+                                                Filter
+                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm" id="clearHistoryBtn">
+                                                <i class="fas fa-trash me-1"></i>
+                                                Clear
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="historyList">
+                                            <div class="text-center text-muted py-5">
+                                                <i class="fas fa-history fa-4x mb-3"></i>
+                                                <h5>No History</h5>
+                                                <p>Your organization history will appear here</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Directory Selection Modal -->
+    <div class="modal fade" id="directoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-folder-open me-2"></i>
+                        Select Directory
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="directoryPathInput" class="form-label">Directory Path</label>
+                        <input type="text" class="form-control" id="directoryPathInput" placeholder="/path/to/directory">
+                        <div class="form-text">Enter the full path to the directory you want to organize</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmDirectoryBtn">
+                        <i class="fas fa-check me-1"></i>
+                        Select
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalTitle">
+                        <i class="fas fa-file me-2"></i>
+                        File Preview
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="previewContent">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Modal -->
+    <div class="modal fade" id="scheduleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-clock me-2"></i>
+                        Create Schedule
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="scheduleForm">
+                        <div class="mb-3">
+                            <label for="scheduleName" class="form-label">Schedule Name</label>
+                            <input type="text" class="form-control" id="scheduleName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="scheduleDir" class="form-label">Directory</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="scheduleDir" required readonly>
+                                <button class="btn btn-outline-secondary" type="button" id="selectScheduleDirBtn">
+                                    <i class="fas fa-folder-open"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="scheduleMethod" class="form-label">Organize By</label>
+                            <select class="form-select" id="scheduleMethod" required>
+                                <option value="type">File Type</option>
+                                <option value="date">Date Modified</option>
+                                <option value="size">File Size</option>
+                                <option value="extension">Extension</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="scheduleCron" class="form-label">Schedule (Cron Expression)</label>
+                            <input type="text" class="form-control" id="scheduleCron" placeholder="0 0 * * *" required>
+                            <div class="form-text">Example: "0 0 * * *" for daily at midnight</div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="scheduleActive" checked>
+                                <label class="form-check-label" for="scheduleActive">
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveScheduleBtn">
+                        <i class="fas fa-save me-1"></i>
+                        Save Schedule
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">Confirm Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="confirmModalBody">
+                    Are you sure you want to proceed?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmActionBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="static/js/utils/formatting.js"></script>
+    <script src="static/js/api.js"></script>
+    <script src="static/js/components/preview-modal.js"></script>
+    <script src="static/js/components/file-browser.js"></script>
+    <script src="static/js/components/organizer.js"></script>
+    <script src="static/js/components/scheduler.js"></script>
+    <script src="static/js/components/dashboard.js"></script>
+    <script src="static/js/main.js"></script>
+</body>
+</html>
