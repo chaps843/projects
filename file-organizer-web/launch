@@ -2,7 +2,7 @@
 # All-in-one launcher for File Organizer Web
 # Just run: ./launch
 
-set -e
+set -e  # Exit on error
 
 echo "=========================================="
 echo "🚀 File Organizer Web Launcher"
@@ -16,13 +16,38 @@ if [ ! -f "launch" ]; then
 fi
 
 # Check if setup has been run
-if [ ! -d "backend/venv" ]; then
-    echo "❌ Virtual environment not found."
+if [ ! -f "backend/venv/bin/activate" ]; then
+    echo "❌ Setup required!"
     echo ""
-    echo "Running setup first..."
+    echo "First time setup needed. This will:"
+    echo "  1. Install python3-venv (requires sudo)"
+    echo "  2. Create virtual environment"
+    echo "  3. Install all dependencies"
     echo ""
-    ./setup.sh
+    read -p "Run setup now? (y/n) " -n 1 -r
     echo ""
+    
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        ./setup.sh
+        echo ""
+        
+        # Verify setup succeeded
+        if [ ! -f "backend/venv/bin/activate" ]; then
+            echo "❌ Setup failed!"
+            echo ""
+            echo "Please run './setup.sh' manually to see the error."
+            echo "You may need to install python3-venv first:"
+            echo "  sudo apt install python3.12-venv"
+            exit 1
+        fi
+        
+        echo "✅ Setup complete! Now starting servers..."
+        echo ""
+    else
+        echo ""
+        echo "Setup cancelled. Please run './setup.sh' manually first."
+        exit 0
+    fi
 fi
 
 # Function to cleanup on exit
@@ -53,6 +78,10 @@ trap cleanup INT TERM
 
 echo "Step 1/4: Starting backend server..."
 cd backend
+if [ ! -f "venv/bin/activate" ]; then
+    echo "❌ Error: venv/bin/activate not found"
+    exit 1
+fi
 source venv/bin/activate
 python main.py > ../logs/backend.log 2>&1 &
 BACKEND_PID=$!
