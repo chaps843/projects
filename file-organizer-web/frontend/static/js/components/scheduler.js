@@ -196,7 +196,19 @@ class Scheduler {
 
   async toggleSchedule(id) {
     try {
-      await api.toggleSchedule(id);
+      // Find the schedule to determine current state
+      const schedule = this.schedules.find(s => s.id === id);
+      if (!schedule) {
+        throw new Error('Schedule not found');
+      }
+      
+      // Call enable or disable based on current state
+      if (schedule.is_active) {
+        await api.disableSchedule(id);
+      } else {
+        await api.enableSchedule(id);
+      }
+      
       showToast('Success', 'Schedule updated', 'success');
       await this.loadSchedules();
     } catch (error) {

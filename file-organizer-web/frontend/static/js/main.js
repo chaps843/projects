@@ -97,7 +97,8 @@ class App {
   handleMainAction(tabName) {
     switch (tabName) {
       case 'dashboard':
-        dashboard.load();
+        const currentPath = fileBrowser ? fileBrowser.getCurrentPath() : null;
+        dashboard.load(currentPath);
         break;
       case 'browser':
         fileBrowser.showDirectoryPicker();
@@ -119,7 +120,9 @@ class App {
   loadTabContent(tabName) {
     switch (tabName) {
       case 'dashboard':
-        dashboard.load();
+        // Pass current path from file browser if available
+        const currentPath = fileBrowser ? fileBrowser.getCurrentPath() : null;
+        dashboard.load(currentPath);
         break;
       case 'schedule':
         scheduler.loadSchedules();
@@ -142,7 +145,8 @@ class App {
     
     switch (this.currentTab) {
       case 'dashboard':
-        await dashboard.load();
+        const currentPath = fileBrowser ? fileBrowser.getCurrentPath() : null;
+        await dashboard.load(currentPath);
         break;
       case 'browser':
         if (fileBrowser.currentPath) {
@@ -333,6 +337,9 @@ function showToast(title, message, type = 'info') {
 let app;
 document.addEventListener('DOMContentLoaded', () => {
   app = new App();
+  
+  // Make app globally accessible for stat card clicks
+  window.app = app;
   
   // Show welcome toast
   setTimeout(() => {

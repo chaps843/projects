@@ -87,7 +87,10 @@ class API {
    * @param {boolean} recursive - Include subdirectories
    */
   async browse(path, recursive = false) {
-    return this.get('/api/v1/browse', { path, recursive });
+    console.log('[API.browse] Requesting path:', path, 'recursive:', recursive);
+    const result = await this.get('/api/v1/files/browse', { path, recursive });
+    console.log('[API.browse] Response received:', result);
+    return result;
   }
 
   /**
@@ -95,7 +98,7 @@ class API {
    * @param {string} path - File path
    */
   async getFileInfo(path) {
-    return this.get('/api/v1/file-info', { path });
+    return this.get('/api/v1/files/info', { path });
   }
 
   /**
@@ -103,7 +106,7 @@ class API {
    * @param {string} path - File path
    */
   async previewFile(path) {
-    return this.get('/api/v1/preview', { path });
+    return this.get('/api/v1/preview/file', { path });
   }
 
   /**
@@ -113,7 +116,7 @@ class API {
    * @param {boolean} recursive - Include subdirectories
    */
   async searchFiles(directory, pattern, recursive = true) {
-    return this.get('/api/v1/search', { directory, pattern, recursive });
+    return this.get('/api/v1/files/search', { base_path: directory, pattern });
   }
 
   // =====================================================
@@ -125,7 +128,10 @@ class API {
    * @param {object} options - Organization options
    */
   async organize(options) {
-    return this.post('/api/v1/organize', options);
+    const endpoint = options.dry_run 
+      ? '/api/v1/organize/preview' 
+      : '/api/v1/organize/execute';
+    return this.post(endpoint, options);
   }
 
   /**
@@ -148,7 +154,7 @@ class API {
    * @param {number} ruleId - Rule ID
    */
   async deleteRule(ruleId) {
-    return this.delete(`/api/rules/${ruleId}`);
+    return this.delete(`/api/v1/rules/${ruleId}`);
   }
 
   // =====================================================
@@ -159,7 +165,7 @@ class API {
    * Get all schedules
    */
   async getSchedules() {
-    return this.get('/api/v1/schedules');
+    return this.get('/api/v1/schedule');
   }
 
   /**
@@ -167,7 +173,7 @@ class API {
    * @param {number} scheduleId - Schedule ID
    */
   async getSchedule(scheduleId) {
-    return this.get(`/api/schedules/${scheduleId}`);
+    return this.get(`/api/v1/schedule/${scheduleId}`);
   }
 
   /**
@@ -175,7 +181,7 @@ class API {
    * @param {object} schedule - Schedule definition
    */
   async createSchedule(schedule) {
-    return this.post('/api/v1/schedules', schedule);
+    return this.post('/api/v1/schedule', schedule);
   }
 
   /**
@@ -184,7 +190,7 @@ class API {
    * @param {object} schedule - Updated schedule data
    */
   async updateSchedule(scheduleId, schedule) {
-    return this.put(`/api/schedules/${scheduleId}`, schedule);
+    return this.put(`/api/v1/schedule/${scheduleId}`, schedule);
   }
 
   /**
@@ -192,15 +198,23 @@ class API {
    * @param {number} scheduleId - Schedule ID
    */
   async deleteSchedule(scheduleId) {
-    return this.delete(`/api/schedules/${scheduleId}`);
+    return this.delete(`/api/v1/schedule/${scheduleId}`);
   }
 
   /**
-   * Toggle schedule active state
+   * Enable schedule
    * @param {number} scheduleId - Schedule ID
    */
-  async toggleSchedule(scheduleId) {
-    return this.post(`/api/schedules/${scheduleId}/toggle`);
+  async enableSchedule(scheduleId) {
+    return this.post(`/api/v1/schedule/${scheduleId}/enable`);
+  }
+
+  /**
+   * Disable schedule
+   * @param {number} scheduleId - Schedule ID
+   */
+  async disableSchedule(scheduleId) {
+    return this.post(`/api/v1/schedule/${scheduleId}/disable`);
   }
 
   // =====================================================
@@ -221,7 +235,7 @@ class API {
    * @param {number} historyId - History ID
    */
   async getHistoryById(historyId) {
-    return this.get(`/api/history/${historyId}`);
+    return this.get(`/api/v1/history/${historyId}`);
   }
 
   /**
@@ -240,8 +254,8 @@ class API {
    * @param {string} path - Directory path (optional)
    */
   async getAnalytics(path = null) {
-    const params = path ? { path } : {};
-    return this.get('/api/v1/analytics', params);
+    // Use history stats endpoint for analytics
+    return this.get('/api/v1/history/stats/summary');
   }
 
   /**
@@ -249,7 +263,8 @@ class API {
    * @param {string} path - Directory path
    */
   async getFileTypeDistribution(path) {
-    return this.get('/api/v1/analytics/file-types', { path });
+    // Use analytics dashboard endpoint
+    return this.get('/api/v1/history/analytics/dashboard', { days: 30 });
   }
 
   // =====================================================

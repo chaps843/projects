@@ -60,12 +60,23 @@ class FileBrowser {
 
   async browse(path, addToHistory = true) {
     try {
+      console.log('[FileBrowser] Starting browse for path:', path);
       showLoading(document.getElementById('fileBrowser'));
       
       const data = await api.browse(path, false);
+      console.log('[FileBrowser] API response data:', data);
+      console.log('[FileBrowser] Files count:', (data.files || []).length);
+      console.log('[FileBrowser] Directories count:', (data.directories || []).length);
       
       this.currentPath = path;
-      this.currentFiles = data.items || [];
+      
+      // Combine files and directories into a single items array
+      const files = (data.files || []).map(f => ({ ...f, type: 'file' }));
+      const directories = (data.directories || []).map(d => ({ ...d, type: 'directory' }));
+      this.currentFiles = [...directories, ...files];
+      
+      console.log('[FileBrowser] Combined currentFiles array length:', this.currentFiles.length);
+      console.log('[FileBrowser] Combined currentFiles:', this.currentFiles);
       
       if (addToHistory) {
         this.pathHistory.push(path);
@@ -77,6 +88,7 @@ class FileBrowser {
       // Enable/disable back button
       document.getElementById('browseBackBtn').disabled = this.pathHistory.length <= 1;
       
+      console.log('[FileBrowser] About to render with', this.currentFiles.length, 'files');
       this.render();
       
       showToast('Success', `Loaded ${this.currentFiles.length} items`, 'success');
@@ -118,9 +130,14 @@ class FileBrowser {
   }
 
   render(files = this.currentFiles) {
+    console.log('[FileBrowser.render] Called with files:', files);
+    console.log('[FileBrowser.render] Files length:', files ? files.length : 'null/undefined');
+    
     const container = document.getElementById('fileBrowser');
+    console.log('[FileBrowser.render] Container element:', container);
     
     if (!files || files.length === 0) {
+      console.log('[FileBrowser.render] No files, showing empty state');
       showEmptyState(
         container,
         'fas fa-folder-open',
@@ -136,12 +153,17 @@ class FileBrowser {
       if (a.type !== 'directory' && b.type === 'directory') return 1;
       return a.name.localeCompare(b.name);
     });
+    
+    console.log('[FileBrowser.render] Sorted files:', sorted);
+    console.log('[FileBrowser.render] View mode:', this.viewMode);
 
     if (this.viewMode === 'grid') {
       this.renderGrid(sorted, container);
     } else {
       this.renderList(sorted, container);
     }
+    
+    console.log('[FileBrowser.render] Rendering complete');
   }
 
   renderList(files, container) {
@@ -177,7 +199,7 @@ class FileBrowser {
           <div class="file-name">${escapeHtml(item.name)}</div>
           <div class="file-meta">
             ${isDirectory ? 'Folder' : formatFileSize(item.size || 0)}
-            ${item.modified ? ` • ${formatDate(item.modified)}` : ''}
+            ${item.modified_at ? ` • ${formatDate(item.modified_at)}` : ''}
           </div>
         </div>
         <div class="file-actions">
@@ -225,6 +247,18 @@ class FileBrowser {
     // File click (in grid view)
     document.querySelectorAll('.file-grid-item[data-type="file"]').forEach(item => {
       item.addEventListener('click', () => {
+        const path = item.dataset.path;
+        previewModal.show(path);
+      });
+    });
+
+    // File click (in list view) - make entire file item clickable
+    document.querySelectorAll('.file-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        // Don't trigger if clicking on action buttons
+        if (e.target.closest('.file-actions')) {
+          return;
+        }
         const path = item.dataset.path;
         previewModal.show(path);
       });

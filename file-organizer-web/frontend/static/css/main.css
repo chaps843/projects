@@ -142,6 +142,26 @@ body {
     margin-left: 1.25rem;
 }
 
+/* Saved Directories */
+.saved-dir-item {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.saved-dir-item:hover .remove-dir-btn {
+    opacity: 1;
+}
+
+.remove-dir-btn {
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 0.8rem;
+}
+
+.saved-dir-item .remove-dir-btn:hover {
+    color: #dc3545 !important;
+}
+
 /* =====================================================
    Main Content
    ===================================================== */
@@ -194,6 +214,20 @@ main {
 
 .stat-card {
     border-left: 4px solid var(--primary);
+}
+
+.stat-card-clickable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stat-card-clickable:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-clickable:active {
+    transform: translateY(-2px);
 }
 
 .stat-card .stat-icon {

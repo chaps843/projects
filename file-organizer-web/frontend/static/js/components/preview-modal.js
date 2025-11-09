@@ -44,6 +44,24 @@ class PreviewModal {
     const content = document.getElementById('previewContent');
     const ext = filePath.split('.').pop().toLowerCase();
 
+    // Handle error responses
+    if (preview.type === 'error' || preview.error) {
+      showError(content, preview.error || preview.message || 'Failed to load preview');
+      return;
+    }
+
+    // Handle unknown/empty files
+    if (preview.type === 'unknown' || (!preview.data && !preview.content)) {
+      content.innerHTML = `
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          This file appears to be empty or in an unsupported format.
+        </div>
+        ${preview.metadata ? this.renderMetadata(preview.metadata) : ''}
+      `;
+      return;
+    }
+
     // Image preview
     if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(ext)) {
       if (preview.type === 'image' && preview.data) {
@@ -63,10 +81,20 @@ class PreviewModal {
     }
 
     // Text preview
-    if (['txt', 'md', 'json', 'xml', 'csv', 'log', 'js', 'py', 'java', 'cpp', 'c', 'h', 'css', 'html'].includes(ext)) {
-      if (preview.type === 'text' && preview.content) {
+    if (['txt', 'md', 'json', 'xml', 'csv', 'log', 'js', 'py', 'java', 'cpp', 'c', 'h', 'css', 'html', 'yml', 'yaml', 'sh', 'bash'].includes(ext)) {
+      if (preview.type === 'text' && (preview.data || preview.content)) {
+        const textContent = preview.data || preview.content;
+        const isTruncated = textContent.length > 50000;
+        const displayContent = isTruncated ? textContent.substring(0, 50000) : textContent;
+        
         content.innerHTML = `
-          <pre class="bg-light p-3 rounded" style="max-height: 400px; overflow: auto;"><code>${escapeHtml(preview.content)}</code></pre>
+          ${isTruncated ? `
+            <div class="alert alert-warning mb-3">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              Large file - showing first 50,000 characters only
+            </div>
+          ` : ''}
+          <pre class="bg-light p-3 rounded" style="max-height: 500px; overflow: auto; font-size: 0.85rem; line-height: 1.4;"><code>${escapeHtml(displayContent)}</code></pre>
           ${this.renderMetadata(preview.metadata)}
         `;
       } else {

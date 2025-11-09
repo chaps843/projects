@@ -63,10 +63,10 @@ class Organizer {
       showLoading(previewContainer);
 
       const result = await api.organize({
-        directory,
-        method,
-        recursive,
-        dry_run: dryRun
+        source_directory: directory,
+        operation_type: method,
+        dry_run: dryRun,
+        create_others: true
       });
 
       this.currentPreview = result;
@@ -198,10 +198,10 @@ class Organizer {
       showLoading(document.getElementById('organizePreview'));
 
       const result = await api.organize({
-        directory,
-        method,
-        recursive,
-        dry_run: false
+        source_directory: directory,
+        operation_type: method,
+        dry_run: false,
+        create_others: true
       });
 
       showToast(

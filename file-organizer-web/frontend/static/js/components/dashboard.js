@@ -11,6 +11,29 @@ class Dashboard {
 
   init() {
     // Charts will be initialized when dashboard becomes active
+    this.setupStatCardClickHandlers();
+  }
+
+  setupStatCardClickHandlers() {
+    document.querySelectorAll('.stat-card-clickable').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const tab = card.dataset.tab;
+        if (tab && window.app) {
+          window.app.switchTab(tab);
+        }
+      });
+      
+      // Support keyboard navigation
+      card.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const tab = card.dataset.tab;
+          if (tab && window.app) {
+            window.app.switchTab(tab);
+          }
+        }
+      });
+    });
   }
 
   async load(path = null) {
@@ -24,7 +47,42 @@ class Dashboard {
 
   async loadStats(path = null) {
     try {
-      const analytics = await api.getAnalytics(path);
+      let analytics;
+      
+      if (path) {
+        // Load stats for specific directory
+        const browseData = await api.browse(path, false);
+        const historyStats = await api.getAnalytics();
+        
+        // Calculate directory stats
+        const totalFiles = browseData.items ? browseData.items.filter(item => item.type === 'file').length : 0;
+        const totalSize = browseData.items ? browseData.items.reduce((sum, item) => sum + (item.size || 0), 0) : 0;
+        
+        // Calculate file type distribution
+        const fileTypeDistribution = {};
+        const storageDistribution = {};
+        
+        if (browseData.items) {
+          browseData.items.filter(item => item.type === 'file').forEach(item => {
+            const ext = item.name.includes('.') ? item.name.split('.').pop().toLowerCase() : 'unknown';
+            fileTypeDistribution[ext] = (fileTypeDistribution[ext] || 0) + 1;
+            storageDistribution[ext] = (storageDistribution[ext] || 0) + (item.size || 0);
+          });
+        }
+        
+        analytics = {
+          total_files: totalFiles,
+          total_size: totalSize,
+          total_operations: historyStats.total_operations || 0,
+          active_schedules: historyStats.active_schedules || 0,
+          file_type_distribution: fileTypeDistribution,
+          storage_distribution: storageDistribution
+        };
+      } else {
+        // Load global stats from history
+        analytics = await api.getAnalytics();
+      }
+      
       this.stats = analytics;
       
       this.updateStatCards(analytics);

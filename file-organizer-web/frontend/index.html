@@ -97,6 +97,21 @@
 
                     <div class="sidebar-header mb-3">
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">
+                            <span>Saved Directories</span>
+                            <button class="btn btn-sm btn-link text-muted p-0" id="addCurrentDirBtn" title="Save current directory">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </h6>
+                    </div>
+
+                    <ul class="nav flex-column" id="savedDirectoriesList">
+                        <!-- Saved directories will be rendered here -->
+                    </ul>
+
+                    <hr class="my-3">
+
+                    <div class="sidebar-header mb-3">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">
                             <span>Directory Tree</span>
                             <button class="btn btn-sm btn-link text-muted" id="expandAllBtn" title="Expand All">
                                 <i class="fas fa-plus-square"></i>
@@ -157,7 +172,7 @@
                     <div id="dashboardTab" class="tab-pane">
                         <div class="row mb-4">
                             <div class="col-md-3 mb-3">
-                                <div class="card stat-card">
+                                <div class="card stat-card stat-card-clickable" data-tab="browser" role="button" tabindex="0">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
@@ -172,7 +187,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <div class="card stat-card">
+                                <div class="card stat-card stat-card-clickable" data-tab="browser" role="button" tabindex="0">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
@@ -187,7 +202,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <div class="card stat-card">
+                                <div class="card stat-card stat-card-clickable" data-tab="history" role="button" tabindex="0">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
@@ -202,7 +217,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <div class="card stat-card">
+                                <div class="card stat-card stat-card-clickable" data-tab="schedule" role="button" tabindex="0">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
@@ -631,13 +646,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Application Scripts -->
-    <script src="static/js/utils/formatting.js"></script>
-    <script src="static/js/api.js"></script>
-    <script src="static/js/components/preview-modal.js"></script>
-    <script src="static/js/components/file-browser.js"></script>
-    <script src="static/js/components/organizer.js"></script>
-    <script src="static/js/components/scheduler.js"></script>
-    <script src="static/js/components/dashboard.js"></script>
-    <script src="static/js/main.js"></script>
+    <script src="static/js/utils/formatting.js?v=2"></script>
+    <script src="static/js/api.js?v=2"></script>
+    <script src="static/js/components/preview-modal.js?v=2"></script>
+    <script src="static/js/components/file-browser.js?v=2"></script>
+    <script src="static/js/components/organizer.js?v=2"></script>
+    <script src="static/js/components/scheduler.js?v=2"></script>
+    <script src="static/js/components/dashboard.js?v=2"></script>
+    <script src="static/js/components/saved-directories.js?v=2"></script>
+    <script src="static/js/main.js?v=2"></script>
 </body>
 </html>

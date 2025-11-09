@@ -4,12 +4,15 @@ File browser service for safe filesystem navigation.
 
 import os
 import mimetypes
+import logging
 from pathlib import Path
 from typing import List, Optional
 from datetime import datetime
 
 from core.config import settings
 from schemas.file import FileInfo, DirectoryInfo, DirectoryContents
+
+logger = logging.getLogger(__name__)
 
 
 class FileBrowserService:
@@ -32,9 +35,10 @@ class FileBrowserService:
         try:
             resolved_path = Path(path).resolve()
             
-            # If no allowed paths configured, allow all
+            # If no allowed paths configured, deny all for security
             if not self.allowed_paths:
-                return True
+                logger.warning("No ALLOWED_BASE_PATHS configured - denying all file access")
+                return False
             
             # Check if path is under any allowed base path
             for allowed in self.allowed_paths:
@@ -238,7 +242,7 @@ class FileBrowserService:
                         results.append(self._get_file_info(item))
                     except (PermissionError, OSError):
                         continue
-        except PermissionError:
-            pass
+        except PermissionError as e:
+            logger.warning(f"Permission denied while searching in {base_path}: {e}")
         
         return results

@@ -5,7 +5,7 @@ Analytics service for calculating statistics.
 from typing import List, Dict
 from datetime import datetime, timedelta
 from collections import defaultdict
-from sqlmodel import Session, select, func
+from sqlmodel import Session, select
 
 from models.organization import OrganizationHistory
 from schemas.history import HistoryStats, CategoryStats, TimeSeriesPoint, HistoryAnalytics
