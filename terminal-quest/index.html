@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminal Quest - Master Linux Commands</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="terminal-icon">$_</span>
+        <h1>Terminal Quest</h1>
+      </div>
+      <div class="nav-stats">
+        <div class="stat">
+          <span class="stat-label">Level</span>
+          <span class="stat-value" id="player-level">1</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">XP</span>
+          <span class="stat-value" id="player-xp">0</span>
+        </div>
+        <div class="xp-bar">
+          <div class="xp-fill" id="xp-fill"></div>
+        </div>
+      </div>
+      <div class="nav-menu">
+        <button class="nav-btn active" data-page="game">Play</button>
+        <button class="nav-btn" data-page="profile">Profile</button>
+        <button class="nav-btn" data-page="achievements">Achievements</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Game Page -->
+      <div id="game-page" class="page active">
+        <div class="game-container">
+          <!-- Mission Panel -->
+          <div class="mission-panel">
+            <div class="mission-header">
+              <h2 id="mission-title">Mission 1: First Day</h2>
+              <span class="mission-number" id="mission-number">1/20</span>
+            </div>
+            
+            <div class="mission-story">
+              <p id="mission-story">Welcome to TechCorp! You've just been hired as a junior sysadmin. Your first task is to familiarize yourself with the terminal.</p>
+            </div>
+
+            <div class="mission-objective">
+              <h3>Objective:</h3>
+              <ul id="objective-list">
+                <li class="objective-item" data-objective="0">
+                  <span class="objective-status">⬜</span>
+                  <span class="objective-text">Type 'ls' to list files</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mission-hints">
+              <h3>Hints:</h3>
+              <div class="hint-container">
+                <button class="hint-btn" id="hint-btn">Show Hint (3 available)</button>
+                <p class="hint-text hidden" id="hint-text">The 'ls' command stands for "list". It shows you what files and folders are in your current location.</p>
+              </div>
+            </div>
+
+            <div class="mission-reference">
+              <h3>Command Reference:</h3>
+              <div class="reference-box">
+                <code>ls</code> - List directory contents<br>
+                <code>pwd</code> - Print working directory<br>
+                <code>cd</code> - Change directory
+              </div>
+            </div>
+          </div>
+
+          <!-- Terminal Panel -->
+          <div class="terminal-panel">
+            <div class="terminal-header">
+              <div class="terminal-buttons">
+                <span class="btn-close"></span>
+                <span class="btn-minimize"></span>
+                <span class="btn-maximize"></span>
+              </div>
+              <span class="terminal-title">user@terminal-quest: ~</span>
+            </div>
+            
+            <div class="terminal-body" id="terminal-output">
+              <div class="terminal-line">
+                <span class="terminal-welcome">Welcome to Terminal Quest!</span>
+              </div>
+              <div class="terminal-line">
+                <span class="terminal-info">Type 'help' for available commands</span>
+              </div>
+              <div class="terminal-line">
+                <span class="terminal-info">Complete missions to level up and unlock new commands!</span>
+              </div>
+              <div class="terminal-line"></div>
+            </div>
+
+            <div class="terminal-input-line">
+              <span class="terminal-prompt" id="terminal-prompt">user@terminal-quest:~$</span>
+              <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false" autofocus>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Page -->
+      <div id="profile-page" class="page">
+        <div class="profile-container">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <span class="avatar-icon">👤</span>
+            </div>
+            <div class="profile-info">
+              <h2 id="profile-name">Terminal Novice</h2>
+              <p class="profile-title" id="profile-title">Junior Sysadmin</p>
+              <div class="profile-stats">
+                <div class="profile-stat">
+                  <span class="profile-stat-value" id="profile-level">1</span>
+                  <span class="profile-stat-label">Level</span>
+                </div>
+                <div class="profile-stat">
+                  <span class="profile-stat-value" id="profile-missions">0</span>
+                  <span class="profile-stat-label">Missions</span>
+                </div>
+                <div class="profile-stat">
+                  <span class="profile-stat-value" id="profile-commands">0</span>
+                  <span class="profile-stat-label">Commands</span>
+                </div>
+                <div class="profile-stat">
+                  <span class="profile-stat-value" id="profile-streak">0</span>
+                  <span class="profile-stat-label">Day Streak</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skills-section">
+            <h3>Skills Unlocked</h3>
+            <div class="skills-grid" id="skills-grid">
+              <div class="skill-item locked">
+                <div class="skill-icon">📁</div>
+                <div class="skill-name">File Navigation</div>
+                <div class="skill-progress">0%</div>
+              </div>
+              <div class="skill-item locked">
+                <div class="skill-icon">✏️</div>
+                <div class="skill-name">File Editing</div>
+                <div class="skill-progress">0%</div>
+              </div>
+              <div class="skill-item locked">
+                <div class="skill-icon">🔍</div>
+                <div class="skill-name">Search & Filter</div>
+                <div class="skill-progress">0%</div>
+              </div>
+              <div class="skill-item locked">
+                <div class="skill-icon">🔧</div>
+                <div class="skill-name">System Admin</div>
+                <div class="skill-progress">0%</div>
+              </div>
+              <div class="skill-item locked">
+                <div class="skill-icon">🔒</div>
+                <div class="skill-name">Permissions</div>
+                <div class="skill-progress">0%</div>
+              </div>
+              <div class="skill-item locked">
+                <div class="skill-icon">🌐</div>
+                <div class="skill-name">Networking</div>
+                <div class="skill-progress">0%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="recent-activity">
+            <h3>Recent Activity</h3>
+            <div class="activity-list" id="activity-list">
+              <div class="activity-item">
+                <span class="activity-time">Just now</span>
+                <span class="activity-text">Started Terminal Quest</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Achievements Page -->
+      <div id="achievements-page" class="page">
+        <div class="achievements-container">
+          <h2>Achievements</h2>
+          <div class="achievements-grid" id="achievements-grid">
+            <!-- Achievements will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Achievement Notification -->
+    <div class="achievement-notification hidden" id="achievement-notification">
+      <div class="achievement-content">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-details">
+          <div class="achievement-unlock">Achievement Unlocked!</div>
+          <div class="achievement-name" id="notification-achievement-name"></div>
+          <div class="achievement-xp" id="notification-achievement-xp"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

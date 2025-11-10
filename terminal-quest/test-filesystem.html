@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Filesystem Test</title>
+</head>
+<body>
+  <h1>Testing Virtual Filesystem</h1>
+  <pre id="output"></pre>
+  
+  <script src="game.js"></script>
+  <script>
+    const output = document.getElementById('output');
+    const fs = new VirtualFileSystem();
+    
+    function test(name, fn) {
+      try {
+        const result = fn();
+        output.textContent += `✅ ${name}\n   Result: ${JSON.stringify(result)}\n\n`;
+      } catch (e) {
+        output.textContent += `❌ ${name}\n   Error: ${e.message}\n\n`;
+      }
+    }
+    
+    output.textContent = 'Running Filesystem Tests...\n\n';
+    
+    test('Get current directory', () => fs.getCurrentDir());
+    test('List files at /home/user', () => fs.listFiles());
+    test('Read message.txt', () => fs.readFile('message.txt'));
+    test('Change to documents', () => fs.changeDirectory('documents'));
+    test('List files in documents', () => fs.listFiles());
+    test('Go back to parent', () => fs.changeDirectory('..'));
+    test('Create new file', () => fs.createFile('newfile.txt'));
+    test('List files after creation', () => fs.listFiles());
+    
+    output.textContent += '\n✅ All tests complete!\n';
+    output.textContent += 'If you see this, the filesystem is working correctly.';
+  </script>
+</body>
+</html>

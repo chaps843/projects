@@ -1,0 +1,109 @@
+╔══════════════════════════════════════════════════════════════╗
+║           TERMINAL QUEST - COMMAND REFERENCE                 ║
+╔══════════════════════════════════════════════════════════════╗
+
+📁 NAVIGATION COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ls                    List files in current directory
+  pwd                   Show current directory path
+  cd <directory>        Change to a directory
+  cd ..                 Go to parent directory
+  cd ~                  Go to home directory
+
+  Examples:
+    ls
+    pwd
+    cd documents
+    cd ..
+
+
+📄 FILE READING COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  cat <filename>        Display contents of a file
+
+  Examples:
+    cat message.txt
+    cat report.txt
+
+
+✏️  FILE CREATION COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  touch <filename>      Create an empty file
+  mkdir <dirname>       Create a directory
+
+  Examples:
+    touch newfile.txt
+    mkdir projects
+
+
+🔄 FILE MANIPULATION COMMANDS (NEED 2 ARGUMENTS!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  cp <source> <dest>    Copy a file
+  mv <source> <dest>    Move/rename a file
+
+  Examples:
+    cp test.txt backup.txt       ✅ CORRECT
+    cp test.txt                  ❌ WRONG (missing destination!)
+    
+    mv old.txt new.txt           ✅ CORRECT
+    mv old.txt                   ❌ WRONG (missing destination!)
+
+
+🗑️  FILE DELETION COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  rm <filename>         Delete a file (careful!)
+
+  Examples:
+    rm junk.txt
+
+
+ℹ️  HELP COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  help                  Show all available commands
+  man <command>         Show detailed manual for a command
+  clear                 Clear the terminal screen
+
+  Examples:
+    help
+    man ls
+    man cp
+    clear
+
+
+💡 COMMON MISTAKES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ❌ cp test.txt           → Missing destination file!
+  ✅ cp test.txt copy.txt  → Correct!
+
+  ❌ mv file.txt           → Missing destination file!
+  ✅ mv file.txt new.txt   → Correct!
+
+  ❌ cd document           → Typo! (should be "documents")
+  ✅ cd documents          → Correct!
+
+
+🎯 MISSION 5 OBJECTIVES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Copy test.txt to backup.txt
+     Command: cp test.txt backup.txt
+
+  2. Rename old.txt to new.txt
+     Command: mv old.txt new.txt
+
+  3. Delete junk.txt
+     Command: rm junk.txt
+
+
+Remember: cp and mv ALWAYS need TWO arguments!
+          SOURCE (what to copy/move)
+          DESTINATION (where to copy/move it)
+
+╚══════════════════════════════════════════════════════════════╝

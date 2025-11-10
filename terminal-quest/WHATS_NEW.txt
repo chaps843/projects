@@ -1,0 +1,236 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║              🎉 TERMINAL QUEST v2.0 - EXPANDED! 🎉           ║
+║                                                              ║
+║                  10 NEW MISSIONS ADDED!                      ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+🚀 NEW MISSIONS (6-15)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✅ Mission 6: Search and Discover
+     • Learn grep to search log files for errors
+     • Find specific patterns in text files
+     • XP Reward: 300
+
+  ✅ Mission 7: File Viewing
+     • Master head and tail commands
+     • View specific parts of large files
+     • XP Reward: 250
+
+  ✅ Mission 8: Power Search
+     • Advanced grep techniques
+     • Filter user lists and configs
+     • XP Reward: 300
+
+  ✅ Mission 9: Finding Files
+     • Learn find command
+     • Search by file patterns
+     • XP Reward: 350
+
+  ✅ Mission 10: Pipes - The Power Combo
+     • Chain commands with pipes |
+     • Combine grep, wc, find
+     • XP Reward: 400
+
+  ✅ Mission 11: Output Redirection
+     • Save command output to files
+     • Learn > and >> operators
+     • XP Reward: 350
+
+  ✅ Mission 12: Wildcards
+     • Master * pattern matching
+     • Work with multiple files at once
+     • XP Reward: 300
+
+  ✅ Mission 13: Working Directory Mastery
+     • Navigate complex directory trees
+     • Absolute vs relative paths
+     • XP Reward: 350
+
+  ✅ Mission 14: Combining Skills
+     • Real-world incident response
+     • Use all skills together
+     • XP Reward: 500
+
+  ✅ Mission 15: The Final Challenge
+     • Complete company audit task
+     • Master-level combination of skills
+     • XP Reward: 1000 🏆
+
+
+⚡ NEW COMMANDS (7)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  grep <pattern> <file>
+    • Search for text patterns in files
+    • Example: grep ERROR server.log
+    • Find specific lines containing keywords
+
+  find . -name "<pattern>"
+    • Search for files by name
+    • Example: find . -name "*.txt"
+    • Supports wildcards like *.log
+
+  head -n <num> <file>
+    • View first N lines of a file
+    • Example: head -n 5 data.txt
+    • Great for previewing files
+
+  tail -n <num> <file>
+    • View last N lines of a file
+    • Example: tail -n 5 data.txt
+    • Perfect for checking log ends
+
+  wc -l <file>
+    • Count lines in a file
+    • Example: wc -l data.txt
+    • Useful for statistics
+
+
+🔧 NEW FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  | (Pipe Operator)
+    • Chain commands together
+    • Example: grep ERROR log.txt | wc -l
+    • Send output from one command to another
+
+  > (Output Redirection)
+    • Save output to file (overwrite)
+    • Example: ls > filelist.txt
+    • Create files from command output
+
+  >> (Append Redirection)
+    • Append output to file
+    • Example: echo "line" >> file.txt
+    • Add to existing files
+
+  * (Wildcards)
+    • Match multiple files
+    • Example: ls *.txt
+    • Works with ls, cp, rm, cat, grep
+
+  Enhanced ls
+    • Now supports wildcards
+    • Example: ls *.log
+    • Filter listings by pattern
+
+
+📁 NEW FILESYSTEM STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  /home/user/
+  ├── documents/
+  │   ├── report.txt
+  │   └── notes.txt
+  ├── logs/              ⬅️ NEW!
+  │   ├── server.log     (Contains ERROR entries)
+  │   ├── access.log     (User login data)
+  │   └── error.log      (Error messages)
+  ├── projects/          ⬅️ NEW!
+  │   └── website/
+  │       ├── index.html
+  │       └── style.css
+  ├── message.txt
+  ├── test.txt
+  ├── users.txt          ⬅️ NEW! (User role data)
+  ├── config.txt         ⬅️ NEW! (Server config)
+  └── data.txt           ⬅️ NEW! (10 lines of data)
+
+
+📚 UPDATED MAN PAGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  man grep    - Search patterns in files
+  man find    - Find files by name
+  man head    - View file beginnings
+  man tail    - View file endings
+  man wc      - Count lines/words/chars
+
+
+🎯 TOTAL CONTENT NOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✅ 15 Missions (was 5)          +10 missions!
+  ✅ 17 Commands (was 10)         +7 commands!
+  ✅ 5,000 XP Available (was 850) +4,150 XP!
+  ✅ ~2 hours gameplay (was 20min)+100 minutes!
+
+
+🏆 PATH TO MASTERY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Beginner (Missions 1-5)
+    Commands: ls, pwd, cd, cat, touch, mkdir, cp, mv, rm
+    Time: 20 minutes
+    XP: 850
+
+  Intermediate (Missions 6-10)
+    Commands: grep, find, head, tail, wc, pipes
+    Time: 40 minutes
+    XP: 1,500
+
+  Advanced (Missions 11-15)
+    Commands: Redirection, wildcards, complex piping
+    Time: 60 minutes
+    XP: 2,650
+
+  TOTAL MASTERY: 2 hours = 5,000 XP = Linux Pro! 💪
+
+
+💡 QUICK EXAMPLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Search for errors:
+    grep ERROR logs/server.log
+
+  Count error lines:
+    grep ERROR logs/server.log | wc -l
+
+  Find all text files:
+    find . -name "*.txt"
+
+  View first 3 lines:
+    head -n 3 data.txt
+
+  Save file list:
+    ls > file_list.txt
+
+  List only text files:
+    ls *.txt
+
+  Combined power move:
+    grep ERROR logs/*.log | wc -l > error_count.txt
+
+
+🔄 HOW TO UPDATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Refresh browser (Ctrl+Shift+R)
+  2. Your progress is saved!
+  3. Continue from Mission 6
+  4. Enjoy the new content!
+
+
+🎮 WHAT'S NEXT?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Coming in future updates:
+    • chmod/chown (permissions)
+    • ps/kill (process management)
+    • tar/zip (compression)
+    • sed/awk (text processing)
+    • Bash scripting challenges
+    • More achievements
+    • Leaderboards
+
+
+═══════════════════════════════════════════════════════════════
+
+         Ready for the next level? Mission 6 awaits!
+              
+           Refresh browser and keep climbing! 🚀
+
+═══════════════════════════════════════════════════════════════
