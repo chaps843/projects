@@ -4,6 +4,39 @@
 
 **Terminal Quest** is a gamified, browser-based Linux terminal learning platform. Players complete story-driven missions to master command-line skills through interactive gameplay.
 
+## 🚨 IMPORTANT: Development Guidelines for AI Agents
+
+### GitHub Backup Protocol
+
+**ALWAYS ask the user at project completion:**
+> "Would you like me to commit this to git and push to your GitHub projects repository?"
+
+**Never assume** - always confirm before:
+- Creating git repositories
+- Committing code
+- Pushing to GitHub
+- Making any Git-related actions
+
+This ensures:
+- User maintains control over their repositories
+- Nothing is missed or forgotten
+- Proper backup procedures are followed
+- User can decide timing of commits/pushes
+
+### Launch Script Protocol
+
+**For any web-based project, ALWAYS create a launch script:**
+- Named `./launch` in project root
+- Makes starting the project easy
+- Includes proper port handling
+- Documents in README how to use it
+
+Example for user:
+```bash
+./launch        # Start the project
+./launch stop   # Stop the project
+```
+
 ## Current Status: v2.0 (Expanded)
 
 ### Session History

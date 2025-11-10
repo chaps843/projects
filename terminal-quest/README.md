@@ -36,8 +36,20 @@ An interactive, game-based Linux terminal learning experience. Master Linux comm
 - Responsive design
 - Profile and stats tracking
 
-## How to Play
+## Quick Start
 
+### Option 1: Launch Script (Recommended)
+```bash
+cd /home/chaps/projects/terminal-quest
+./launch              # Start the game
+./launch stop         # Stop the server
+./launch restart      # Restart the server
+./launch status       # Check if running
+```
+
+Then open: **http://localhost:8081**
+
+### Option 2: Manual
 1. **Open the game**: Simply open `index.html` in any modern web browser
 2. **Start typing**: The terminal is ready - just start typing commands!
 3. **Complete objectives**: Each mission has objectives to complete

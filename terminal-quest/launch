@@ -1,0 +1,155 @@
+#!/bin/bash
+
+# Terminal Quest Launch Script
+# Makes it easy to start/stop the game
+
+PROJECT_NAME="Terminal Quest"
+PORT=8081
+PID_FILE="/tmp/terminal-quest-server.pid"
+PROJECT_DIR="/home/chaps/projects/terminal-quest"
+
+# Colors for output
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+show_help() {
+    echo -e "${BLUE}╔══════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${BLUE}║${NC}         ${GREEN}🎮 Terminal Quest - Launch Script 🎮${NC}           ${BLUE}║${NC}"
+    echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    echo "Usage: ./launch [command]"
+    echo ""
+    echo "Commands:"
+    echo "  (no args)  Start Terminal Quest server"
+    echo "  stop       Stop the running server"
+    echo "  restart    Restart the server"
+    echo "  status     Check if server is running"
+    echo "  help       Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  ./launch          # Start the game"
+    echo "  ./launch stop     # Stop the game"
+    echo "  ./launch restart  # Restart the game"
+    echo ""
+}
+
+check_status() {
+    if [ -f "$PID_FILE" ]; then
+        PID=$(cat "$PID_FILE")
+        if ps -p "$PID" > /dev/null 2>&1; then
+            return 0  # Running
+        else
+            rm -f "$PID_FILE"  # Clean up stale PID file
+            return 1  # Not running
+        fi
+    else
+        return 1  # Not running
+    fi
+}
+
+start_server() {
+    echo -e "${BLUE}🚀 Starting $PROJECT_NAME...${NC}"
+    
+    # Check if already running
+    if check_status; then
+        echo -e "${YELLOW}⚠️  Server is already running on port $PORT${NC}"
+        echo -e "${GREEN}🌐 Open: http://localhost:$PORT${NC}"
+        return 1
+    fi
+    
+    # Check if port is in use
+    if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
+        echo -e "${RED}❌ Port $PORT is already in use by another process${NC}"
+        echo "   Try: lsof -i :$PORT to see what's using it"
+        return 1
+    fi
+    
+    # Start the server
+    cd "$PROJECT_DIR" || {
+        echo -e "${RED}❌ Failed to navigate to project directory${NC}"
+        return 1
+    }
+    
+    python3 -m http.server $PORT > /dev/null 2>&1 &
+    echo $! > "$PID_FILE"
+    
+    # Wait a moment and check if it started
+    sleep 1
+    
+    if check_status; then
+        echo -e "${GREEN}✅ $PROJECT_NAME is running!${NC}"
+        echo ""
+        echo -e "${GREEN}🌐 Open in browser:${NC} ${BLUE}http://localhost:$PORT${NC}"
+        echo -e "${GREEN}📁 Project directory:${NC} $PROJECT_DIR"
+        echo ""
+        echo -e "${YELLOW}💡 Tip: Type './launch stop' to stop the server${NC}"
+        return 0
+    else
+        echo -e "${RED}❌ Failed to start server${NC}"
+        return 1
+    fi
+}
+
+stop_server() {
+    echo -e "${BLUE}🛑 Stopping $PROJECT_NAME...${NC}"
+    
+    if ! check_status; then
+        echo -e "${YELLOW}⚠️  Server is not running${NC}"
+        return 1
+    fi
+    
+    PID=$(cat "$PID_FILE")
+    kill "$PID" 2>/dev/null
+    rm -f "$PID_FILE"
+    
+    echo -e "${GREEN}✅ Server stopped${NC}"
+    return 0
+}
+
+show_status() {
+    if check_status; then
+        PID=$(cat "$PID_FILE")
+        echo -e "${GREEN}✅ $PROJECT_NAME is running${NC}"
+        echo -e "${GREEN}🌐 URL:${NC} http://localhost:$PORT"
+        echo -e "${GREEN}📍 PID:${NC} $PID"
+        echo -e "${GREEN}📁 Directory:${NC} $PROJECT_DIR"
+    else
+        echo -e "${RED}❌ $PROJECT_NAME is not running${NC}"
+        echo -e "${YELLOW}💡 Start it with: ./launch${NC}"
+    fi
+}
+
+restart_server() {
+    echo -e "${BLUE}🔄 Restarting $PROJECT_NAME...${NC}"
+    stop_server
+    sleep 1
+    start_server
+}
+
+# Main script logic
+case "${1:-start}" in
+    start)
+        start_server
+        ;;
+    stop)
+        stop_server
+        ;;
+    restart)
+        restart_server
+        ;;
+    status)
+        show_status
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    *)
+        echo -e "${RED}❌ Unknown command: $1${NC}"
+        echo ""
+        show_help
+        exit 1
+        ;;
+esac
