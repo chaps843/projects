@@ -148,14 +148,14 @@ const missions = [
     title: 'Mission 6: Search and Discover',
     story: 'The server logs are filling up with errors. Your manager needs you to find all ERROR messages in the log files. Time to learn grep - the search master!',
     objectives: [
-      { text: 'Go to the logs directory', completed: false, command: 'cd logs' },
-      { text: 'Search for ERROR in server.log', completed: false, command: 'grep ERROR server.log' },
-      { text: 'Count all users in access.log', completed: false, command: 'grep User access.log' }
+      { text: 'Go to the logs directory: cd logs', completed: false, command: 'cd logs' },
+      { text: 'Search for ERROR in server.log: grep ERROR server.log', completed: false, command: 'grep ERROR server.log' },
+      { text: 'Search for User in access.log: grep User access.log', completed: false, command: 'grep User access.log' }
     ],
     hints: [
-      'Use \'cd logs\' to navigate to the logs directory.',
-      'grep searches for patterns: grep PATTERN filename',
-      'grep is case-sensitive! ERROR is different from error.'
+      'Type exactly: cd logs',
+      'Then type: grep ERROR server.log',
+      'grep searches for text patterns in files. Format: grep PATTERN filename'
     ],
     reference: {
       'grep': 'Search for patterns in files',
@@ -170,9 +170,9 @@ const missions = [
     title: 'Mission 7: File Viewing',
     story: 'The data.txt file is huge! You don\'t need to see all of it - just the beginning and end. Learn to peek at files efficiently.',
     objectives: [
-      { text: 'Go back to home directory', completed: false, command: 'cd ~' },
-      { text: 'View first 3 lines of data.txt', completed: false, command: 'head -n 3 data.txt' },
-      { text: 'View last 3 lines of data.txt', completed: false, command: 'tail -n 3 data.txt' }
+      { text: 'Go back to home directory: cd ~', completed: false, command: 'cd ~' },
+      { text: 'View first 3 lines: head -n 3 data.txt', completed: false, command: 'head -n 3 data.txt' },
+      { text: 'View last 3 lines: tail -n 3 data.txt', completed: false, command: 'tail -n 3 data.txt' }
     ],
     hints: [
       'Use \'cd ~\' or \'cd\' to return home.',
@@ -192,8 +192,8 @@ const missions = [
     title: 'Mission 8: Power Search',
     story: 'Your team needs a list of all developers. The users.txt file contains user roles, but you need to filter it. Time to master grep!',
     objectives: [
-      { text: 'Find all developers in users.txt', completed: false, command: 'grep developer users.txt' },
-      { text: 'Search for port settings in config.txt', completed: false, command: 'grep port config.txt' }
+      { text: 'Find all developers: grep developer users.txt', completed: false, command: 'grep developer users.txt' },
+      { text: 'Search for port: grep port config.txt', completed: false, command: 'grep port config.txt' }
     ],
     hints: [
       'grep searches for text patterns in files.',
@@ -213,8 +213,8 @@ const missions = [
     title: 'Mission 9: Finding Files',
     story: 'There are files scattered everywhere! You need to locate specific files by name. The find command is your new best friend.',
     objectives: [
-      { text: 'Find all .txt files', completed: false, command: 'find . -name "*.txt"' },
-      { text: 'Find the config.txt file', completed: false, command: 'find . -name config.txt' }
+      { text: 'Find all .txt files: find . -name "*.txt"', completed: false, command: 'find . -name "*.txt"' },
+      { text: 'Find config.txt: find . -name config.txt', completed: false, command: 'find . -name config.txt' }
     ],
     hints: [
       'find searches for files by name or pattern.',
@@ -234,8 +234,8 @@ const missions = [
     title: 'Mission 10: Pipes - The Power Combo',
     story: 'Real power comes from combining commands! Use pipes (|) to chain commands together. Your manager wants a sorted list of unique log types.',
     objectives: [
-      { text: 'Count ERROR lines in server.log', completed: false, command: 'grep ERROR logs/server.log | wc -l' },
-      { text: 'View first 5 .txt files found', completed: false, command: 'find . -name "*.txt" | head -n 5' }
+      { text: 'Count ERROR lines: grep ERROR logs/server.log | wc -l', completed: false, command: 'grep ERROR logs/server.log | wc -l' },
+      { text: 'List first 5 .txt files: find . -name "*.txt" | head -n 5', completed: false, command: 'find . -name "*.txt" | head -n 5' }
     ],
     hints: [
       'The pipe | sends output from one command to another.',
@@ -255,9 +255,9 @@ const missions = [
     title: 'Mission 11: Output Redirection',
     story: 'Instead of displaying results on screen, save them to files! Learn to redirect output - a crucial skill for automation.',
     objectives: [
-      { text: 'Save ls output to filelist.txt', completed: false, command: 'ls > filelist.txt' },
-      { text: 'Verify the file was created', completed: false, command: 'cat filelist.txt' },
-      { text: 'Append your username to info.txt', completed: false, command: 'echo "admin" >> info.txt' }
+      { text: 'Save ls output: ls > filelist.txt', completed: false, command: 'ls > filelist.txt' },
+      { text: 'View the file: cat filelist.txt', completed: false, command: 'cat filelist.txt' },
+      { text: 'Append text: echo "admin" >> info.txt', completed: false, command: 'echo "admin" >> info.txt' }
     ],
     hints: [
       'Use > to redirect output to a file (overwrites).',
@@ -277,8 +277,8 @@ const missions = [
     title: 'Mission 12: Wildcards',
     story: 'Working with multiple files at once is essential. Master wildcards to match file patterns like a pro!',
     objectives: [
-      { text: 'List all .txt files', completed: false, command: 'ls *.txt' },
-      { text: 'Copy all .txt files to a backup', completed: false, command: 'mkdir backup && cp *.txt backup/' }
+      { text: 'List all .txt files: ls *.txt', completed: false, command: 'ls *.txt' },
+      { text: 'Create backup and copy files: mkdir backup && cp *.txt backup/', completed: false, command: 'mkdir backup && cp *.txt backup/' }
     ],
     hints: [
       'The asterisk * matches any characters.',
@@ -298,10 +298,10 @@ const missions = [
     title: 'Mission 13: Working Directory Mastery',
     story: 'Navigate complex directory structures like a ninja! Time to explore nested folders and master absolute vs relative paths.',
     objectives: [
-      { text: 'Navigate to projects/website', completed: false, command: 'cd projects/website' },
-      { text: 'List files in current location', completed: false, command: 'ls' },
-      { text: 'Jump back to home using ~', completed: false, command: 'cd ~' },
-      { text: 'Use absolute path to reach logs', completed: false, command: 'cd /home/user/logs' }
+      { text: 'Navigate to nested dir: cd projects/website', completed: false, command: 'cd projects/website' },
+      { text: 'List files: ls', completed: false, command: 'ls' },
+      { text: 'Jump to home: cd ~', completed: false, command: 'cd ~' },
+      { text: 'Use absolute path: cd /home/user/logs', completed: false, command: 'cd /home/user/logs' }
     ],
     hints: [
       'You can navigate multiple levels: cd projects/website',
@@ -322,9 +322,9 @@ const missions = [
     title: 'Mission 14: Combining Skills',
     story: 'A critical incident! The server is acting up. Use all your skills to investigate logs, find errors, and create a report.',
     objectives: [
-      { text: 'Find all ERROR entries across all logs', completed: false, command: 'grep ERROR logs/*.log' },
-      { text: 'Save ERROR count to report.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > report.txt' },
-      { text: 'View the report you created', completed: false, command: 'cat report.txt' }
+      { text: 'Find all ERRORs: grep ERROR logs/*.log', completed: false, command: 'grep ERROR logs/*.log' },
+      { text: 'Save count: grep ERROR logs/*.log | wc -l > report.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > report.txt' },
+      { text: 'View report: cat report.txt', completed: false, command: 'cat report.txt' }
     ],
     hints: [
       'Use wildcards to search multiple files: logs/*.log',
@@ -344,11 +344,11 @@ const missions = [
     title: 'Mission 15: The Final Challenge',
     story: 'Congratulations on making it this far! Your final test: complete a complex real-world task using everything you\'ve learned. The company needs a complete audit.',
     objectives: [
-      { text: 'Create an audit directory', completed: false, command: 'mkdir audit' },
-      { text: 'Find and list all .txt files', completed: false, command: 'find . -name "*.txt" > audit/all_txt_files.txt' },
-      { text: 'Copy all log files to audit', completed: false, command: 'cp logs/*.log audit/' },
-      { text: 'Count total log entries', completed: false, command: 'cat logs/*.log | wc -l > audit/total_entries.txt' },
-      { text: 'Verify your audit directory', completed: false, command: 'ls audit' }
+      { text: 'Create audit directory: mkdir audit', completed: false, command: 'mkdir audit' },
+      { text: 'List all .txt files: find . -name "*.txt" > audit/all_txt_files.txt', completed: false, command: 'find . -name "*.txt" > audit/all_txt_files.txt' },
+      { text: 'Copy log files: cp logs/*.log audit/', completed: false, command: 'cp logs/*.log audit/' },
+      { text: 'Count entries: cat logs/*.log | wc -l > audit/total_entries.txt', completed: false, command: 'cat logs/*.log | wc -l > audit/total_entries.txt' },
+      { text: 'Verify: ls audit', completed: false, command: 'ls audit' }
     ],
     hints: [
       'Take it step by step - one objective at a time.',
