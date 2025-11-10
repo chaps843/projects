@@ -148,9 +148,24 @@ const missions = [
     title: 'Mission 6: Search and Discover',
     story: 'The server logs are filling up with errors. Your manager needs you to find all ERROR messages in the log files. Time to learn grep - the search master!',
     objectives: [
-      { text: 'Go to the logs directory: cd logs', completed: false, command: 'cd logs' },
-      { text: 'Search for ERROR in server.log: grep ERROR server.log', completed: false, command: 'grep ERROR server.log' },
-      { text: 'Search for User in access.log: grep User access.log', completed: false, command: 'grep User access.log' }
+      { 
+        text: 'Go to the logs directory: cd logs', 
+        completed: false, 
+        command: 'cd logs',
+        details: 'Changes your current working directory to "logs". The cd command (change directory) is how you navigate between folders in the terminal.'
+      },
+      { 
+        text: 'Search for ERROR in server.log: grep ERROR server.log', 
+        completed: false, 
+        command: 'grep ERROR server.log',
+        details: 'Searches for the text "ERROR" in server.log file. grep is case-sensitive by default, so it will only find "ERROR" not "error". Each matching line will be displayed.'
+      },
+      { 
+        text: 'Search for User in access.log: grep User access.log', 
+        completed: false, 
+        command: 'grep User access.log',
+        details: 'Finds all lines containing "User" in access.log. This is useful for finding user activity in log files. grep PATTERN filename is the basic format.'
+      }
     ],
     hints: [
       'Type exactly: cd logs',
@@ -170,9 +185,24 @@ const missions = [
     title: 'Mission 7: File Viewing',
     story: 'The data.txt file is huge! You don\'t need to see all of it - just the beginning and end. Learn to peek at files efficiently.',
     objectives: [
-      { text: 'Go back to home directory: cd ~', completed: false, command: 'cd ~' },
-      { text: 'View first 3 lines: head -n 3 data.txt', completed: false, command: 'head -n 3 data.txt' },
-      { text: 'View last 3 lines: tail -n 3 data.txt', completed: false, command: 'tail -n 3 data.txt' }
+      { 
+        text: 'Go back to home directory: cd ~', 
+        completed: false, 
+        command: 'cd ~',
+        details: 'The tilde (~) is a shortcut for your home directory (/home/user). This is a quick way to jump back home from anywhere.'
+      },
+      { 
+        text: 'View first 3 lines: head -n 3 data.txt', 
+        completed: false, 
+        command: 'head -n 3 data.txt',
+        details: 'Shows the first 3 lines of data.txt. The -n flag specifies how many lines. head is perfect for previewing large files without opening them.'
+      },
+      { 
+        text: 'View last 3 lines: tail -n 3 data.txt', 
+        completed: false, 
+        command: 'tail -n 3 data.txt',
+        details: 'Displays the last 3 lines of data.txt. tail is commonly used to check the end of log files for recent activity.'
+      }
     ],
     hints: [
       'Use \'cd ~\' or \'cd\' to return home.',
@@ -192,8 +222,18 @@ const missions = [
     title: 'Mission 8: Power Search',
     story: 'Your team needs a list of all developers. The users.txt file contains user roles, but you need to filter it. Time to master grep!',
     objectives: [
-      { text: 'Find all developers: grep developer users.txt', completed: false, command: 'grep developer users.txt' },
-      { text: 'Search for port: grep port config.txt', completed: false, command: 'grep port config.txt' }
+      { 
+        text: 'Find all developers: grep developer users.txt', 
+        completed: false, 
+        command: 'grep developer users.txt',
+        details: 'Searches users.txt for any line containing "developer". Perfect for filtering lists and finding specific entries in files.'
+      },
+      { 
+        text: 'Search for port: grep port config.txt', 
+        completed: false, 
+        command: 'grep port config.txt',
+        details: 'Finds configuration lines with "port" in them. This is how sysadmins quickly find specific settings in config files.'
+      }
     ],
     hints: [
       'grep searches for text patterns in files.',
@@ -213,8 +253,18 @@ const missions = [
     title: 'Mission 9: Finding Files',
     story: 'There are files scattered everywhere! You need to locate specific files by name. The find command is your new best friend.',
     objectives: [
-      { text: 'Find all .txt files: find . -name "*.txt"', completed: false, command: 'find . -name "*.txt"' },
-      { text: 'Find config.txt: find . -name config.txt', completed: false, command: 'find . -name config.txt' }
+      { 
+        text: 'Find all .txt files: find . -name "*.txt"', 
+        completed: false, 
+        command: 'find . -name "*.txt"',
+        details: 'Searches from current directory (.) downward for all files matching *.txt pattern. The * wildcard matches any text before .txt'
+      },
+      { 
+        text: 'Find config.txt: find . -name config.txt', 
+        completed: false, 
+        command: 'find . -name config.txt',
+        details: 'Locates the specific file "config.txt" anywhere in the current directory tree. Essential for finding files when you don\'t know their location.'
+      }
     ],
     hints: [
       'find searches for files by name or pattern.',
@@ -234,8 +284,18 @@ const missions = [
     title: 'Mission 10: Pipes - The Power Combo',
     story: 'Real power comes from combining commands! Use pipes (|) to chain commands together. Your manager wants a sorted list of unique log types.',
     objectives: [
-      { text: 'Count ERROR lines: grep ERROR logs/server.log | wc -l', completed: false, command: 'grep ERROR logs/server.log | wc -l' },
-      { text: 'List first 5 .txt files: find . -name "*.txt" | head -n 5', completed: false, command: 'find . -name "*.txt" | head -n 5' }
+      { 
+        text: 'Count ERROR lines: grep ERROR logs/server.log | wc -l', 
+        completed: false, 
+        command: 'grep ERROR logs/server.log | wc -l',
+        details: 'Pipes grep output to wc (word count). The | sends grep\'s results to wc, and -l counts lines. This shows how many errors exist.'
+      },
+      { 
+        text: 'List first 5 .txt files: find . -name "*.txt" | head -n 5', 
+        completed: false, 
+        command: 'find . -name "*.txt" | head -n 5',
+        details: 'Chains find with head using a pipe. find lists all .txt files, then head limits output to first 5 results. Great for limiting long outputs.'
+      }
     ],
     hints: [
       'The pipe | sends output from one command to another.',
@@ -255,9 +315,24 @@ const missions = [
     title: 'Mission 11: Output Redirection',
     story: 'Instead of displaying results on screen, save them to files! Learn to redirect output - a crucial skill for automation.',
     objectives: [
-      { text: 'Save ls output: ls > filelist.txt', completed: false, command: 'ls > filelist.txt' },
-      { text: 'View the file: cat filelist.txt', completed: false, command: 'cat filelist.txt' },
-      { text: 'Append text: echo "admin" >> info.txt', completed: false, command: 'echo "admin" >> info.txt' }
+      { 
+        text: 'Save ls output: ls > filelist.txt', 
+        completed: false, 
+        command: 'ls > filelist.txt',
+        details: 'Redirects ls output to filelist.txt instead of screen. The > operator creates/overwrites the file. Essential for saving command results.'
+      },
+      { 
+        text: 'View the file: cat filelist.txt', 
+        completed: false, 
+        command: 'cat filelist.txt',
+        details: 'Displays the file you just created. Confirms the redirect worked and shows what ls captured.'
+      },
+      { 
+        text: 'Append text: echo "admin" >> info.txt', 
+        completed: false, 
+        command: 'echo "admin" >> info.txt',
+        details: 'Appends text to info.txt. The >> operator adds to end without erasing existing content. Single > would overwrite.'
+      }
     ],
     hints: [
       'Use > to redirect output to a file (overwrites).',
@@ -277,8 +352,18 @@ const missions = [
     title: 'Mission 12: Wildcards',
     story: 'Working with multiple files at once is essential. Master wildcards to match file patterns like a pro!',
     objectives: [
-      { text: 'List all .txt files: ls *.txt', completed: false, command: 'ls *.txt' },
-      { text: 'Create backup and copy files: mkdir backup && cp *.txt backup/', completed: false, command: 'mkdir backup && cp *.txt backup/' }
+      { 
+        text: 'List all .txt files: ls *.txt', 
+        completed: false, 
+        command: 'ls *.txt',
+        details: 'Lists only files ending in .txt. The * wildcard matches any characters. Filters the listing to specific file types.'
+      },
+      { 
+        text: 'Create backup and copy files: mkdir backup && cp *.txt backup/', 
+        completed: false, 
+        command: 'mkdir backup && cp *.txt backup/',
+        details: 'Creates backup folder AND copies all .txt files. The && means "do second command only if first succeeds".'
+      }
     ],
     hints: [
       'The asterisk * matches any characters.',
@@ -298,10 +383,30 @@ const missions = [
     title: 'Mission 13: Working Directory Mastery',
     story: 'Navigate complex directory structures like a ninja! Time to explore nested folders and master absolute vs relative paths.',
     objectives: [
-      { text: 'Navigate to nested dir: cd projects/website', completed: false, command: 'cd projects/website' },
-      { text: 'List files: ls', completed: false, command: 'ls' },
-      { text: 'Jump to home: cd ~', completed: false, command: 'cd ~' },
-      { text: 'Use absolute path: cd /home/user/logs', completed: false, command: 'cd /home/user/logs' }
+      { 
+        text: 'Navigate to nested dir: cd projects/website', 
+        completed: false, 
+        command: 'cd projects/website',
+        details: 'Navigates through multiple directories in one command. Goes into projects, then into website subfolder.'
+      },
+      { 
+        text: 'List files: ls', 
+        completed: false, 
+        command: 'ls',
+        details: 'Lists contents of current directory. Simple but essential - always check where you are!'
+      },
+      { 
+        text: 'Jump to home: cd ~', 
+        completed: false, 
+        command: 'cd ~',
+        details: 'Jumps instantly to home directory from anywhere. ~ is a shortcut that always means /home/user.'
+      },
+      { 
+        text: 'Use absolute path: cd /home/user/logs', 
+        completed: false, 
+        command: 'cd /home/user/logs',
+        details: 'Uses absolute path starting with /. Works from anywhere, unlike relative paths. Unambiguous navigation.'
+      }
     ],
     hints: [
       'You can navigate multiple levels: cd projects/website',
@@ -322,9 +427,24 @@ const missions = [
     title: 'Mission 14: Combining Skills',
     story: 'A critical incident! The server is acting up. Use all your skills to investigate logs, find errors, and create a report.',
     objectives: [
-      { text: 'Find all ERRORs: grep ERROR logs/*.log', completed: false, command: 'grep ERROR logs/*.log' },
-      { text: 'Save count: grep ERROR logs/*.log | wc -l > report.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > report.txt' },
-      { text: 'View report: cat report.txt', completed: false, command: 'cat report.txt' }
+      { 
+        text: 'Find all ERRORs: grep ERROR logs/*.log', 
+        completed: false, 
+        command: 'grep ERROR logs/*.log',
+        details: 'Searches ALL .log files in logs/ for ERROR. Wildcard lets you search multiple files at once.'
+      },
+      { 
+        text: 'Save count: grep ERROR logs/*.log | wc -l > report.txt', 
+        completed: false, 
+        command: 'grep ERROR logs/*.log | wc -l > report.txt',
+        details: 'Combines grep, pipe, wc, and redirect! Counts errors and saves count to file. This is power!'
+      },
+      { 
+        text: 'View report: cat report.txt', 
+        completed: false, 
+        command: 'cat report.txt',
+        details: 'Views your generated report. Always verify automated outputs!'
+      }
     ],
     hints: [
       'Use wildcards to search multiple files: logs/*.log',
@@ -344,11 +464,36 @@ const missions = [
     title: 'Mission 15: The Final Challenge',
     story: 'Congratulations on making it this far! Your final test: complete a complex real-world task using everything you\'ve learned. The company needs a complete audit.',
     objectives: [
-      { text: 'Create audit directory: mkdir audit', completed: false, command: 'mkdir audit' },
-      { text: 'List all .txt files: find . -name "*.txt" > audit/all_txt_files.txt', completed: false, command: 'find . -name "*.txt" > audit/all_txt_files.txt' },
-      { text: 'Copy log files: cp logs/*.log audit/', completed: false, command: 'cp logs/*.log audit/' },
-      { text: 'Count entries: cat logs/*.log | wc -l > audit/total_entries.txt', completed: false, command: 'cat logs/*.log | wc -l > audit/total_entries.txt' },
-      { text: 'Verify: ls audit', completed: false, command: 'ls audit' }
+      { 
+        text: 'Create audit directory: mkdir audit', 
+        completed: false, 
+        command: 'mkdir audit',
+        details: 'Creates directory for your audit results. Organization first!'
+      },
+      { 
+        text: 'List all .txt files: find . -name "*.txt" > audit/all_txt_files.txt', 
+        completed: false, 
+        command: 'find . -name "*.txt" > audit/all_txt_files.txt',
+        details: 'Finds all .txt files and saves list to audit folder. Complete file inventory.'
+      },
+      { 
+        text: 'Copy log files: cp logs/*.log audit/', 
+        completed: false, 
+        command: 'cp logs/*.log audit/',
+        details: 'Copies all log files to audit directory. Preserves evidence for analysis.'
+      },
+      { 
+        text: 'Count entries: cat logs/*.log | wc -l > audit/total_entries.txt', 
+        completed: false, 
+        command: 'cat logs/*.log | wc -l > audit/total_entries.txt',
+        details: 'Combines all logs and counts total lines. Shows log file activity level.'
+      },
+      { 
+        text: 'Verify: ls audit', 
+        completed: false, 
+        command: 'ls audit',
+        details: 'Verifies your audit folder has all required files. Final check before submitting!'
+      }
     ],
     hints: [
       'Take it step by step - one objective at a time.',
@@ -1123,11 +1268,55 @@ function loadMission(missionIndex) {
     const li = document.createElement('li');
     li.className = 'objective-item';
     li.dataset.objective = index;
-    li.innerHTML = `
-      <span class="objective-status">⬜</span>
-      <span class="objective-text">${obj.text}</span>
-    `;
-    objectiveList.appendChild(li);
+    
+    const statusSpan = document.createElement('span');
+    statusSpan.className = 'objective-status';
+    statusSpan.textContent = '⬜';
+    
+    const textSpan = document.createElement('span');
+    textSpan.className = 'objective-text';
+    textSpan.textContent = obj.text;
+    
+    li.appendChild(statusSpan);
+    li.appendChild(textSpan);
+    
+    // Add details button if details exist
+    if (obj.details) {
+      const detailsBtn = document.createElement('button');
+      detailsBtn.className = 'objective-details-btn';
+      detailsBtn.textContent = 'Details';
+      detailsBtn.dataset.index = index;
+      
+      detailsBtn.addEventListener('click', () => {
+        const detailsDiv = li.querySelector('.objective-details');
+        const isVisible = detailsDiv.classList.contains('visible');
+        
+        // Close all other details first
+        document.querySelectorAll('.objective-details').forEach(d => d.classList.remove('visible'));
+        document.querySelectorAll('.objective-details-btn').forEach(b => b.classList.remove('active'));
+        
+        // Toggle this one
+        if (!isVisible) {
+          detailsDiv.classList.add('visible');
+          detailsBtn.classList.add('active');
+        }
+      });
+      
+      li.appendChild(detailsBtn);
+      
+      // Create details div
+      const detailsDiv = document.createElement('div');
+      detailsDiv.className = 'objective-details';
+      detailsDiv.textContent = obj.details;
+      
+      // Wrap everything in a container
+      const container = document.createElement('div');
+      container.appendChild(li);
+      container.appendChild(detailsDiv);
+      objectiveList.appendChild(container);
+    } else {
+      objectiveList.appendChild(li);
+    }
   });
   
   const referenceBox = document.querySelector('.reference-box');

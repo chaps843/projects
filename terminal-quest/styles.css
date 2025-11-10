@@ -224,6 +224,62 @@ body {
   animation: checkmark 0.5s ease;
 }
 
+.objective-text {
+  flex: 1;
+}
+
+.objective-details-btn {
+  background: var(--accent-secondary);
+  color: var(--bg-primary);
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.objective-details-btn:hover {
+  background: var(--accent-primary);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+}
+
+.objective-details-btn.active {
+  background: var(--accent-primary);
+}
+
+.objective-details {
+  display: none;
+  margin-top: 0.8rem;
+  padding: 1rem;
+  background: var(--terminal-bg);
+  border-left: 3px solid var(--accent-secondary);
+  border-radius: 5px;
+  color: var(--terminal-text);
+  line-height: 1.6;
+  font-size: 0.9rem;
+  animation: slideDown 0.3s ease;
+}
+
+.objective-details.visible {
+  display: block;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes checkmark {
   0% { transform: scale(0); }
   50% { transform: scale(1.2); }
