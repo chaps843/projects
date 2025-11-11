@@ -290,7 +290,29 @@ const missions = [
   },
   {
     id: 6,
-    title: 'Mission 6: Search and Discover',
+    title: 'Review 1: Foundations Checkpoint',
+    story: 'Time to prove your skills! Your manager wants to verify you\'ve mastered the basics. Complete these tasks without hints to show you\'re ready for advanced training.',
+    objectives: [
+      { text: 'Navigate to the documents directory', completed: false, command: 'cd documents', details: 'Use cd to change into the documents directory. Basic navigation from Mission 1.' },
+      { text: 'List all files in the current directory', completed: false, command: 'ls', details: 'Show what files exist here. Core command for seeing directory contents.' },
+      { text: 'View the complete contents of notes.txt', completed: false, command: 'cat notes.txt', details: 'Use cat to display the entire file. Mission 4 taught viewing commands.' },
+      { text: 'Check just the first 2 lines of report.txt', completed: false, command: 'head -n 2 report.txt', details: 'Use head to preview the beginning. Shows only what you need.' },
+      { text: 'Return to your home directory', completed: false, command: 'cd ~', details: 'Use the tilde shortcut to jump home from anywhere.' },
+      { text: 'Check your current location', completed: false, command: 'pwd', details: 'Verify where you are. Always good to confirm location.' },
+      { text: 'Create a new file called review1.txt', completed: false, command: 'touch review1.txt', details: 'Use touch to create an empty file from Mission 3.' },
+      { text: 'Make a copy called review1_backup.txt', completed: false, command: 'cp review1.txt review1_backup.txt', details: 'Use cp to duplicate the file from Mission 5.' },
+      { text: 'Create a directory called review_files', completed: false, command: 'mkdir review_files', details: 'Use mkdir to create a new directory from Mission 3.' },
+      { text: 'Move review1_backup.txt into review_files', completed: false, command: 'mv review1_backup.txt review_files/', details: 'Use mv to relocate the file from Mission 5.' },
+      { text: 'Delete the original review1.txt file', completed: false, command: 'rm review1.txt', details: 'Use rm carefully to remove files from Mission 5.' },
+      { text: 'View the last 3 lines of data.txt', completed: false, command: 'tail -n 3 data.txt', details: 'Use tail to check the end from Mission 4.' }
+    ],
+    hints: ['Review commands from Missions 1-5', 'Navigation: cd, pwd, ls', 'Viewing: cat, head, tail', 'Operations: touch, mkdir, cp, mv, rm'],
+    reference: {'cd': 'Change directory', 'ls': 'List files', 'pwd': 'Print working directory', 'cat': 'Display file', 'head': 'View beginning', 'tail': 'View end', 'touch': 'Create file', 'mkdir': 'Create directory', 'cp': 'Copy', 'mv': 'Move/rename', 'rm': 'Remove'},
+    xpReward: 500
+  },
+  {
+    id: 7,
+    title: 'Mission 7: Search and Discover',
     story: 'The server logs are filling up with messages. Your manager needs you to find specific entries and analyze patterns. Time to master grep with different search techniques!',
     objectives: [
       { 
@@ -339,8 +361,8 @@ const missions = [
     xpReward: 300
   },
   {
-    id: 7,
-    title: 'Mission 7: File Viewing',
+    id: 8,
+    title: 'Mission 8: File Viewing',
     story: 'Large files are hard to read completely. Learn efficient techniques to peek at the beginning and end of files without opening them.',
     objectives: [
       { 
@@ -389,8 +411,8 @@ const missions = [
     xpReward: 250
   },
   {
-    id: 8,
-    title: 'Mission 8: Power Search',
+    id: 9,
+    title: 'Mission 9: Power Search',
     story: 'Your team needs specific information from files, including finding what\'s NOT there. Master advanced grep techniques including inverse matching!',
     objectives: [
       { 
@@ -439,8 +461,8 @@ const missions = [
     xpReward: 300
   },
   {
-    id: 9,
-    title: 'Mission 9: Finding Files',
+    id: 10,
+    title: 'Mission 10: Finding Files',
     story: 'Files and directories are scattered everywhere! You need to locate specific items by name, pattern, and type. Master find with different search techniques.',
     objectives: [
       { 
@@ -490,8 +512,8 @@ const missions = [
     xpReward: 350
   },
   {
-    id: 10,
-    title: 'Mission 10: Pipes - The Power Combo',
+    id: 11,
+    title: 'Mission 11: Pipes - The Power Combo',
     story: 'Real power comes from combining commands! Use pipes (|) to chain commands together for complex analysis tasks.',
     objectives: [
       { 
@@ -540,8 +562,33 @@ const missions = [
     xpReward: 400
   },
   {
-    id: 11,
-    title: 'Mission 11: Output Redirection',
+    id: 12,
+    title: 'Review 2: Search & Analysis Checkpoint',
+    story: 'You\'ve learned powerful search and analysis tools. Time to demonstrate your grep, find, and piping skills on real-world tasks!',
+    objectives: [
+      { text: 'Navigate to the logs directory', completed: false, command: 'cd ~/logs', details: 'Use absolute path with tilde from Missions 7-8.' },
+      { text: 'Search for ERROR in server.log', completed: false, command: 'grep ERROR server.log', details: 'Basic grep search from Mission 7.' },
+      { text: 'Count how many ERROR entries exist', completed: false, command: 'grep -c ERROR server.log', details: 'Use grep -c to count matches from Mission 7.' },
+      { text: 'Find all lines with "user" (case-insensitive)', completed: false, command: 'grep -i user access.log', details: 'Use grep -i for case-insensitive search from Mission 7.' },
+      { text: 'Show WARNING lines with line numbers', completed: false, command: 'grep -n WARNING server.log', details: 'Use grep -n to show line numbers from Mission 7.' },
+      { text: 'Show lines NOT containing ERROR', completed: false, command: 'grep -v ERROR server.log', details: 'Use grep -v for inverse matching from Mission 9.' },
+      { text: 'Return home and find all .txt files', completed: false, command: 'cd ~', details: 'Navigate home before searching the directory tree.' },
+      { text: 'List all .txt files in your home tree', completed: false, command: 'find . -name "*.txt"', details: 'Use find with pattern matching from Mission 10.' },
+      { text: 'Find only directories (not files)', completed: false, command: 'find . -type d', details: 'Use find -type d to filter directories from Mission 10.' },
+      { text: 'Find only regular files', completed: false, command: 'find . -type f', details: 'Use find -type f to filter files from Mission 10.' },
+      { text: 'Count how many developers exist in users.txt', completed: false, command: 'grep developer users.txt | wc -l', details: 'Combine grep and wc with pipe from Mission 11.' },
+      { text: 'Find .txt files and show first 3', completed: false, command: 'find . -name "*.txt" | head -n 3', details: 'Chain find and head with pipe from Mission 11.' },
+      { text: 'Count total words in message.txt', completed: false, command: 'cat message.txt | wc -w', details: 'Use cat, pipe, and wc -w from Mission 11.' },
+      { text: 'Save ERROR count to error_summary.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > error_summary.txt', details: 'Combine grep, pipe, wc, and redirect from Mission 11.' },
+      { text: 'Append your current directory to error_summary.txt', completed: false, command: 'pwd >> error_summary.txt', details: 'Use >> to append instead of overwrite from Mission 11.' }
+    ],
+    hints: ['Review Missions 7-11', 'grep: search with -i, -c, -n, -v flags', 'find: search by -name or -type', 'Pipes: command1 | command2', 'Redirect: > (overwrite), >> (append)'],
+    reference: {'grep': 'Search patterns', 'grep -i': 'Case-insensitive', 'grep -c': 'Count', 'grep -n': 'Line numbers', 'grep -v': 'Inverse', 'find': 'Find files', 'find -type': 'Filter by type', '|': 'Pipe', 'wc -l': 'Count lines', 'wc -w': 'Count words', '>': 'Redirect', '>>': 'Append'},
+    xpReward: 600
+  },
+  {
+    id: 13,
+    title: 'Mission 13: Output Redirection',
     story: 'Instead of displaying results on screen, save them to files! Learn to redirect output - a crucial skill for automation and record-keeping.',
     objectives: [
       { 
@@ -590,8 +637,8 @@ const missions = [
     xpReward: 350
   },
   {
-    id: 12,
-    title: 'Mission 12: Wildcards',
+    id: 14,
+    title: 'Mission 14: Wildcards',
     story: 'Working with multiple files at once is essential. Master wildcards to match file patterns and perform batch operations like a pro!',
     objectives: [
       { 
@@ -640,8 +687,8 @@ const missions = [
     xpReward: 300
   },
   {
-    id: 13,
-    title: 'Mission 13: Working Directory Mastery',
+    id: 15,
+    title: 'Mission 15: Working Directory Mastery',
     story: 'Navigate complex directory structures like a ninja! Time to explore nested folders and master absolute vs relative paths.',
     objectives: [
       { 
@@ -691,8 +738,8 @@ const missions = [
     xpReward: 350
   },
   {
-    id: 14,
-    title: 'Mission 14: Combining Skills',
+    id: 16,
+    title: 'Mission 16: Combining Skills',
     story: 'A critical incident! The server is acting up. Use all your skills to investigate logs, find errors, and create a comprehensive report.',
     objectives: [
       { 
@@ -742,8 +789,8 @@ const missions = [
     xpReward: 500
   },
   {
-    id: 15,
-    title: 'Mission 15: The Final Challenge',
+    id: 17,
+    title: 'Mission 17: The Final Challenge',
     story: 'Congratulations on making it this far! Your final test: complete a complex real-world task using everything you\'ve learned. The company needs a complete system audit with full documentation.',
     objectives: [
       { 
@@ -793,6 +840,66 @@ const missions = [
       'cmd | wc -l > file': 'Count and save'
     },
     xpReward: 1000
+  },
+  {
+    id: 18,
+    title: 'Review 3: Advanced Operations Checkpoint',
+    story: 'The final skill check before graduation! Show mastery of wildcards, complex navigation, and multi-command operations.',
+    objectives: [
+      { text: 'Return home and list only .txt files with wildcard', completed: false, command: 'cd ~', details: 'Navigate home to start the advanced challenges.' },
+      { text: 'Show only .txt files using a pattern', completed: false, command: 'ls *.txt', details: 'Use wildcard to filter file listing from Mission 13.' },
+      { text: 'Create a temp directory', completed: false, command: 'mkdir temp', details: 'Create directory for organizing work from Mission 13.' },
+      { text: 'Copy all .txt files to temp', completed: false, command: 'cp *.txt temp/', details: 'Batch copy with wildcards from Mission 13.' },
+      { text: 'Navigate to projects/website in one command', completed: false, command: 'cd projects/website', details: 'Multi-level navigation from Mission 14.' },
+      { text: 'Verify your location', completed: false, command: 'pwd', details: 'Confirm you navigated correctly from Mission 14.' },
+      { text: 'Go up two levels to home', completed: false, command: 'cd ../..', details: 'Use relative path with multiple levels from Mission 14.' },
+      { text: 'Navigate to logs using absolute path', completed: false, command: 'cd /home/user/logs', details: 'Use full absolute path from Mission 14.' },
+      { text: 'Create an analysis directory', completed: false, command: 'mkdir ~/analysis', details: 'Create directory with tilde shortcut.' },
+      { text: 'Search all log files for ERROR', completed: false, command: 'grep ERROR *.log', details: 'Use wildcard to search multiple files from Mission 15.' },
+      { text: 'Count total errors and save to analysis', completed: false, command: 'grep ERROR *.log | wc -l > ~/analysis/error_count.txt', details: 'Combine grep, pipe, wc, redirect from Mission 15.' },
+      { text: 'Save all ERROR lines to analysis', completed: false, command: 'grep ERROR *.log > ~/analysis/all_errors.txt', details: 'Redirect grep output to file from Mission 15.' },
+      { text: 'Find all .log files and save list to analysis', completed: false, command: 'find /home/user/logs -name "*.log" > ~/analysis/log_files.txt', details: 'Document files checked from Mission 15.' },
+      { text: 'Return home and find all .txt files', completed: false, command: 'cd ~', details: 'Navigate back to continue final tasks.' },
+      { text: 'Save txt file inventory to analysis', completed: false, command: 'find . -name "*.txt" > analysis/txt_inventory.txt', details: 'Create comprehensive file inventory from Mission 17.' }
+    ],
+    hints: ['Review Missions 13-17', 'Wildcards: * matches any characters', 'Navigation: multi-level paths, ../.., absolute paths', 'Combine: grep with wildcards, pipes, redirection', 'Complex operations: multiple commands chained'],
+    reference: {'*': 'Wildcard', 'ls *.txt': 'Filter listing', 'cp *.txt dir/': 'Batch copy', 'cd ../..': 'Up levels', 'cd /abs/path': 'Absolute', 'grep pattern *.ext': 'Search multiple', '|': 'Pipe', '>': 'Redirect'},
+    xpReward: 600
+  },
+  {
+    id: 19,
+    title: 'Final Review: Complete Mastery Assessment',
+    story: 'Congratulations on reaching the final challenge! Complete this comprehensive real-world scenario to prove you\'ve mastered everything. Your company needs a full system audit and incident response - use every skill you\'ve learned!',
+    objectives: [
+      { text: 'Start from home directory', completed: false, command: 'cd ~', details: 'Begin from a known location - professional practice.' },
+      { text: 'Check and verify your starting location', completed: false, command: 'pwd', details: 'Always verify location before major operations.' },
+      { text: 'List all files to see what you\'re working with', completed: false, command: 'ls', details: 'Survey the landscape before starting work.' },
+      { text: 'Create a master_audit directory', completed: false, command: 'mkdir master_audit', details: 'Organization is critical for complex tasks.' },
+      { text: 'Navigate to logs directory', completed: false, command: 'cd logs', details: 'Start investigating the logs.' },
+      { text: 'View the last 5 lines of server.log', completed: false, command: 'tail -n 5 server.log', details: 'Check recent activity first - smart troubleshooting.' },
+      { text: 'Count total ERROR occurrences across all logs', completed: false, command: 'grep -c ERROR *.log', details: 'Get error statistics across all log files.' },
+      { text: 'Find all lines with error (case-insensitive)', completed: false, command: 'grep -i error server.log', details: 'Case-insensitive catches more issues.' },
+      { text: 'Save all ERROR lines to master_audit', completed: false, command: 'grep ERROR *.log > ~/master_audit/all_errors.txt', details: 'Document all errors for analysis.' },
+      { text: 'Count and save total error count', completed: false, command: 'grep ERROR *.log | wc -l > ~/master_audit/error_total.txt', details: 'Quantify the problem scope.' },
+      { text: 'Show admin activity with line numbers', completed: false, command: 'grep -n admin access.log', details: 'Track admin access for security audit.' },
+      { text: 'Show all non-ERROR lines from server.log', completed: false, command: 'grep -v ERROR server.log', details: 'See normal operations - inverse matching.' },
+      { text: 'Return home and search entire tree for .log files', completed: false, command: 'cd ~', details: 'Back to home for comprehensive search.' },
+      { text: 'Find and list all .log files', completed: false, command: 'find . -name "*.log"', details: 'Locate all log files in the system.' },
+      { text: 'Find only directories in your tree', completed: false, command: 'find . -type d', details: 'Map the directory structure.' },
+      { text: 'Save directory listing to audit', completed: false, command: 'find . -type d > master_audit/directory_structure.txt', details: 'Document filesystem layout.' },
+      { text: 'Find all .txt files and show first 5', completed: false, command: 'find . -name "*.txt" | head -n 5', details: 'Sample the .txt files present.' },
+      { text: 'Copy all .txt files to master_audit', completed: false, command: 'cp *.txt master_audit/', details: 'Batch backup important files.' },
+      { text: 'Navigate to projects/website', completed: false, command: 'cd projects/website', details: 'Check the web project area.' },
+      { text: 'List files in website directory', completed: false, command: 'ls', details: 'Inventory the website files.' },
+      { text: 'Go back up to home using relative path', completed: false, command: 'cd ../..', details: 'Navigate back using relative path skills.' },
+      { text: 'Count how many developer accounts exist', completed: false, command: 'grep developer users.txt | wc -l', details: 'Audit user accounts by role.' },
+      { text: 'Save developer list to audit', completed: false, command: 'grep developer users.txt > master_audit/developers.txt', details: 'Document developer access.' },
+      { text: 'Save complete user list to audit', completed: false, command: 'cat users.txt > master_audit/all_users.txt', details: 'Full user registry for compliance.' },
+      { text: 'Create final audit summary', completed: false, command: 'echo "Audit Complete" > master_audit/summary.txt', details: 'Mark the audit as completed - you did it!' }
+    ],
+    hints: ['This tests EVERYTHING from Missions 1-17', 'Navigation: cd, pwd, ls, cd ~, cd ../.., absolute paths', 'Viewing: cat, head, tail, less', 'Searching: grep with -i, -c, -n, -v, wildcards', 'Finding: find with -name, -type', 'Operations: touch, mkdir, cp, mv, rm, wildcards', 'Analysis: pipes, wc, redirection', 'Take it step by step - you know all these commands!'],
+    reference: {'All commands': 'Everything you\'ve learned', 'cd/ls/pwd': 'Navigation', 'cat/head/tail': 'Viewing', 'grep': 'Searching', 'find': 'Finding', 'cp/mv/rm': 'Operations', '|/>': 'Pipes & redirect', '*': 'Wildcards'},
+    xpReward: 1500
   }
 ];
 

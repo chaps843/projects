@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.3.0 (Command Variety)
+## Current Status: v2.4.0 (Review Missions)
 
 ### Session History
 
@@ -82,6 +82,18 @@ Example for user:
 - 100% alignment between reference sections and taught commands
 - Enhanced learning variety - no more repetitive commands
 
+#### Session 5: Review Missions (v2.4.0)
+- Added 4 review missions for comprehensive skill verification
+- Review 1 after Mission 5: 12 objectives testing basics (navigation, file viewing, operations)
+- Review 2 after Mission 11: 15 objectives testing search/analysis (grep, find, pipes, redirection)
+- Review 3 after Mission 17: 15 objectives testing advanced operations (wildcards, complex navigation)
+- Final Review (Mission 19): 25 objectives comprehensive mastery assessment
+- Total missions increased from 15 to 19
+- Total objectives increased from 75 to 142
+- Reviews reinforce learning after every 5 missions
+- Higher XP rewards for reviews (500-1500 XP)
+- Improved knowledge retention and skill validation
+
 ### Project Stats
 
 **Code:**
@@ -91,11 +103,11 @@ Example for user:
 - **Total:** 2,352 lines of code
 
 **Content:**
-- 15 missions (75 total objectives)
+- 19 missions (142 total objectives)
 - 17 working commands
 - 12 achievements
-- 5,000 total XP
-- ~4 hours gameplay
+- 8,100 total XP
+- ~6-7 hours gameplay
 
 **Size:**
 - Total project: 128KB
@@ -444,6 +456,6 @@ No attribution required, but appreciated!
 ---
 
 **Last Updated:** 2025-11-11
-**Version:** 2.3.0
-**Status:** Fully functional, production-ready, command variety enhanced
+**Version:** 2.4.0
+**Status:** Fully functional, production-ready, comprehensive review system
 **Next Steps:** See ROADMAP.md
