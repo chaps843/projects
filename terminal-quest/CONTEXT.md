@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.0 (Expanded)
+## Current Status: v2.1 (Enhanced)
 
 ### Session History
 
@@ -60,6 +60,17 @@ Example for user:
 - Improved error messages with usage examples
 - Created comprehensive documentation
 
+#### Session 3: UI/UX Enhancement (v2.1)
+- Removed $_ from title, cleaner branding
+- Removed standalone hints section from UI
+- Converted "Details" to "Hint" buttons per objective
+- Implemented 50% XP penalty for using hints
+- Removed exact commands from all objective text
+- Expanded all 15 missions to exactly 5 objectives each
+- Added 35 new objectives across missions
+- Increased playtime from ~2 hours to ~4 hours
+- Made learning more challenging and rewarding
+
 ### Project Stats
 
 **Code:**
@@ -69,11 +80,11 @@ Example for user:
 - **Total:** 2,352 lines of code
 
 **Content:**
-- 15 missions
+- 15 missions (75 total objectives)
 - 17 working commands
 - 12 achievements
 - 5,000 total XP
-- ~2 hours gameplay
+- ~4 hours gameplay
 
 **Size:**
 - Total project: 128KB
@@ -421,7 +432,7 @@ No attribution required, but appreciated!
 
 ---
 
-**Last Updated:** 2025-11-09
-**Version:** 2.0
-**Status:** Fully functional, production-ready
+**Last Updated:** 2025-11-10
+**Version:** 2.1
+**Status:** Fully functional, production-ready, enhanced UI/UX
 **Next Steps:** See ROADMAP.md

@@ -17,6 +17,7 @@ const gameState = {
   },
   currentMission: 0,
   hintsUsed: 0,
+  hintUsedThisMission: false,
   commandHistory: [],
   filesystem: null,
   currentDirectory: '/home/user'
@@ -43,14 +44,43 @@ const missions = [
   {
     id: 1,
     title: 'Mission 1: First Day',
-    story: 'Welcome to TechCorp! You\'ve just been hired as a junior sysadmin. Your first task is to familiarize yourself with the terminal. Let\'s start with the basics - listing files.',
+    story: 'Welcome to TechCorp! You\'ve just been hired as a junior sysadmin. Your first task is to familiarize yourself with the terminal. Let\'s start with the basics - navigation and exploration.',
     objectives: [
-      { text: 'Type \'ls\' to list files', completed: false, command: 'ls' },
-      { text: 'Type \'pwd\' to see your current location', completed: false, command: 'pwd' }
+      { 
+        text: 'List the files in your home directory', 
+        completed: false, 
+        command: 'ls',
+        details: 'The \'ls\' command stands for "list". It shows you what files and folders are in your current location.'
+      },
+      { 
+        text: 'Check where you are in the filesystem', 
+        completed: false, 
+        command: 'pwd',
+        details: 'The \'pwd\' command means "print working directory". It tells you exactly where you are in the filesystem.'
+      },
+      { 
+        text: 'Navigate to the documents directory', 
+        completed: false, 
+        command: 'cd documents',
+        details: 'Use \'cd documents\' to change into the documents directory. The cd command (change directory) is how you navigate between folders.'
+      },
+      { 
+        text: 'List files in the documents directory', 
+        completed: false, 
+        command: 'ls',
+        details: 'See what\'s inside documents. Using ls in different locations shows different files - always check your surroundings!'
+      },
+      { 
+        text: 'Return to your home directory', 
+        completed: false, 
+        command: 'cd ..',
+        details: 'The .. notation means "parent directory". Use \'cd ..\' to go back up one level in the directory tree.'
+      }
     ],
     hints: [
       'The \'ls\' command stands for "list". It shows you what files and folders are in your current location.',
-      'The \'pwd\' command means "print working directory". It tells you exactly where you are in the filesystem.'
+      'The \'pwd\' command means "print working directory". It tells you exactly where you are in the filesystem.',
+      'Use \'cd documents\' to navigate into a directory, and \'cd ..\' to go back.'
     ],
     reference: {
       'ls': 'List directory contents',
@@ -62,16 +92,43 @@ const missions = [
   {
     id: 2,
     title: 'Mission 2: Exploration',
-    story: 'Great job! Your manager is impressed. Now she wants you to explore the filesystem. There\'s a directory called "documents" that you need to investigate.',
+    story: 'Great job! Your manager is impressed. Now she wants you to explore the entire filesystem structure, including the projects and logs directories.',
     objectives: [
-      { text: 'Change to the documents directory', completed: false, command: 'cd documents' },
-      { text: 'List the files in documents', completed: false, command: 'ls' },
-      { text: 'Go back to home directory', completed: false, command: 'cd ..' }
+      { 
+        text: 'Navigate to the logs directory', 
+        completed: false, 
+        command: 'cd logs',
+        details: 'Use \'cd logs\' to change into the logs directory. This is where system log files are stored.'
+      },
+      { 
+        text: 'List the log files to see what\'s available', 
+        completed: false, 
+        command: 'ls',
+        details: 'After moving to a directory, use \'ls\' to see what\'s inside. You should find several log files here.'
+      },
+      { 
+        text: 'Jump directly back to home using the tilde shortcut', 
+        completed: false, 
+        command: 'cd ~',
+        details: 'The tilde (~) is a shortcut for your home directory (/home/user). This is a quick way to jump back home from anywhere.'
+      },
+      { 
+        text: 'Navigate to projects/website in one command', 
+        completed: false, 
+        command: 'cd projects/website',
+        details: 'You can navigate through multiple directories in one command. Goes into projects, then into the website subfolder.'
+      },
+      { 
+        text: 'List the website files', 
+        completed: false, 
+        command: 'ls',
+        details: 'See what files are in the website directory. Different locations contain different files relevant to that area.'
+      }
     ],
     hints: [
-      'Use \'cd documents\' to change into the documents directory.',
-      'After moving to a directory, use \'ls\' to see what\'s inside.',
-      'The .. notation means "parent directory". Use \'cd ..\' to go back.'
+      'Use \'cd logs\' to change into the logs directory.',
+      'The tilde ~ is a shortcut to home: \'cd ~\'.',
+      'You can navigate multiple levels at once: \'cd projects/website\'.'
     ],
     reference: {
       'cd': 'Change directory (cd <directory>)',
@@ -84,20 +141,49 @@ const missions = [
   {
     id: 3,
     title: 'Mission 3: File Creation',
-    story: 'A developer needs you to create some files for a new project. Time to learn file manipulation!',
+    story: 'A developer needs you to set up a new project structure. Time to learn file and directory creation!',
     objectives: [
-      { text: 'Create a file called README.md', completed: false, command: 'touch README.md' },
-      { text: 'Create a directory called src', completed: false, command: 'mkdir src' },
-      { text: 'Verify your files were created', completed: false, command: 'ls' }
+      { 
+        text: 'Create a new file called README.md', 
+        completed: false, 
+        command: 'touch README.md',
+        details: 'Use \'touch README.md\' to create a new empty file. The touch command creates files without any content.'
+      },
+      { 
+        text: 'Create a directory called src', 
+        completed: false, 
+        command: 'mkdir src',
+        details: 'Use \'mkdir src\' to create a new directory (folder). mkdir stands for "make directory".'
+      },
+      { 
+        text: 'Navigate into the src directory', 
+        completed: false, 
+        command: 'cd src',
+        details: 'Move into the new directory you just created. Always good to test that your directory creation worked.'
+      },
+      { 
+        text: 'Create a file called index.js inside src', 
+        completed: false, 
+        command: 'touch index.js',
+        details: 'Create a file in the current directory (src). You can create files anywhere you are in the filesystem.'
+      },
+      { 
+        text: 'Create a file called package.json in the src directory', 
+        completed: false, 
+        command: 'touch package.json',
+        details: 'Practice creating another file. You\'re building a complete project structure!'
+      }
     ],
     hints: [
       'Use \'touch <filename>\' to create a new empty file.',
       'Use \'mkdir <dirname>\' to create a new directory (folder).',
-      'Always verify your work with \'ls\'!'
+      'Use \'cd src\' to navigate into the new directory.',
+      'Create files wherever you currently are in the filesystem.'
     ],
     reference: {
       'touch': 'Create an empty file',
       'mkdir': 'Make directory (create folder)',
+      'cd': 'Change directory',
       'ls': 'List files to verify'
     },
     xpReward: 200
@@ -105,72 +191,142 @@ const missions = [
   {
     id: 4,
     title: 'Mission 4: Reading Files',
-    story: 'Someone left an important note in a file. You need to read it without opening a text editor.',
+    story: 'Important information is scattered across files in different directories. You need to read them without opening a text editor.',
     objectives: [
-      { text: 'Read the contents of message.txt', completed: false, command: 'cat message.txt' }
+      { 
+        text: 'Display the contents of message.txt', 
+        completed: false, 
+        command: 'cat message.txt',
+        details: 'The \'cat\' command displays file contents. Use \'cat message.txt\' to read the welcome message.'
+      },
+      { 
+        text: 'Read the test.txt file', 
+        completed: false, 
+        command: 'cat test.txt',
+        details: 'Practice using cat to read another file. This is how you quickly view file contents in the terminal.'
+      },
+      { 
+        text: 'View users.txt to see the team', 
+        completed: false, 
+        command: 'cat users.txt',
+        details: 'This file contains user information. cat is perfect for viewing data files quickly.'
+      },
+      { 
+        text: 'Check what\'s in config.txt', 
+        completed: false, 
+        command: 'cat config.txt',
+        details: 'Read the configuration file. The cat command is essential for checking settings without editing them.'
+      },
+      { 
+        text: 'Read data.txt', 
+        completed: false, 
+        command: 'cat data.txt',
+        details: 'Display the data file contents. You\'re becoming a pro at reading files in the terminal!'
+      }
     ],
     hints: [
-      'The \'cat\' command displays file contents. Use \'cat message.txt\'.',
-      'cat stands for "concatenate" but is commonly used to display files.'
+      'The \'cat\' command displays file contents: \'cat filename.txt\'.',
+      'All files are in your home directory.',
+      'Just use cat followed by the filename.'
     ],
     reference: {
       'cat': 'Display file contents',
       'less': 'View file with scrolling',
-      'head': 'Show first lines of file',
-      'tail': 'Show last lines of file'
+      'head': 'View first lines',
+      'tail': 'View last lines'
     },
     xpReward: 150
   },
   {
     id: 5,
     title: 'Mission 5: File Operations',
-    story: 'Files need to be organized. Practice copying, moving, and removing files.',
+    story: 'Files are disorganized! Practice copying, moving, and removing files to clean up the workspace.',
     objectives: [
-      { text: 'Copy test.txt to backup.txt', completed: false, command: 'cp test.txt backup.txt' },
-      { text: 'Rename old.txt to new.txt', completed: false, command: 'mv old.txt new.txt' },
-      { text: 'Delete the file junk.txt', completed: false, command: 'rm junk.txt' }
+      { 
+        text: 'Return home and create a backup copy of config.txt', 
+        completed: false, 
+        command: 'cd ~',
+        details: 'Navigate to home directory where the config file is located.'
+      },
+      { 
+        text: 'Copy config.txt to config_backup.txt', 
+        completed: false, 
+        command: 'cp config.txt config_backup.txt',
+        details: 'Use \'cp config.txt config_backup.txt\' to copy the file. cp stands for "copy" and creates a duplicate with a new name.'
+      },
+      { 
+        text: 'Rename old.txt to archive.txt', 
+        completed: false, 
+        command: 'mv old.txt archive.txt',
+        details: 'Use \'mv old.txt archive.txt\' to rename (move) the file. mv changes the filename while keeping the same content.'
+      },
+      { 
+        text: 'Create a backup directory for organization', 
+        completed: false, 
+        command: 'mkdir backup',
+        details: 'Create a directory to organize backup files. Good practice to separate backups from active files.'
+      },
+      { 
+        text: 'Move config_backup.txt into the backup directory', 
+        completed: false, 
+        command: 'mv config_backup.txt backup/',
+        details: 'Move the backup file into the backup directory. mv can both rename and move files to different locations.'
+      }
     ],
     hints: [
+      'Use \'cd ~\' to return home.',
       'Use \'cp source destination\' to copy files.',
-      'Use \'mv old new\' to rename (move) files.',
-      'Use \'rm filename\' to delete files. Be careful - there\'s no undo!'
+      'Use \'mv old new\' to rename files, or \'mv file directory/\' to move files.',
+      'Use \'mkdir backup\' to create the backup directory.'
     ],
     reference: {
       'cp': 'Copy files (cp source dest)',
       'mv': 'Move/rename files (mv old new)',
       'rm': 'Remove files (CAREFUL!)',
-      'rm -r': 'Remove directories recursively'
+      'mkdir': 'Create directory'
     },
     xpReward: 250
   },
   {
     id: 6,
     title: 'Mission 6: Search and Discover',
-    story: 'The server logs are filling up with errors. Your manager needs you to find all ERROR messages in the log files. Time to learn grep - the search master!',
+    story: 'The server logs are filling up with errors. Your manager needs you to find specific messages across different log files. Time to learn grep - the search master!',
     objectives: [
       { 
-        text: 'Go to the logs directory: cd logs', 
+        text: 'Navigate to the logs directory from home', 
         completed: false, 
-        command: 'cd logs',
-        details: 'Changes your current working directory to "logs". The cd command (change directory) is how you navigate between folders in the terminal.'
+        command: 'cd ~/logs',
+        details: 'Use absolute path ~/logs to navigate directly. The tilde expands to your home directory path.'
       },
       { 
-        text: 'Search for ERROR in server.log: grep ERROR server.log', 
+        text: 'Search for ERROR entries in server.log', 
         completed: false, 
         command: 'grep ERROR server.log',
-        details: 'Searches for the text "ERROR" in server.log file. grep is case-sensitive by default, so it will only find "ERROR" not "error". Each matching line will be displayed.'
+        details: 'Searches for the text "ERROR" in server.log file. grep is case-sensitive by default. Each matching line will be displayed.'
       },
       { 
-        text: 'Search for User in access.log: grep User access.log', 
+        text: 'Find all admin activity in access.log', 
         completed: false, 
-        command: 'grep User access.log',
-        details: 'Finds all lines containing "User" in access.log. This is useful for finding user activity in log files. grep PATTERN filename is the basic format.'
+        command: 'grep admin access.log',
+        details: 'Finds all lines containing "admin" in access.log. Useful for auditing administrator access to systems.'
+      },
+      { 
+        text: 'Look for Permission messages in error.log', 
+        completed: false, 
+        command: 'grep Permission error.log',
+        details: 'Search for permission-related errors. grep can find any text pattern you need to investigate.'
+      },
+      { 
+        text: 'Search for WARNING level messages in server.log', 
+        completed: false, 
+        command: 'grep WARNING server.log',
+        details: 'Find warning messages to assess system health. Different log levels help prioritize issues.'
       }
     ],
     hints: [
-      'Type exactly: cd logs',
-      'Then type: grep ERROR server.log',
-      'grep searches for text patterns in files. Format: grep PATTERN filename'
+      'Use \'cd ~/logs\' to navigate to logs from anywhere.',
+      'grep searches for text patterns in files: \'grep PATTERN filename\'.',
+      'grep is case-sensitive, so "ERROR" and "error" are different.'
     ],
     reference: {
       'grep': 'Search for patterns in files',
@@ -183,31 +339,44 @@ const missions = [
   {
     id: 7,
     title: 'Mission 7: File Viewing',
-    story: 'The data.txt file is huge! You don\'t need to see all of it - just the beginning and end. Learn to peek at files efficiently.',
+    story: 'Large files are hard to read completely. Learn efficient techniques to peek at the beginning and end of files without opening them.',
     objectives: [
       { 
-        text: 'Go back to home directory: cd ~', 
+        text: 'Return to home directory', 
         completed: false, 
         command: 'cd ~',
-        details: 'The tilde (~) is a shortcut for your home directory (/home/user). This is a quick way to jump back home from anywhere.'
+        details: 'The tilde (~) is a shortcut for your home directory. This is a quick way to jump back home from anywhere.'
       },
       { 
-        text: 'View first 3 lines: head -n 3 data.txt', 
+        text: 'Preview the first 5 lines of data.txt', 
         completed: false, 
-        command: 'head -n 3 data.txt',
-        details: 'Shows the first 3 lines of data.txt. The -n flag specifies how many lines. head is perfect for previewing large files without opening them.'
+        command: 'head -n 5 data.txt',
+        details: 'Shows the first 5 lines of data.txt. The -n flag specifies how many lines. head is perfect for previewing large files.'
       },
       { 
-        text: 'View last 3 lines: tail -n 3 data.txt', 
+        text: 'Check the last 5 lines of data.txt', 
         completed: false, 
-        command: 'tail -n 3 data.txt',
-        details: 'Displays the last 3 lines of data.txt. tail is commonly used to check the end of log files for recent activity.'
+        command: 'tail -n 5 data.txt',
+        details: 'Displays the last 5 lines of data.txt. tail is commonly used to check the end of log files for recent activity.'
+      },
+      { 
+        text: 'View the first 3 lines of users.txt', 
+        completed: false, 
+        command: 'head -n 3 users.txt',
+        details: 'Practice with head using a different number. The -n parameter is flexible - use any number you need.'
+      },
+      { 
+        text: 'Navigate to logs and view last 2 lines of server.log', 
+        completed: false, 
+        command: 'cd logs',
+        details: 'Change to logs directory. head and tail work from any location in the filesystem.'
       }
     ],
     hints: [
-      'Use \'cd ~\' or \'cd\' to return home.',
-      'head shows the top of a file: head -n 3 filename',
-      'tail shows the bottom of a file: tail -n 3 filename'
+      'Use \'cd ~\' to return home.',
+      'head shows the top of a file: \'head -n 5 filename\'.',
+      'tail shows the bottom: \'tail -n 5 filename\'.',
+      'Navigate to logs with \'cd logs\'.'
     ],
     reference: {
       'head': 'View start of file',
@@ -220,25 +389,43 @@ const missions = [
   {
     id: 8,
     title: 'Mission 8: Power Search',
-    story: 'Your team needs a list of all developers. The users.txt file contains user roles, but you need to filter it. Time to master grep!',
+    story: 'Your team needs specific information from multiple configuration and data files. Master grep to filter and find exactly what you need!',
     objectives: [
       { 
-        text: 'Find all developers: grep developer users.txt', 
+        text: 'Return home and find all developer users', 
         completed: false, 
-        command: 'grep developer users.txt',
-        details: 'Searches users.txt for any line containing "developer". Perfect for filtering lists and finding specific entries in files.'
+        command: 'cd ~',
+        details: 'Navigate to home directory where the users.txt file is located.'
       },
       { 
-        text: 'Search for port: grep port config.txt', 
+        text: 'Search users.txt for developer entries', 
+        completed: false, 
+        command: 'grep developer users.txt',
+        details: 'Searches users.txt for any line containing "developer". Perfect for filtering lists and finding specific entries.'
+      },
+      { 
+        text: 'Find the port configuration setting', 
         completed: false, 
         command: 'grep port config.txt',
-        details: 'Finds configuration lines with "port" in them. This is how sysadmins quickly find specific settings in config files.'
+        details: 'Finds configuration lines with "port" in them. This is how sysadmins quickly find specific settings.'
+      },
+      { 
+        text: 'Search for manager role in users.txt', 
+        completed: false, 
+        command: 'grep manager users.txt',
+        details: 'Identify management accounts. Each grep search is instant, making it faster than manually reading files.'
+      },
+      { 
+        text: 'Find database host configuration', 
+        completed: false, 
+        command: 'grep database config.txt',
+        details: 'Find database-related configuration. grep is invaluable for quickly locating settings in large config files.'
       }
     ],
     hints: [
-      'grep searches for text patterns in files.',
-      'grep developer users.txt will find lines containing "developer".',
-      'Try grep port config.txt to find port settings.'
+      'Use \'cd ~\' to return home.',
+      'grep searches for text patterns: \'grep PATTERN filename\'.',
+      'grep developer users.txt will find lines containing "developer".'
     ],
     reference: {
       'grep': 'Search text in files',
@@ -251,25 +438,44 @@ const missions = [
   {
     id: 9,
     title: 'Mission 9: Finding Files',
-    story: 'There are files scattered everywhere! You need to locate specific files by name. The find command is your new best friend.',
+    story: 'Files are scattered across the entire filesystem! You need to locate specific files by name and pattern. The find command is your new best friend.',
     objectives: [
       { 
-        text: 'Find all .txt files: find . -name "*.txt"', 
+        text: 'Return home to search the entire tree', 
         completed: false, 
-        command: 'find . -name "*.txt"',
-        details: 'Searches from current directory (.) downward for all files matching *.txt pattern. The * wildcard matches any text before .txt'
+        command: 'cd ~',
+        details: 'Start from home directory to search your entire user space. The find command searches recursively from wherever you are.'
       },
       { 
-        text: 'Find config.txt: find . -name config.txt', 
+        text: 'Find all .txt files in your home directory tree', 
         completed: false, 
-        command: 'find . -name config.txt',
-        details: 'Locates the specific file "config.txt" anywhere in the current directory tree. Essential for finding files when you don\'t know their location.'
+        command: 'find . -name "*.txt"',
+        details: 'Searches from current directory (.) downward for all files matching *.txt pattern. The * wildcard matches any text before .txt.'
+      },
+      { 
+        text: 'Search for all .log files anywhere in the tree', 
+        completed: false, 
+        command: 'find . -name "*.log"',
+        details: 'Find log files throughout the directory structure. The wildcard pattern works with any file extension.'
+      },
+      { 
+        text: 'Locate exactly where report.txt is stored', 
+        completed: false, 
+        command: 'find . -name report.txt',
+        details: 'Locate a specific file by exact name. find searches recursively through all subdirectories automatically.'
+      },
+      { 
+        text: 'Search for all .html files in the projects area', 
+        completed: false, 
+        command: 'find . -name "*.html"',
+        details: 'Look for HTML files in the project structure. find is incredibly useful for locating files in complex directory trees.'
       }
     ],
     hints: [
-      'find searches for files by name or pattern.',
-      'Use: find . -name "*.txt" to find all .txt files',
-      'The dot (.) means "current directory and below".'
+      'Use \'cd ~\' to start from home.',
+      'find searches for files: \'find . -name "PATTERN"\'.',
+      'The dot (.) means "current directory and below".',
+      'Use wildcards with quotes: "*.txt".'
     ],
     reference: {
       'find': 'Search for files',
@@ -282,24 +488,43 @@ const missions = [
   {
     id: 10,
     title: 'Mission 10: Pipes - The Power Combo',
-    story: 'Real power comes from combining commands! Use pipes (|) to chain commands together. Your manager wants a sorted list of unique log types.',
+    story: 'Real power comes from combining commands! Use pipes (|) to chain commands together for complex analysis tasks.',
     objectives: [
       { 
-        text: 'Count ERROR lines: grep ERROR logs/server.log | wc -l', 
+        text: 'Count how many ERROR lines exist in server.log', 
         completed: false, 
         command: 'grep ERROR logs/server.log | wc -l',
         details: 'Pipes grep output to wc (word count). The | sends grep\'s results to wc, and -l counts lines. This shows how many errors exist.'
       },
       { 
-        text: 'List first 5 .txt files: find . -name "*.txt" | head -n 5', 
+        text: 'Find all .txt files but show only the first 5', 
         completed: false, 
         command: 'find . -name "*.txt" | head -n 5',
         details: 'Chains find with head using a pipe. find lists all .txt files, then head limits output to first 5 results. Great for limiting long outputs.'
+      },
+      { 
+        text: 'Count how many developer users exist', 
+        completed: false, 
+        command: 'grep developer users.txt | wc -l',
+        details: 'Combine grep and wc to count specific entries. First grep finds developers, then wc counts how many lines matched.'
+      },
+      { 
+        text: 'Search all .log files and show only first 3 results', 
+        completed: false, 
+        command: 'find . -name "*.log" | head -n 3',
+        details: 'Chain multiple commands together. The output of find becomes the input for head, giving you exactly what you need.'
+      },
+      { 
+        text: 'Count total lines in data.txt efficiently', 
+        completed: false, 
+        command: 'cat data.txt | wc -l',
+        details: 'Use pipes to process file contents. cat reads the file, pipe sends it to wc which counts the lines.'
       }
     ],
     hints: [
       'The pipe | sends output from one command to another.',
-      'grep ERROR file | wc -l counts matching lines.',
+      'Format: command1 | command2',
+      'Example: grep ERROR file | wc -l counts matching lines.',
       'find can be piped to head to limit results.'
     ],
     reference: {
@@ -313,31 +538,44 @@ const missions = [
   {
     id: 11,
     title: 'Mission 11: Output Redirection',
-    story: 'Instead of displaying results on screen, save them to files! Learn to redirect output - a crucial skill for automation.',
+    story: 'Instead of displaying results on screen, save them to files! Learn to redirect output - a crucial skill for automation and record-keeping.',
     objectives: [
       { 
-        text: 'Save ls output: ls > filelist.txt', 
+        text: 'Save your current file listing to inventory.txt', 
         completed: false, 
-        command: 'ls > filelist.txt',
-        details: 'Redirects ls output to filelist.txt instead of screen. The > operator creates/overwrites the file. Essential for saving command results.'
+        command: 'ls > inventory.txt',
+        details: 'Redirects ls output to inventory.txt instead of screen. The > operator creates/overwrites the file. Essential for saving command results.'
       },
       { 
-        text: 'View the file: cat filelist.txt', 
+        text: 'Save your current location to location.txt', 
         completed: false, 
-        command: 'cat filelist.txt',
-        details: 'Displays the file you just created. Confirms the redirect worked and shows what ls captured.'
+        command: 'pwd > location.txt',
+        details: 'Redirect pwd output to a file. Any command output can be saved this way - great for logging and documentation.'
       },
       { 
-        text: 'Append text: echo "admin" >> info.txt', 
+        text: 'View the saved location file to verify', 
         completed: false, 
-        command: 'echo "admin" >> info.txt',
-        details: 'Appends text to info.txt. The >> operator adds to end without erasing existing content. Single > would overwrite.'
+        command: 'cat location.txt',
+        details: 'Displays the file you just created. Confirms the redirect worked and shows what pwd captured.'
+      },
+      { 
+        text: 'Create a new file and append "System Online" to it', 
+        completed: false, 
+        command: 'echo "System Online" >> status.txt',
+        details: 'Appends text to status.txt (creates if doesn\'t exist). The >> operator adds to end without erasing existing content.'
+      },
+      { 
+        text: 'Append "All checks passed" to status.txt', 
+        completed: false, 
+        command: 'echo "All checks passed" >> status.txt',
+        details: 'Practice appending with >>. Unlike >, this adds new content while preserving what\'s already there. Perfect for building files incrementally.'
       }
     ],
     hints: [
       'Use > to redirect output to a file (overwrites).',
       'Use >> to append to a file (adds to end).',
-      'Example: ls > output.txt saves the list to a file.'
+      'Example: ls > output.txt saves the list to a file.',
+      'echo "text" >> file.txt adds a line to file.'
     ],
     reference: {
       '>': 'Redirect output (overwrite)',
@@ -350,25 +588,44 @@ const missions = [
   {
     id: 12,
     title: 'Mission 12: Wildcards',
-    story: 'Working with multiple files at once is essential. Master wildcards to match file patterns like a pro!',
+    story: 'Working with multiple files at once is essential. Master wildcards to match file patterns and perform batch operations like a pro!',
     objectives: [
       { 
-        text: 'List all .txt files: ls *.txt', 
+        text: 'Return home and list only .txt files', 
+        completed: false, 
+        command: 'cd ~',
+        details: 'Navigate to home directory to start working with wildcards.'
+      },
+      { 
+        text: 'Show all .txt files using wildcard pattern', 
         completed: false, 
         command: 'ls *.txt',
         details: 'Lists only files ending in .txt. The * wildcard matches any characters. Filters the listing to specific file types.'
       },
       { 
-        text: 'Create backup and copy files: mkdir backup && cp *.txt backup/', 
+        text: 'Create an archives directory', 
         completed: false, 
-        command: 'mkdir backup && cp *.txt backup/',
-        details: 'Creates backup folder AND copies all .txt files. The && means "do second command only if first succeeds".'
+        command: 'mkdir archives',
+        details: 'Create a new directory to store archived files. Organization is key!'
+      },
+      { 
+        text: 'Copy all .txt files to archives directory', 
+        completed: false, 
+        command: 'cp *.txt archives/',
+        details: 'Copy all matching files at once! The wildcard expands to all .txt files. This is batch operation power.'
+      },
+      { 
+        text: 'Navigate to archives and verify the copies', 
+        completed: false, 
+        command: 'cd archives',
+        details: 'Move into the archives folder to verify your batch copy worked. Always check your work after batch operations.'
       }
     ],
     hints: [
+      'Use \'cd ~\' to return home.',
       'The asterisk * matches any characters.',
-      '*.txt matches all files ending in .txt',
-      'You can use wildcards with most commands: ls *.txt, rm *.log, etc.'
+      '*.txt matches all files ending in .txt.',
+      'You can use wildcards with most commands: cp *.txt destination/.'
     ],
     reference: {
       '*': 'Match any characters',
@@ -384,35 +641,42 @@ const missions = [
     story: 'Navigate complex directory structures like a ninja! Time to explore nested folders and master absolute vs relative paths.',
     objectives: [
       { 
-        text: 'Navigate to nested dir: cd projects/website', 
+        text: 'Start from home and navigate to projects/website', 
+        completed: false, 
+        command: 'cd ~',
+        details: 'Jump to home directory first. Good practice to start from a known location.'
+      },
+      { 
+        text: 'Navigate through multiple directories to website', 
         completed: false, 
         command: 'cd projects/website',
         details: 'Navigates through multiple directories in one command. Goes into projects, then into website subfolder.'
       },
       { 
-        text: 'List files: ls', 
+        text: 'Verify your current location', 
         completed: false, 
-        command: 'ls',
-        details: 'Lists contents of current directory. Simple but essential - always check where you are!'
+        command: 'pwd',
+        details: 'Check where you are. You should be at /home/user/projects/website. Always verify after complex navigation.'
       },
       { 
-        text: 'Jump to home: cd ~', 
+        text: 'Go up two levels to return to home', 
         completed: false, 
-        command: 'cd ~',
-        details: 'Jumps instantly to home directory from anywhere. ~ is a shortcut that always means /home/user.'
+        command: 'cd ../..',
+        details: 'Navigate up two directory levels at once. Each .. goes up one level. Efficient relative path navigation.'
       },
       { 
-        text: 'Use absolute path: cd /home/user/logs', 
+        text: 'Navigate to logs using absolute path', 
         completed: false, 
         command: 'cd /home/user/logs',
         details: 'Uses absolute path starting with /. Works from anywhere, unlike relative paths. Unambiguous navigation.'
       }
     ],
     hints: [
-      'You can navigate multiple levels: cd projects/website',
-      'Absolute paths start with /: /home/user/logs',
-      'Relative paths are from current location: ../documents',
-      'Use ~ to mean home directory: cd ~/projects'
+      'Use \'cd ~\' to jump home.',
+      'You can navigate multiple levels: \'cd projects/website\'.',
+      'Use pwd to check location.',
+      'Go up levels with ../../ (each .. is one level up).',
+      'Absolute paths start with /: /home/user/logs.'
     ],
     reference: {
       'cd path/to/dir': 'Navigate multiple levels',
@@ -425,31 +689,45 @@ const missions = [
   {
     id: 14,
     title: 'Mission 14: Combining Skills',
-    story: 'A critical incident! The server is acting up. Use all your skills to investigate logs, find errors, and create a report.',
+    story: 'A critical incident! The server is acting up. Use all your skills to investigate logs, find errors, and create a comprehensive report.',
     objectives: [
       { 
-        text: 'Find all ERRORs: grep ERROR logs/*.log', 
+        text: 'Create an incident_report directory', 
         completed: false, 
-        command: 'grep ERROR logs/*.log',
-        details: 'Searches ALL .log files in logs/ for ERROR. Wildcard lets you search multiple files at once.'
+        command: 'mkdir incident_report',
+        details: 'Create a directory to organize your investigation. Professional incident response requires organization.'
       },
       { 
-        text: 'Save count: grep ERROR logs/*.log | wc -l > report.txt', 
+        text: 'Search for ERROR entries in all log files', 
         completed: false, 
-        command: 'grep ERROR logs/*.log | wc -l > report.txt',
+        command: 'grep ERROR logs/*.log',
+        details: 'Searches ALL .log files in logs/ for ERROR. Wildcard lets you search multiple files at once. See all errors first.'
+      },
+      { 
+        text: 'Count errors and save count to incident_report/error_count.txt', 
+        completed: false, 
+        command: 'grep ERROR logs/*.log | wc -l > incident_report/error_count.txt',
         details: 'Combines grep, pipe, wc, and redirect! Counts errors and saves count to file. This is power!'
       },
       { 
-        text: 'View report: cat report.txt', 
+        text: 'Save all ERROR lines to incident_report/errors.txt', 
         completed: false, 
-        command: 'cat report.txt',
-        details: 'Views your generated report. Always verify automated outputs!'
+        command: 'grep ERROR logs/*.log > incident_report/errors.txt',
+        details: 'Redirect grep output to save all error lines. Creates a full error log for analysis. Essential for troubleshooting.'
+      },
+      { 
+        text: 'Find all log files and save list to incident_report/files_checked.txt', 
+        completed: false, 
+        command: 'find logs -name "*.log" > incident_report/files_checked.txt',
+        details: 'Document which files were analyzed. Complete incident reports show what was checked. Professional documentation.'
       }
     ],
     hints: [
-      'Use wildcards to search multiple files: logs/*.log',
+      'Use mkdir to create incident_report directory.',
+      'Use wildcards: logs/*.log searches all log files.',
       'Combine grep, pipes, wc, and redirection!',
-      'Remember: grep finds patterns, wc counts, > saves to file.'
+      'Remember: grep finds patterns, | pipes, wc counts, > saves to file.',
+      'You can save to subdirectories: > incident_report/file.txt'
     ],
     reference: {
       'grep pattern files': 'Search multiple files',
@@ -462,51 +740,53 @@ const missions = [
   {
     id: 15,
     title: 'Mission 15: The Final Challenge',
-    story: 'Congratulations on making it this far! Your final test: complete a complex real-world task using everything you\'ve learned. The company needs a complete audit.',
+    story: 'Congratulations on making it this far! Your final test: complete a complex real-world task using everything you\'ve learned. The company needs a complete system audit with full documentation.',
     objectives: [
       { 
-        text: 'Create audit directory: mkdir audit', 
+        text: 'Return home and create a system_audit directory', 
         completed: false, 
-        command: 'mkdir audit',
+        command: 'cd ~',
+        details: 'Start from home directory. Professional audits begin from a consistent starting point.'
+      },
+      { 
+        text: 'Create the audit directory', 
+        completed: false, 
+        command: 'mkdir system_audit',
         details: 'Creates directory for your audit results. Organization first!'
       },
       { 
-        text: 'List all .txt files: find . -name "*.txt" > audit/all_txt_files.txt', 
+        text: 'Find all .txt files and save inventory', 
         completed: false, 
-        command: 'find . -name "*.txt" > audit/all_txt_files.txt',
-        details: 'Finds all .txt files and saves list to audit folder. Complete file inventory.'
+        command: 'find . -name "*.txt" > system_audit/txt_inventory.txt',
+        details: 'Finds all .txt files and saves list to audit folder. Complete file inventory across entire system.'
       },
       { 
-        text: 'Copy log files: cp logs/*.log audit/', 
+        text: 'Save developer user list to audit directory', 
         completed: false, 
-        command: 'cp logs/*.log audit/',
-        details: 'Copies all log files to audit directory. Preserves evidence for analysis.'
+        command: 'grep developer users.txt > system_audit/developers.txt',
+        details: 'Extract specific user role information. Audit requires documenting who has what access.'
       },
       { 
-        text: 'Count entries: cat logs/*.log | wc -l > audit/total_entries.txt', 
+        text: 'Count and document total ERROR entries across all logs', 
         completed: false, 
-        command: 'cat logs/*.log | wc -l > audit/total_entries.txt',
-        details: 'Combines all logs and counts total lines. Shows log file activity level.'
-      },
-      { 
-        text: 'Verify: ls audit', 
-        completed: false, 
-        command: 'ls audit',
-        details: 'Verifies your audit folder has all required files. Final check before submitting!'
+        command: 'grep ERROR logs/*.log | wc -l > system_audit/total_errors.txt',
+        details: 'Combines multiple skills: wildcards, grep, pipes, wc, and redirection. This is the complete picture of system health!'
       }
     ],
     hints: [
       'Take it step by step - one objective at a time.',
+      'Use \'cd ~\' to start from home.',
       'Use find with > to save file lists.',
-      'Use cp with wildcards to copy multiple files.',
-      'Use cat with wildcards to combine files, then pipe to wc.'
+      'Use grep to extract specific data.',
+      'Combine grep, pipes (|), and wc to count matches.',
+      'Save to subdirectory: > system_audit/filename.txt'
     ],
     reference: {
       'mkdir': 'Create directories',
       'find': 'Search for files',
-      'cp': 'Copy files',
+      'grep': 'Search text patterns',
       '*.log': 'All log files',
-      'cat files | wc -l': 'Count total lines'
+      'cmd | wc -l > file': 'Count and save'
     },
     xpReward: 1000
   }
@@ -641,6 +921,31 @@ class VirtualFileSystem {
       return { success: true };
     }
 
+    // Handle multi-level paths like "projects/website"
+    if (path.includes('/')) {
+      const pathParts = path.split('/');
+      let currentNode = this.getCurrentDir();
+      let newPath = this.currentPath;
+      
+      for (const part of pathParts) {
+        if (!currentNode) {
+          return { error: `cd: ${path}: No such file or directory` };
+        }
+        
+        const contents = currentNode.type === 'directory' ? currentNode.contents : currentNode;
+        if (contents[part] && contents[part].type === 'directory') {
+          newPath += '/' + part;
+          currentNode = contents[part];
+        } else {
+          return { error: `cd: ${path}: No such file or directory` };
+        }
+      }
+      
+      this.currentPath = newPath;
+      return { success: true };
+    }
+
+    // Single-level path
     const dir = this.getCurrentDir();
     if (!dir) return { error: `cd: ${path}: No such file or directory` };
     
@@ -1173,6 +1478,18 @@ function writeToTerminal(text, className = '') {
   output.scrollTop = output.scrollHeight;
 }
 
+function celebrateLevelUp(newLevel) {
+  const levelElement = document.getElementById('player-level');
+  
+  // Add celebration class to trigger animation
+  levelElement.classList.add('level-up-celebration');
+  
+  // Remove animation class after it completes
+  setTimeout(() => {
+    levelElement.classList.remove('level-up-celebration');
+  }, 2000);
+}
+
 function clearTerminal() {
   const output = document.getElementById('terminal-output');
   output.innerHTML = '';
@@ -1208,7 +1525,8 @@ function addXP(amount) {
     gameState.player.level++;
     gameState.player.xpToNextLevel = Math.floor(gameState.player.xpToNextLevel * 1.5);
     
-    writeToTerminal(`🎉 LEVEL UP! You are now level ${gameState.player.level}!`, 'terminal-success');
+    // Celebrate level up with visual animation instead of terminal message
+    celebrateLevelUp(gameState.player.level);
     
     // Update title based on level
     if (gameState.player.level >= 5) gameState.player.title = 'Sysadmin';
@@ -1246,6 +1564,34 @@ function showAchievementNotification(achievement) {
   }, 4000);
 }
 
+function showHintPopup(objective) {
+  const overlay = document.getElementById('hint-overlay');
+  
+  overlay.innerHTML = `
+    <div class="hint-bubble">
+      <button class="hint-bubble-close" onclick="document.getElementById('hint-overlay').classList.remove('visible')">✕</button>
+      
+      <div class="hint-bubble-objective">
+        ${objective.text}
+      </div>
+      
+      <div class="hint-bubble-description">
+        ${objective.details || 'Use the command reference below for help with this objective.'}
+      </div>
+      
+      <div class="hint-bubble-hint-label">
+        Hint: Command to Use
+      </div>
+      
+      <div class="hint-bubble-command">
+        ${objective.command}
+      </div>
+    </div>
+  `;
+  
+  overlay.classList.add('visible');
+}
+
 function loadMission(missionIndex) {
   if (missionIndex >= missions.length) {
     writeToTerminal('🎉 Congratulations! You\'ve completed all available missions!', 'terminal-success');
@@ -1253,9 +1599,24 @@ function loadMission(missionIndex) {
     return;
   }
 
+  // Clear terminal for new mission (except first mission on game load)
+  if (missionIndex > 0) {
+    clearTerminal();
+  }
+
   const mission = missions[missionIndex];
   gameState.currentMission = missionIndex;
   gameState.hintsUsed = 0;
+  gameState.hintUsedThisMission = false;
+  
+  // Auto-navigate to home directory for missions that need it
+  // (Most missions expect you to start from home)
+  gameState.filesystem.currentPath = '/home/user';
+  
+  // Reset all objectives to uncompleted for this mission
+  mission.objectives.forEach(obj => {
+    obj.completed = false;
+  });
   
   document.getElementById('mission-title').textContent = mission.title;
   document.getElementById('mission-number').textContent = `${missionIndex + 1}/${missions.length}`;
@@ -1263,6 +1624,22 @@ function loadMission(missionIndex) {
   
   const objectiveList = document.getElementById('objective-list');
   objectiveList.innerHTML = '';
+  
+  // Create hint overlay (shared for all objectives)
+  let hintOverlay = document.getElementById('hint-overlay');
+  if (!hintOverlay) {
+    hintOverlay = document.createElement('div');
+    hintOverlay.id = 'hint-overlay';
+    hintOverlay.className = 'hint-overlay';
+    document.body.appendChild(hintOverlay);
+    
+    // Close on overlay click
+    hintOverlay.addEventListener('click', (e) => {
+      if (e.target === hintOverlay) {
+        hintOverlay.classList.remove('visible');
+      }
+    });
+  }
   
   mission.objectives.forEach((obj, index) => {
     const li = document.createElement('li');
@@ -1280,43 +1657,27 @@ function loadMission(missionIndex) {
     li.appendChild(statusSpan);
     li.appendChild(textSpan);
     
-    // Add details button if details exist
-    if (obj.details) {
-      const detailsBtn = document.createElement('button');
-      detailsBtn.className = 'objective-details-btn';
-      detailsBtn.textContent = 'Details';
-      detailsBtn.dataset.index = index;
+    // Add hint button for each objective
+    const hintBtn = document.createElement('button');
+    hintBtn.className = 'objective-hint-btn';
+    hintBtn.textContent = 'Hint';
+    hintBtn.dataset.index = index;
+    
+    hintBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       
-      detailsBtn.addEventListener('click', () => {
-        const detailsDiv = li.querySelector('.objective-details');
-        const isVisible = detailsDiv.classList.contains('visible');
-        
-        // Close all other details first
-        document.querySelectorAll('.objective-details').forEach(d => d.classList.remove('visible'));
-        document.querySelectorAll('.objective-details-btn').forEach(b => b.classList.remove('active'));
-        
-        // Toggle this one
-        if (!isVisible) {
-          detailsDiv.classList.add('visible');
-          detailsBtn.classList.add('active');
-        }
-      });
+      // Mark that hint was used for this mission (affects XP)
+      if (!gameState.hintUsedThisMission) {
+        gameState.hintUsedThisMission = true;
+        writeToTerminal('⚠️  Hint used - XP reward reduced by 50%', 'terminal-warning');
+      }
       
-      li.appendChild(detailsBtn);
-      
-      // Create details div
-      const detailsDiv = document.createElement('div');
-      detailsDiv.className = 'objective-details';
-      detailsDiv.textContent = obj.details;
-      
-      // Wrap everything in a container
-      const container = document.createElement('div');
-      container.appendChild(li);
-      container.appendChild(detailsDiv);
-      objectiveList.appendChild(container);
-    } else {
-      objectiveList.appendChild(li);
-    }
+      // Show hint popup
+      showHintPopup(obj);
+    });
+    
+    li.appendChild(hintBtn);
+    objectiveList.appendChild(li);
   });
   
   const referenceBox = document.querySelector('.reference-box');
@@ -1324,9 +1685,6 @@ function loadMission(missionIndex) {
   for (const [cmd, desc] of Object.entries(mission.reference)) {
     referenceBox.innerHTML += `<code>${cmd}</code> - ${desc}<br>`;
   }
-  
-  document.getElementById('hint-btn').textContent = `Show Hint (${mission.hints.length} available)`;
-  document.getElementById('hint-text').classList.add('hidden');
   
   writeToTerminal('', '');
   writeToTerminal(`📋 ${mission.title}`, 'terminal-info');
@@ -1336,43 +1694,96 @@ function loadMission(missionIndex) {
   saveGame();
 }
 
+function willCommandMatchObjective(command) {
+  const mission = missions[gameState.currentMission];
+  if (!mission) return false;
+  
+  // Find the next uncompleted objective
+  let nextObjectiveIndex = -1;
+  for (let i = 0; i < mission.objectives.length; i++) {
+    if (!mission.objectives[i].completed) {
+      nextObjectiveIndex = i;
+      break;
+    }
+  }
+  
+  // If all objectives complete, allow any command
+  if (nextObjectiveIndex === -1) {
+    return true;
+  }
+  
+  // Check if command matches the next objective
+  const nextObj = mission.objectives[nextObjectiveIndex];
+  const commandMatches = command.trim() === nextObj.command || command.trim().startsWith(nextObj.command + ' ');
+  
+  return commandMatches;
+}
+
 function checkObjectives(command) {
   const mission = missions[gameState.currentMission];
-  if (!mission) return;
+  if (!mission) return { matched: false, allComplete: false };
   
-  let allComplete = true;
-  let anyCompleted = false;
+  // Find the next uncompleted objective (must be in order)
+  let nextObjectiveIndex = -1;
+  for (let i = 0; i < mission.objectives.length; i++) {
+    if (!mission.objectives[i].completed) {
+      nextObjectiveIndex = i;
+      break;
+    }
+  }
   
-  mission.objectives.forEach((obj, index) => {
-    if (!obj.completed && command.includes(obj.command.split(' ')[0])) {
-      obj.completed = true;
-      anyCompleted = true;
-      
-      const objElement = document.querySelector(`[data-objective="${index}"]`);
+  // If all objectives are complete already
+  if (nextObjectiveIndex === -1) {
+    return { matched: false, allComplete: true };
+  }
+  
+  // Check if the command matches the NEXT objective only (no skipping!)
+  const nextObj = mission.objectives[nextObjectiveIndex];
+  
+  // Check if command matches the objective command
+  const commandMatches = command.trim() === nextObj.command || command.trim().startsWith(nextObj.command + ' ');
+  
+  if (commandMatches) {
+    // Mark objective as complete
+    nextObj.completed = true;
+    
+    // Update UI
+    const objElement = document.querySelector(`[data-objective="${nextObjectiveIndex}"]`);
+    if (objElement) {
       objElement.classList.add('completed');
       objElement.querySelector('.objective-status').textContent = '✅';
-      
-      writeToTerminal(`✓ Objective complete: ${obj.text}`, 'terminal-success');
-      addXP(25);
     }
     
-    if (!obj.completed) allComplete = false;
-  });
-  
-  if (allComplete) {
-    completeMission();
+    addXP(25);
+    
+    // Check if this was the last objective (but don't complete mission yet)
+    const allComplete = mission.objectives.every(obj => obj.completed);
+    
+    return { matched: true, allComplete: allComplete };
   }
+  
+  return { matched: false, allComplete: false };
 }
 
 function completeMission() {
   const mission = missions[gameState.currentMission];
   
+  // Calculate XP reward - reduce by 50% if hint was used
+  let xpReward = mission.xpReward;
+  if (gameState.hintUsedThisMission) {
+    xpReward = Math.floor(xpReward * 0.5);
+  }
+  
   writeToTerminal('', '');
   writeToTerminal('🎉 MISSION COMPLETE! 🎉', 'terminal-success');
-  writeToTerminal(`You earned ${mission.xpReward} XP!`, 'terminal-success');
+  if (gameState.hintUsedThisMission) {
+    writeToTerminal(`You earned ${xpReward} XP (50% penalty for using hints)`, 'terminal-warning');
+  } else {
+    writeToTerminal(`You earned ${xpReward} XP!`, 'terminal-success');
+  }
   writeToTerminal('', '');
   
-  addXP(mission.xpReward);
+  addXP(xpReward);
   gameState.player.missionsCompleted++;
   
   // Mission-specific achievements
@@ -1384,7 +1795,7 @@ function completeMission() {
     unlockAchievement('mission_5');
   }
   
-  if (gameState.hintsUsed === 0) {
+  if (!gameState.hintUsedThisMission) {
     unlockAchievement('no_hints');
   }
   
@@ -1415,6 +1826,49 @@ function renderAchievements() {
   });
 }
 
+function showResetConfirmation() {
+  let overlay = document.getElementById('reset-overlay');
+  
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'reset-overlay';
+    overlay.className = 'reset-overlay';
+    document.body.appendChild(overlay);
+  }
+  
+  overlay.innerHTML = `
+    <div class="reset-bubble">
+      <div class="reset-bubble-icon">⚠️</div>
+      <div class="reset-bubble-title">Warning</div>
+      <div class="reset-bubble-message">
+        You are about to reset your account and will lose all progress.<br>
+        Do you wish to continue?
+      </div>
+      <div class="reset-bubble-buttons">
+        <button class="reset-bubble-btn reset-bubble-btn-cancel" onclick="closeResetConfirmation()">Cancel</button>
+        <button class="reset-bubble-btn reset-bubble-btn-confirm" onclick="confirmReset()">Reset</button>
+      </div>
+    </div>
+  `;
+  
+  overlay.classList.add('visible');
+}
+
+function closeResetConfirmation() {
+  const overlay = document.getElementById('reset-overlay');
+  if (overlay) {
+    overlay.classList.remove('visible');
+  }
+}
+
+function confirmReset() {
+  // Clear all saved data
+  localStorage.removeItem('terminalQuest');
+  
+  // Reload the page to start fresh
+  location.reload();
+}
+
 // ===========================
 // EVENT LISTENERS
 // ===========================
@@ -1437,21 +1891,49 @@ document.addEventListener('DOMContentLoaded', () => {
       terminalInput.value = '';
       
       if (command) {
-        writeToTerminal(`${gameState.filesystem.currentPath.replace('/home/user', '~')}$ ${command}`, 'terminal-command');
-        gameState.commandHistory.push(command);
+        // Check if command would match objective FIRST (before executing)
+        const wouldMatchObjective = willCommandMatchObjective(command);
         
-        const result = commandProcessor.process(command);
-        
-        if (result.clear) {
-          clearTerminal();
-        } else if (result.error) {
-          writeToTerminal(result.error, 'terminal-error');
-        } else if (result.output) {
-          writeToTerminal(result.output, 'terminal-text');
+        // Only execute command if it matches objective
+        if (wouldMatchObjective) {
+          // Write command in green and execute it
+          writeToTerminal(`${gameState.filesystem.currentPath.replace('/home/user', '~')}$ ${command}`, 'terminal-command');
+          gameState.commandHistory.push(command);
+          
+          const result = commandProcessor.process(command);
+          
+          // Mark objective as complete and check if mission complete
+          const objectiveResult = checkObjectives(command);
+          
+          // Color command green
+          const lastLine = document.getElementById('terminal-output').lastElementChild;
+          if (lastLine) {
+            lastLine.classList.add('command-correct');
+          }
+          
+          if (result.clear) {
+            clearTerminal();
+          } else if (result.error) {
+            writeToTerminal(result.error, 'terminal-error');
+          } else if (result.output) {
+            writeToTerminal(result.output, 'terminal-text');
+          }
+          
+          updatePrompt();
+          
+          // NOW trigger mission completion if all objectives done (AFTER output shown)
+          if (objectiveResult.allComplete) {
+            completeMission();
+          }
+        } else {
+          // Command doesn't match objective - show it in red and DON'T execute
+          writeToTerminal(`${gameState.filesystem.currentPath.replace('/home/user', '~')}$ ${command}`, 'terminal-command');
+          const lastLine = document.getElementById('terminal-output').lastElementChild;
+          if (lastLine) {
+            lastLine.classList.add('command-incorrect');
+          }
+          writeToTerminal('Command does not match current objective. Check the mission objectives.', 'terminal-error');
         }
-        
-        updatePrompt();
-        checkObjectives(command);
       }
     }
   });
@@ -1469,36 +1951,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // Hint button
-  document.getElementById('hint-btn').addEventListener('click', () => {
-    const mission = missions[gameState.currentMission];
-    if (!mission) return;
-    
-    const hintText = document.getElementById('hint-text');
-    
-    if (hintText.classList.contains('hidden')) {
-      const hint = mission.hints[gameState.hintsUsed] || mission.hints[mission.hints.length - 1];
-      hintText.textContent = hint;
-      hintText.classList.remove('hidden');
-      gameState.hintsUsed++;
-      
-      const remaining = Math.max(0, mission.hints.length - gameState.hintsUsed);
-      document.getElementById('hint-btn').textContent = `Show Next Hint (${remaining} remaining)`;
-    } else {
-      if (gameState.hintsUsed < mission.hints.length) {
-        const hint = mission.hints[gameState.hintsUsed];
-        hintText.textContent = hint;
-        gameState.hintsUsed++;
-        
-        const remaining = Math.max(0, mission.hints.length - gameState.hintsUsed);
-        document.getElementById('hint-btn').textContent = `Show Next Hint (${remaining} remaining)`;
-      }
-    }
-  });
+  // Reset Account button
+  const resetBtn = document.getElementById('reset-account-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      showResetConfirmation();
+    });
+  }
   
-  // Keep terminal input focused
-  document.addEventListener('click', () => {
-    terminalInput.focus();
+  // Keep terminal input focused (but not when clicking buttons)
+  document.addEventListener('click', (e) => {
+    // Don't refocus if clicking on buttons, links, or interactive elements
+    if (!e.target.closest('button') && !e.target.closest('a') && !e.target.closest('input')) {
+      terminalInput.focus();
+    }
   });
 });
 

@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terminal Quest - Master Linux Commands</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2.2.1">
 </head>
 <body>
+  <!-- Version 2.1 - Enhanced UI/UX -->
   <div id="app">
     <!-- Navigation -->
     <nav class="navbar">
       <div class="nav-brand">
-        <span class="terminal-icon">$_</span>
         <h1>Terminal Quest</h1>
       </div>
       <div class="nav-stats">
@@ -58,14 +58,6 @@
                   <span class="objective-text">Type 'ls' to list files</span>
                 </li>
               </ul>
-            </div>
-
-            <div class="mission-hints">
-              <h3>Hints:</h3>
-              <div class="hint-container">
-                <button class="hint-btn" id="hint-btn">Show Hint (3 available)</button>
-                <p class="hint-text hidden" id="hint-text">The 'ls' command stands for "list". It shows you what files and folders are in your current location.</p>
-              </div>
             </div>
 
             <div class="mission-reference">
@@ -186,6 +178,10 @@
               </div>
             </div>
           </div>
+
+          <div class="profile-actions">
+            <button class="reset-account-btn" id="reset-account-btn">Reset Account</button>
+          </div>
         </div>
       </div>
 
@@ -213,6 +209,6 @@
     </div>
   </div>
 
-  <script src="game.js"></script>
+  <script src="game.js?v=2.2.1"></script>
 </body>
 </html>
