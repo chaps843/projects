@@ -191,43 +191,44 @@ const missions = [
   {
     id: 4,
     title: 'Mission 4: Reading Files',
-    story: 'Important information is scattered across files in different directories. You need to read them without opening a text editor.',
+    story: 'Important information is scattered across files. You need to read them using different viewing techniques - sometimes you need the whole file, sometimes just the beginning or end.',
     objectives: [
       { 
-        text: 'Display the contents of message.txt', 
+        text: 'Display the full contents of message.txt', 
         completed: false, 
         command: 'cat message.txt',
-        details: 'The \'cat\' command displays file contents. Use \'cat message.txt\' to read the welcome message.'
+        details: 'The \'cat\' command displays entire file contents. Use \'cat message.txt\' to read the complete welcome message.'
       },
       { 
-        text: 'Read the test.txt file', 
+        text: 'Preview just the first 3 lines of users.txt', 
         completed: false, 
-        command: 'cat test.txt',
-        details: 'Practice using cat to read another file. This is how you quickly view file contents in the terminal.'
+        command: 'head -n 3 users.txt',
+        details: 'Use \'head -n 3 users.txt\' to see just the beginning. head is perfect when you only need a quick preview of a file.'
       },
       { 
-        text: 'View users.txt to see the team', 
+        text: 'Check the last 4 lines of data.txt for recent entries', 
         completed: false, 
-        command: 'cat users.txt',
-        details: 'This file contains user information. cat is perfect for viewing data files quickly.'
+        command: 'tail -n 4 data.txt',
+        details: 'Use \'tail -n 4 data.txt\' to see the end. tail is commonly used to check the most recent entries in log files.'
       },
       { 
-        text: 'Check what\'s in config.txt', 
+        text: 'Read the complete config.txt file', 
         completed: false, 
         command: 'cat config.txt',
-        details: 'Read the configuration file. The cat command is essential for checking settings without editing them.'
+        details: 'Use cat again to view the full configuration. Different situations call for different viewing commands.'
       },
       { 
-        text: 'Read data.txt', 
+        text: 'View the first 5 lines of test.txt', 
         completed: false, 
-        command: 'cat data.txt',
-        details: 'Display the data file contents. You\'re becoming a pro at reading files in the terminal!'
+        command: 'head -n 5 test.txt',
+        details: 'Practice with head again. You\'re learning when to use each command - full view with cat, preview with head, recent data with tail!'
       }
     ],
     hints: [
-      'The \'cat\' command displays file contents: \'cat filename.txt\'.',
-      'All files are in your home directory.',
-      'Just use cat followed by the filename.'
+      'cat shows the entire file: \'cat filename.txt\'.',
+      'head shows the beginning: \'head -n 3 filename.txt\'.',
+      'tail shows the end: \'tail -n 4 filename.txt\'.',
+      'All files are in your home directory.'
     ],
     reference: {
       'cat': 'Display file contents',
@@ -240,19 +241,25 @@ const missions = [
   {
     id: 5,
     title: 'Mission 5: File Operations',
-    story: 'Files are disorganized! Practice copying, moving, and removing files to clean up the workspace.',
+    story: 'Files are disorganized and there\'s unnecessary junk cluttering the workspace! Practice copying, moving, and removing files to clean everything up.',
     objectives: [
       { 
-        text: 'Return home and create a backup copy of config.txt', 
+        text: 'Return home and copy config.txt to config_backup.txt', 
         completed: false, 
         command: 'cd ~',
-        details: 'Navigate to home directory where the config file is located.'
+        details: 'Navigate to home directory where the files are located.'
       },
       { 
-        text: 'Copy config.txt to config_backup.txt', 
+        text: 'Create a backup copy of config.txt', 
         completed: false, 
         command: 'cp config.txt config_backup.txt',
         details: 'Use \'cp config.txt config_backup.txt\' to copy the file. cp stands for "copy" and creates a duplicate with a new name.'
+      },
+      { 
+        text: 'Delete the unnecessary junk.txt file', 
+        completed: false, 
+        command: 'rm junk.txt',
+        details: 'Use \'rm junk.txt\' to remove the file. rm stands for "remove" - be careful, there\'s no undo! Always double-check before deleting.'
       },
       { 
         text: 'Rename old.txt to archive.txt', 
@@ -261,23 +268,17 @@ const missions = [
         details: 'Use \'mv old.txt archive.txt\' to rename (move) the file. mv changes the filename while keeping the same content.'
       },
       { 
-        text: 'Create a backup directory for organization', 
+        text: 'Move config_backup.txt into the documents directory', 
         completed: false, 
-        command: 'mkdir backup',
-        details: 'Create a directory to organize backup files. Good practice to separate backups from active files.'
-      },
-      { 
-        text: 'Move config_backup.txt into the backup directory', 
-        completed: false, 
-        command: 'mv config_backup.txt backup/',
-        details: 'Move the backup file into the backup directory. mv can both rename and move files to different locations.'
+        command: 'mv config_backup.txt documents/',
+        details: 'Move the backup file into documents for organization. mv can both rename and move files to different locations.'
       }
     ],
     hints: [
       'Use \'cd ~\' to return home.',
       'Use \'cp source destination\' to copy files.',
-      'Use \'mv old new\' to rename files, or \'mv file directory/\' to move files.',
-      'Use \'mkdir backup\' to create the backup directory.'
+      'Use \'rm filename\' to delete files - be careful!',
+      'Use \'mv old new\' to rename, or \'mv file directory/\' to move.'
     ],
     reference: {
       'cp': 'Copy files (cp source dest)',
@@ -290,7 +291,7 @@ const missions = [
   {
     id: 6,
     title: 'Mission 6: Search and Discover',
-    story: 'The server logs are filling up with errors. Your manager needs you to find specific messages across different log files. Time to learn grep - the search master!',
+    story: 'The server logs are filling up with messages. Your manager needs you to find specific entries and analyze patterns. Time to master grep with different search techniques!',
     objectives: [
       { 
         text: 'Navigate to the logs directory from home', 
@@ -305,28 +306,29 @@ const missions = [
         details: 'Searches for the text "ERROR" in server.log file. grep is case-sensitive by default. Each matching line will be displayed.'
       },
       { 
-        text: 'Find all admin activity in access.log', 
+        text: 'Count how many times ERROR appears in server.log', 
         completed: false, 
-        command: 'grep admin access.log',
-        details: 'Finds all lines containing "admin" in access.log. Useful for auditing administrator access to systems.'
+        command: 'grep -c ERROR server.log',
+        details: 'Use \'grep -c ERROR server.log\' to count matches. The -c flag counts matching lines instead of displaying them. Great for quick statistics.'
       },
       { 
-        text: 'Look for Permission messages in error.log', 
+        text: 'Find "user" in access.log (case-insensitive)', 
         completed: false, 
-        command: 'grep Permission error.log',
-        details: 'Search for permission-related errors. grep can find any text pattern you need to investigate.'
+        command: 'grep -i user access.log',
+        details: 'Use \'grep -i user access.log\' for case-insensitive search. The -i flag matches "user", "User", "USER", etc. Essential for flexible searching.'
       },
       { 
-        text: 'Search for WARNING level messages in server.log', 
+        text: 'Show Permission errors with line numbers', 
         completed: false, 
-        command: 'grep WARNING server.log',
-        details: 'Find warning messages to assess system health. Different log levels help prioritize issues.'
+        command: 'grep -n Permission error.log',
+        details: 'Use \'grep -n Permission error.log\' to show line numbers. The -n flag helps you locate exactly where in the file each match occurs.'
       }
     ],
     hints: [
       'Use \'cd ~/logs\' to navigate to logs from anywhere.',
-      'grep searches for text patterns in files: \'grep PATTERN filename\'.',
-      'grep is case-sensitive, so "ERROR" and "error" are different.'
+      'grep -c counts matching lines: \'grep -c PATTERN file\'.',
+      'grep -i ignores case: \'grep -i pattern file\'.',
+      'grep -n shows line numbers: \'grep -n PATTERN file\'.'
     ],
     reference: {
       'grep': 'Search for patterns in files',
@@ -366,10 +368,10 @@ const missions = [
         details: 'Practice with head using a different number. The -n parameter is flexible - use any number you need.'
       },
       { 
-        text: 'Navigate to logs and view last 2 lines of server.log', 
+        text: 'View the last 3 lines of config.txt', 
         completed: false, 
-        command: 'cd logs',
-        details: 'Change to logs directory. head and tail work from any location in the filesystem.'
+        command: 'tail -n 3 config.txt',
+        details: 'Practice with tail again. You\'ve now mastered viewing files efficiently - use head for the top, tail for the bottom!'
       }
     ],
     hints: [
@@ -389,43 +391,44 @@ const missions = [
   {
     id: 8,
     title: 'Mission 8: Power Search',
-    story: 'Your team needs specific information from multiple configuration and data files. Master grep to filter and find exactly what you need!',
+    story: 'Your team needs specific information from files, including finding what\'s NOT there. Master advanced grep techniques including inverse matching!',
     objectives: [
       { 
-        text: 'Return home and find all developer users', 
+        text: 'Return home and search for developer entries', 
         completed: false, 
         command: 'cd ~',
-        details: 'Navigate to home directory where the users.txt file is located.'
+        details: 'Navigate to home directory where the files are located.'
       },
       { 
-        text: 'Search users.txt for developer entries', 
+        text: 'Find all lines with "developer" in users.txt', 
         completed: false, 
         command: 'grep developer users.txt',
         details: 'Searches users.txt for any line containing "developer". Perfect for filtering lists and finding specific entries.'
       },
       { 
-        text: 'Find the port configuration setting', 
+        text: 'Show all users who are NOT managers', 
         completed: false, 
-        command: 'grep port config.txt',
-        details: 'Finds configuration lines with "port" in them. This is how sysadmins quickly find specific settings.'
+        command: 'grep -v manager users.txt',
+        details: 'Use \'grep -v manager users.txt\' to invert the match. The -v flag shows lines that DON\'T contain the pattern. Powerful for exclusion filtering.'
       },
       { 
-        text: 'Search for manager role in users.txt', 
+        text: 'Find "admin" in users.txt (any case)', 
         completed: false, 
-        command: 'grep manager users.txt',
-        details: 'Identify management accounts. Each grep search is instant, making it faster than manually reading files.'
+        command: 'grep -i admin users.txt',
+        details: 'Use \'grep -i admin users.txt\' for case-insensitive search. Finds "admin", "Admin", "ADMIN", etc. Essential for flexible searching.'
       },
       { 
-        text: 'Find database host configuration', 
+        text: 'Find lines in config.txt that don\'t contain "port"', 
         completed: false, 
-        command: 'grep database config.txt',
-        details: 'Find database-related configuration. grep is invaluable for quickly locating settings in large config files.'
+        command: 'grep -v port config.txt',
+        details: 'Practice inverse matching with -v. This shows all configuration lines except those related to ports. Great for filtering out noise.'
       }
     ],
     hints: [
       'Use \'cd ~\' to return home.',
-      'grep searches for text patterns: \'grep PATTERN filename\'.',
-      'grep developer users.txt will find lines containing "developer".'
+      'grep searches for text: \'grep PATTERN filename\'.',
+      'grep -v shows lines NOT matching: \'grep -v PATTERN file\'.',
+      'grep -i ignores case: \'grep -i pattern file\'.'
     ],
     reference: {
       'grep': 'Search text in files',
@@ -438,7 +441,7 @@ const missions = [
   {
     id: 9,
     title: 'Mission 9: Finding Files',
-    story: 'Files are scattered across the entire filesystem! You need to locate specific files by name and pattern. The find command is your new best friend.',
+    story: 'Files and directories are scattered everywhere! You need to locate specific items by name, pattern, and type. Master find with different search techniques.',
     objectives: [
       { 
         text: 'Return home to search the entire tree', 
@@ -453,29 +456,30 @@ const missions = [
         details: 'Searches from current directory (.) downward for all files matching *.txt pattern. The * wildcard matches any text before .txt.'
       },
       { 
-        text: 'Search for all .log files anywhere in the tree', 
+        text: 'Find only directories (not files)', 
+        completed: false, 
+        command: 'find . -type d',
+        details: 'Use \'find . -type d\' to list only directories. The -type d flag filters for directories, ignoring regular files. Great for seeing folder structure.'
+      },
+      { 
+        text: 'Find only regular files (not directories)', 
+        completed: false, 
+        command: 'find . -type f',
+        details: 'Use \'find . -type f\' to list only regular files. The -type f flag filters for files, ignoring directories. Opposite of -type d.'
+      },
+      { 
+        text: 'Find all .log files specifically', 
         completed: false, 
         command: 'find . -name "*.log"',
-        details: 'Find log files throughout the directory structure. The wildcard pattern works with any file extension.'
-      },
-      { 
-        text: 'Locate exactly where report.txt is stored', 
-        completed: false, 
-        command: 'find . -name report.txt',
-        details: 'Locate a specific file by exact name. find searches recursively through all subdirectories automatically.'
-      },
-      { 
-        text: 'Search for all .html files in the projects area', 
-        completed: false, 
-        command: 'find . -name "*.html"',
-        details: 'Look for HTML files in the project structure. find is incredibly useful for locating files in complex directory trees.'
+        details: 'Back to pattern matching - find log files by extension. You can combine -name and -type for even more precise searches!'
       }
     ],
     hints: [
       'Use \'cd ~\' to start from home.',
-      'find searches for files: \'find . -name "PATTERN"\'.',
-      'The dot (.) means "current directory and below".',
-      'Use wildcards with quotes: "*.txt".'
+      'find . -name "PATTERN" searches by name.',
+      'find . -type d finds only directories.',
+      'find . -type f finds only files.',
+      'The dot (.) means "current directory and below".'
     ],
     reference: {
       'find': 'Search for files',
@@ -515,10 +519,10 @@ const missions = [
         details: 'Chain multiple commands together. The output of find becomes the input for head, giving you exactly what you need.'
       },
       { 
-        text: 'Count total lines in data.txt efficiently', 
+        text: 'Count total words in message.txt', 
         completed: false, 
-        command: 'cat data.txt | wc -l',
-        details: 'Use pipes to process file contents. cat reads the file, pipe sends it to wc which counts the lines.'
+        command: 'cat message.txt | wc -w',
+        details: 'Use wc -w to count words instead of lines. The -w flag counts words. Different wc flags give different statistics!'
       }
     ],
     hints: [
@@ -615,10 +619,10 @@ const missions = [
         details: 'Copy all matching files at once! The wildcard expands to all .txt files. This is batch operation power.'
       },
       { 
-        text: 'Navigate to archives and verify the copies', 
+        text: 'List all files to verify the copies', 
         completed: false, 
-        command: 'cd archives',
-        details: 'Move into the archives folder to verify your batch copy worked. Always check your work after batch operations.'
+        command: 'ls archives/',
+        details: 'List files in archives directory to verify your batch copy worked. Always check your work after batch operations!'
       }
     ],
     hints: [

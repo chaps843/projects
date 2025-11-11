@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.1 (Enhanced)
+## Current Status: v2.3.0 (Command Variety)
 
 ### Session History
 
@@ -60,7 +60,7 @@ Example for user:
 - Improved error messages with usage examples
 - Created comprehensive documentation
 
-#### Session 3: UI/UX Enhancement (v2.1)
+#### Session 3: UI/UX Enhancement (v2.1-2.2.1)
 - Removed $_ from title, cleaner branding
 - Removed standalone hints section from UI
 - Converted "Details" to "Hint" buttons per objective
@@ -70,6 +70,17 @@ Example for user:
 - Added 35 new objectives across missions
 - Increased playtime from ~2 hours to ~4 hours
 - Made learning more challenging and rewarding
+
+#### Session 4: Command Variety (v2.3.0)
+- Added command variety to 8 missions (4, 5, 6, 7, 8, 9, 10, 12)
+- Introduced 10+ command variations previously in reference but unused
+- Added rm (file deletion) - was completely missing
+- Added grep flags: -c (count), -i (case-insensitive), -n (line numbers), -v (inverse)
+- Added find types: -type f (files only), -type d (directories only)
+- Added wc -w (word count) in addition to wc -l
+- Fixed Mission 7 bug (incomplete objective)
+- 100% alignment between reference sections and taught commands
+- Enhanced learning variety - no more repetitive commands
 
 ### Project Stats
 
@@ -432,7 +443,7 @@ No attribution required, but appreciated!
 
 ---
 
-**Last Updated:** 2025-11-10
-**Version:** 2.1
-**Status:** Fully functional, production-ready, enhanced UI/UX
+**Last Updated:** 2025-11-11
+**Version:** 2.3.0
+**Status:** Fully functional, production-ready, command variety enhanced
 **Next Steps:** See ROADMAP.md
