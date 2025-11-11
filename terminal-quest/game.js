@@ -244,16 +244,16 @@ const missions = [
     story: 'Files are disorganized and there\'s unnecessary junk cluttering the workspace! Practice copying, moving, and removing files to clean everything up.',
     objectives: [
       { 
-        text: 'Return home and copy config.txt to config_backup.txt', 
-        completed: false, 
-        command: 'cd ~',
-        details: 'Navigate to home directory where the files are located.'
-      },
-      { 
         text: 'Create a backup copy of config.txt', 
         completed: false, 
         command: 'cp config.txt config_backup.txt',
         details: 'Use \'cp config.txt config_backup.txt\' to copy the file. cp stands for "copy" and creates a duplicate with a new name.'
+      },
+      { 
+        text: 'List files to verify the backup was created', 
+        completed: false, 
+        command: 'ls',
+        details: 'Use ls to see all files including your new config_backup.txt. Always good to verify your operations worked!'
       },
       { 
         text: 'Delete the unnecessary junk.txt file', 
