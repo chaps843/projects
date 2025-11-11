@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terminal Quest - Master Linux Commands</title>
-  <link rel="stylesheet" href="styles.css?v=2.4.1">
+  <link rel="stylesheet" href="styles.css?v=2.4.7">
 </head>
 <body>
-  <!-- Version 2.4.1 - Mission 5 Fix -->
+  <!-- Version 2.4.7 - Auto-scroll Objectives -->
   <div id="app">
     <!-- Navigation -->
     <nav class="navbar">
@@ -43,7 +43,11 @@
           <div class="mission-panel">
             <div class="mission-header">
               <h2 id="mission-title">Mission 1: First Day</h2>
-              <span class="mission-number" id="mission-number">1/20</span>
+              <div class="mission-navigation">
+                <span class="mission-nav-btn" id="prev-mission-btn" title="Previous Mission">&lt;</span>
+                <span class="mission-number" id="mission-number">1/19</span>
+                <span class="mission-nav-btn" id="next-mission-btn" title="Next Mission">&gt;</span>
+              </div>
             </div>
             
             <div class="mission-story">
@@ -209,6 +213,6 @@
     </div>
   </div>
 
-  <script src="game.js?v=2.4.1"></script>
+  <script src="game.js?v=2.4.7"></script>
 </body>
 </html>

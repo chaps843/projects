@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.4.0 (Review Missions)
+## Current Status: v2.4.7 (UX Polish & Navigation)
 
 ### Session History
 
@@ -94,6 +94,18 @@ Example for user:
 - Higher XP rewards for reviews (500-1500 XP)
 - Improved knowledge retention and skill validation
 
+#### Session 6: UX Polish & Navigation (v2.4.1-2.4.7)
+- **v2.4.1**: Fixed review mission starting directories - removed redundant "navigate home" objectives
+- **v2.4.1**: Clarified objective text to specify exact filenames (e.g., "Create config_backup.txt" instead of "Create a backup")
+- **v2.4.2**: Implemented scrollable objectives section with fixed command reference at bottom
+- **v2.4.3-2.4.4**: Added mission navigation arrows (< 2/19 >) to revisit completed missions
+- **v2.4.5**: Auto-scroll objectives to top when loading new missions
+- **v2.4.6**: Multi-column command reference layout (2 columns) for better space utilization
+- **v2.4.7**: Auto-scroll to next objective as you complete them
+- Total objectives reduced to 138 (cleaned up redundant navigation steps)
+- Dramatically improved UX for review missions with many objectives
+- Clean, intuitive navigation system
+
 ### Project Stats
 
 **Code:**
@@ -103,7 +115,7 @@ Example for user:
 - **Total:** 2,352 lines of code
 
 **Content:**
-- 19 missions (142 total objectives)
+- 19 missions (138 total objectives)
 - 17 working commands
 - 12 achievements
 - 8,100 total XP
@@ -456,6 +468,33 @@ No attribution required, but appreciated!
 ---
 
 **Last Updated:** 2025-11-11
-**Version:** 2.4.0
-**Status:** Fully functional, production-ready, comprehensive review system
+**Version:** 2.4.7
+**Status:** Fully functional, production-ready, polished UX with mission navigation
 **Next Steps:** See ROADMAP.md
+
+## Recent UX Improvements (v2.4.1-2.4.7)
+
+### Mission Navigation System
+- Clean navigation arrows appear only when usable: `< 5/19 >`
+- Go back to replay any completed mission
+- Cannot skip ahead to uncompleted missions
+- Smooth transitions with terminal feedback
+
+### Scrollable Objectives
+- Objectives section scrolls independently
+- Command Reference always visible at bottom (no scrolling needed)
+- Auto-scrolls to top when loading new missions
+- Auto-scrolls to next objective as you complete them
+- Perfect for review missions with 10-15+ objectives
+
+### Multi-Column Command Reference
+- 2-column layout for space efficiency
+- Review missions with 11 commands now take ~7 lines instead of 12
+- More room for objectives to be visible
+- Responsive: single column on smaller screens
+
+### Clear Objective Text
+- All objectives specify exact filenames when needed
+- Example: "Create config_backup.txt" not "Create a backup"
+- Reduces confusion and unnecessary hint usage
+- Users know exactly what's expected

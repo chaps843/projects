@@ -244,7 +244,7 @@ const missions = [
     story: 'Files are disorganized and there\'s unnecessary junk cluttering the workspace! Practice copying, moving, and removing files to clean everything up.',
     objectives: [
       { 
-        text: 'Create a backup copy of config.txt', 
+        text: 'Create a backup copy of config.txt called config_backup.txt', 
         completed: false, 
         command: 'cp config.txt config_backup.txt',
         details: 'Use \'cp config.txt config_backup.txt\' to copy the file. cp stands for "copy" and creates a duplicate with a new name.'
@@ -292,8 +292,8 @@ const missions = [
     id: 6,
     title: 'Review 1: Foundations Checkpoint',
     story: 'Time to prove your skills! Your manager wants to verify you\'ve mastered the basics. Complete these tasks without hints to show you\'re ready for advanced training.',
+    startDir: '/home/user/documents',
     objectives: [
-      { text: 'Navigate to the documents directory', completed: false, command: 'cd documents', details: 'Use cd to change into the documents directory. Basic navigation from Mission 1.' },
       { text: 'List all files in the current directory', completed: false, command: 'ls', details: 'Show what files exist here. Core command for seeing directory contents.' },
       { text: 'View the complete contents of notes.txt', completed: false, command: 'cat notes.txt', details: 'Use cat to display the entire file. Mission 4 taught viewing commands.' },
       { text: 'Check just the first 2 lines of report.txt', completed: false, command: 'head -n 2 report.txt', details: 'Use head to preview the beginning. Shows only what you need.' },
@@ -565,8 +565,8 @@ const missions = [
     id: 12,
     title: 'Review 2: Search & Analysis Checkpoint',
     story: 'You\'ve learned powerful search and analysis tools. Time to demonstrate your grep, find, and piping skills on real-world tasks!',
+    startDir: '/home/user/logs',
     objectives: [
-      { text: 'Navigate to the logs directory', completed: false, command: 'cd ~/logs', details: 'Use absolute path with tilde from Missions 7-8.' },
       { text: 'Search for ERROR in server.log', completed: false, command: 'grep ERROR server.log', details: 'Basic grep search from Mission 7.' },
       { text: 'Count how many ERROR entries exist', completed: false, command: 'grep -c ERROR server.log', details: 'Use grep -c to count matches from Mission 7.' },
       { text: 'Find all lines with "user" (case-insensitive)', completed: false, command: 'grep -i user access.log', details: 'Use grep -i for case-insensitive search from Mission 7.' },
@@ -610,7 +610,7 @@ const missions = [
         details: 'Displays the file you just created. Confirms the redirect worked and shows what pwd captured.'
       },
       { 
-        text: 'Create a new file and append "System Online" to it', 
+        text: 'Create status.txt and append "System Online" to it', 
         completed: false, 
         command: 'echo "System Online" >> status.txt',
         details: 'Appends text to status.txt (creates if doesn\'t exist). The >> operator adds to end without erasing existing content.'
@@ -845,8 +845,8 @@ const missions = [
     id: 18,
     title: 'Review 3: Advanced Operations Checkpoint',
     story: 'The final skill check before graduation! Show mastery of wildcards, complex navigation, and multi-command operations.',
+    startDir: '/home/user',
     objectives: [
-      { text: 'Return home and list only .txt files with wildcard', completed: false, command: 'cd ~', details: 'Navigate home to start the advanced challenges.' },
       { text: 'Show only .txt files using a pattern', completed: false, command: 'ls *.txt', details: 'Use wildcard to filter file listing from Mission 13.' },
       { text: 'Create a temp directory', completed: false, command: 'mkdir temp', details: 'Create directory for organizing work from Mission 13.' },
       { text: 'Copy all .txt files to temp', completed: false, command: 'cp *.txt temp/', details: 'Batch copy with wildcards from Mission 13.' },
@@ -870,8 +870,8 @@ const missions = [
     id: 19,
     title: 'Final Review: Complete Mastery Assessment',
     story: 'Congratulations on reaching the final challenge! Complete this comprehensive real-world scenario to prove you\'ve mastered everything. Your company needs a full system audit and incident response - use every skill you\'ve learned!',
+    startDir: '/home/user',
     objectives: [
-      { text: 'Start from home directory', completed: false, command: 'cd ~', details: 'Begin from a known location - professional practice.' },
       { text: 'Check and verify your starting location', completed: false, command: 'pwd', details: 'Always verify location before major operations.' },
       { text: 'List all files to see what you\'re working with', completed: false, command: 'ls', details: 'Survey the landscape before starting work.' },
       { text: 'Create a master_audit directory', completed: false, command: 'mkdir master_audit', details: 'Organization is critical for complex tasks.' },
@@ -1720,9 +1720,8 @@ function loadMission(missionIndex) {
   gameState.hintsUsed = 0;
   gameState.hintUsedThisMission = false;
   
-  // Auto-navigate to home directory for missions that need it
-  // (Most missions expect you to start from home)
-  gameState.filesystem.currentPath = '/home/user';
+  // Auto-navigate to mission's starting directory (defaults to home)
+  gameState.filesystem.currentPath = mission.startDir || '/home/user';
   
   // Reset all objectives to uncompleted for this mission
   mission.objectives.forEach(obj => {
@@ -1735,6 +1734,12 @@ function loadMission(missionIndex) {
   
   const objectiveList = document.getElementById('objective-list');
   objectiveList.innerHTML = '';
+  
+  // Reset scroll position of objectives section to top
+  const objectiveSection = document.querySelector('.mission-objective');
+  if (objectiveSection) {
+    objectiveSection.scrollTop = 0;
+  }
   
   // Create hint overlay (shared for all objectives)
   let hintOverlay = document.getElementById('hint-overlay');
@@ -1794,7 +1799,7 @@ function loadMission(missionIndex) {
   const referenceBox = document.querySelector('.reference-box');
   referenceBox.innerHTML = '';
   for (const [cmd, desc] of Object.entries(mission.reference)) {
-    referenceBox.innerHTML += `<code>${cmd}</code> - ${desc}<br>`;
+    referenceBox.innerHTML += `<div class="reference-item"><code>${cmd}</code> - ${desc}</div>`;
   }
   
   writeToTerminal('', '');
@@ -1802,7 +1807,32 @@ function loadMission(missionIndex) {
   writeToTerminal(mission.story, 'terminal-info');
   writeToTerminal('', '');
   
+  updateNavigationButtons();
   saveGame();
+}
+
+function updateNavigationButtons() {
+  const prevBtn = document.getElementById('prev-mission-btn');
+  const nextBtn = document.getElementById('next-mission-btn');
+  
+  if (!prevBtn || !nextBtn) return;
+  
+  const currentMission = gameState.currentMission;
+  const maxUnlockedMission = gameState.player.missionsCompleted;
+  
+  // Previous button: show only if not on first mission
+  if (currentMission > 0) {
+    prevBtn.classList.add('visible');
+  } else {
+    prevBtn.classList.remove('visible');
+  }
+  
+  // Next button: show only if there's a next mission unlocked
+  if (currentMission < maxUnlockedMission) {
+    nextBtn.classList.add('visible');
+  } else {
+    nextBtn.classList.remove('visible');
+  }
 }
 
 function willCommandMatchObjective(command) {
@@ -1867,6 +1897,9 @@ function checkObjectives(command) {
     
     addXP(25);
     
+    // Auto-scroll to next objective
+    scrollToNextObjective(nextObjectiveIndex + 1);
+    
     // Check if this was the last objective (but don't complete mission yet)
     const allComplete = mission.objectives.every(obj => obj.completed);
     
@@ -1874,6 +1907,35 @@ function checkObjectives(command) {
   }
   
   return { matched: false, allComplete: false };
+}
+
+function scrollToNextObjective(nextIndex) {
+  const mission = missions[gameState.currentMission];
+  if (!mission || nextIndex >= mission.objectives.length) return;
+  
+  // Get the next objective element and the scrollable container
+  const nextObjElement = document.querySelector(`[data-objective="${nextIndex}"]`);
+  const objectiveSection = document.querySelector('.mission-objective');
+  
+  if (nextObjElement && objectiveSection) {
+    // Calculate position of the next objective relative to the container
+    const containerRect = objectiveSection.getBoundingClientRect();
+    const elementRect = nextObjElement.getBoundingClientRect();
+    
+    // Check if element is below visible area or above visible area
+    const elementTop = elementRect.top - containerRect.top + objectiveSection.scrollTop;
+    const elementBottom = elementTop + elementRect.height;
+    const visibleTop = objectiveSection.scrollTop;
+    const visibleBottom = visibleTop + objectiveSection.clientHeight;
+    
+    // If next objective is not fully visible, scroll to it
+    if (elementBottom > visibleBottom || elementTop < visibleTop) {
+      objectiveSection.scrollTo({
+        top: elementTop - 20, // 20px padding from top
+        behavior: 'smooth'
+      });
+    }
+  }
 }
 
 function completeMission() {
@@ -2061,6 +2123,33 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById(`${page}-page`).classList.add('active');
     });
   });
+  
+  // Mission Navigation arrows
+  const prevMissionBtn = document.getElementById('prev-mission-btn');
+  const nextMissionBtn = document.getElementById('next-mission-btn');
+  
+  if (prevMissionBtn) {
+    prevMissionBtn.addEventListener('click', () => {
+      if (prevMissionBtn.classList.contains('visible') && gameState.currentMission > 0) {
+        writeToTerminal('', '');
+        writeToTerminal('⏪ Going back to previous mission...', 'terminal-info');
+        writeToTerminal('', '');
+        loadMission(gameState.currentMission - 1);
+      }
+    });
+  }
+  
+  if (nextMissionBtn) {
+    nextMissionBtn.addEventListener('click', () => {
+      const maxUnlockedMission = gameState.player.missionsCompleted;
+      if (nextMissionBtn.classList.contains('visible') && gameState.currentMission < maxUnlockedMission) {
+        writeToTerminal('', '');
+        writeToTerminal('⏩ Advancing to next mission...', 'terminal-info');
+        writeToTerminal('', '');
+        loadMission(gameState.currentMission + 1);
+      }
+    });
+  };
   
   // Reset Account button
   const resetBtn = document.getElementById('reset-account-btn');
