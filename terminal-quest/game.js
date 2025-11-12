@@ -391,7 +391,7 @@ const missions = [
         details: 'Use \'wc users.txt\' without flags to see everything: lines, words, and characters all at once. Complete file statistics!'
       },
       { 
-        text: 'Count how many user accounts exist in users.txt', 
+        text: 'Count how many lines are in users.txt (each line = one user)', 
         completed: false, 
         command: 'wc -l users.txt',
         details: 'Each line is one user account. Counting lines tells you how many users exist. Real-world use: auditing accounts!'
