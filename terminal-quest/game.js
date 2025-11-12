@@ -363,51 +363,51 @@ const missions = [
   },
   {
     id: 8,
-    title: 'Mission 8: File Viewing',
-    story: 'Large files are hard to read completely. Learn efficient techniques to peek at the beginning and end of files without opening them.',
+    title: 'Mission 8: Counting & Analysis',
+    story: 'Sometimes you need statistics about files, not just their contents. Learn to count lines, words, and characters - essential for analyzing log files and documents!',
     objectives: [
       { 
-        text: 'Return to home directory', 
+        text: 'Count the total lines in data.txt', 
         completed: false, 
-        command: 'cd ~',
-        details: 'The tilde (~) is a shortcut for your home directory. This is a quick way to jump back home from anywhere.'
+        command: 'wc -l data.txt',
+        details: 'Use \'wc -l data.txt\' to count lines. The -l flag counts lines. wc stands for "word count" but does much more!'
       },
       { 
-        text: 'Preview the first 5 lines of data.txt', 
+        text: 'Count the words in message.txt', 
         completed: false, 
-        command: 'head -n 5 data.txt',
-        details: 'Shows the first 5 lines of data.txt. The -n flag specifies how many lines. head is perfect for previewing large files.'
+        command: 'wc -w message.txt',
+        details: 'Use \'wc -w message.txt\' to count words. The -w flag counts words separated by spaces. Useful for analyzing text length.'
       },
       { 
-        text: 'Check the last 5 lines of data.txt', 
+        text: 'Count the characters in config.txt', 
         completed: false, 
-        command: 'tail -n 5 data.txt',
-        details: 'Displays the last 5 lines of data.txt. tail is commonly used to check the end of log files for recent activity.'
+        command: 'wc -c config.txt',
+        details: 'Use \'wc -c config.txt\' to count characters (bytes). The -c flag gives you file size in bytes. Great for checking file sizes.'
       },
       { 
-        text: 'View the first 3 lines of users.txt', 
+        text: 'Get full statistics for users.txt', 
         completed: false, 
-        command: 'head -n 3 users.txt',
-        details: 'Practice with head using a different number. The -n parameter is flexible - use any number you need.'
+        command: 'wc users.txt',
+        details: 'Use \'wc users.txt\' without flags to see everything: lines, words, and characters all at once. Complete file statistics!'
       },
       { 
-        text: 'View the last 3 lines of config.txt', 
+        text: 'Count how many user accounts exist in users.txt', 
         completed: false, 
-        command: 'tail -n 3 config.txt',
-        details: 'Practice with tail again. You\'ve now mastered viewing files efficiently - use head for the top, tail for the bottom!'
+        command: 'wc -l users.txt',
+        details: 'Each line is one user account. Counting lines tells you how many users exist. Real-world use: auditing accounts!'
       }
     ],
     hints: [
-      'Use \'cd ~\' to return home.',
-      'head shows the top of a file: \'head -n 5 filename\'.',
-      'tail shows the bottom: \'tail -n 5 filename\'.',
-      'Navigate to logs with \'cd logs\'.'
+      'wc -l counts lines: \'wc -l filename\'.',
+      'wc -w counts words: \'wc -w filename\'.',
+      'wc -c counts characters: \'wc -c filename\'.',
+      'wc without flags shows all statistics.'
     ],
     reference: {
-      'head': 'View start of file',
-      'head -n': 'Specify number of lines',
-      'tail': 'View end of file',
-      'tail -n': 'Specify number of lines'
+      'wc': 'Word count - show all stats',
+      'wc -l': 'Count lines',
+      'wc -w': 'Count words',
+      'wc -c': 'Count characters (bytes)'
     },
     xpReward: 250
   },
@@ -1478,27 +1478,46 @@ class CommandProcessor {
 
   wc(args) {
     if (args.length === 0) {
-      return { error: 'wc: missing file\nUsage: wc -l FILE\nExample: wc -l data.txt' };
+      return { error: 'wc: missing file\nUsage: wc [OPTIONS] FILE\nExample: wc -l data.txt' };
     }
 
-    const countLines = args[0] === '-l';
-    const filename = countLines ? args[1] : args[0];
+    // Check for flags
+    let countLines = false;
+    let countWords = false;
+    let countChars = false;
+    let filename = args[0];
     
-    if (countLines && !filename) {
-      return { error: 'wc: missing file after -l' };
+    if (args[0] === '-l' || args[0] === '-w' || args[0] === '-c') {
+      if (args[0] === '-l') countLines = true;
+      else if (args[0] === '-w') countWords = true;
+      else if (args[0] === '-c') countChars = true;
+      
+      filename = args[1];
+      
+      if (!filename) {
+        return { error: `wc: missing file after ${args[0]}` };
+      }
     }
 
     const result = this.fs.readFile(filename);
     if (result.error) return { error: result.error };
     
+    const lines = result.content.split('\n').length;
+    const words = result.content.split(/\s+/).filter(w => w.length > 0).length;
+    const chars = result.content.length;
+    
+    // Return specific count if flag specified
     if (countLines) {
-      const lines = result.content.split('\n').length;
-      return { output: lines.toString() };
+      return { output: `${lines} ${filename}` };
+    }
+    if (countWords) {
+      return { output: `${words} ${filename}` };
+    }
+    if (countChars) {
+      return { output: `${chars} ${filename}` };
     }
     
-    const lines = result.content.split('\n').length;
-    const words = result.content.split(/\s+/).length;
-    const chars = result.content.length;
+    // Default: show all statistics
     return { output: `${lines} ${words} ${chars} ${filename}` };
   }
 
