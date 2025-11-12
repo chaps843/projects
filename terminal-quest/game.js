@@ -340,7 +340,7 @@ const missions = [
         details: 'Use \'grep -i user access.log\' for case-insensitive search. The -i flag matches "user", "User", "USER", etc. Essential for flexible searching.'
       },
       { 
-        text: 'Show Permission errors with line numbers', 
+        text: 'Show Permission errors with line numbers in error.log', 
         completed: false, 
         command: 'grep -n Permission error.log',
         details: 'Use \'grep -n Permission error.log\' to show line numbers. The -n flag helps you locate exactly where in the file each match occurs.'
