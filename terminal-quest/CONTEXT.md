@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.4.7 (UX Polish & Navigation)
+## Current Status: v2.4.8 (UX Polish & Navigation)
 
 ### Session History
 
@@ -94,7 +94,7 @@ Example for user:
 - Higher XP rewards for reviews (500-1500 XP)
 - Improved knowledge retention and skill validation
 
-#### Session 6: UX Polish & Navigation (v2.4.1-2.4.7)
+#### Session 6: UX Polish & Navigation (v2.4.1-2.4.8)
 - **v2.4.1**: Fixed review mission starting directories - removed redundant "navigate home" objectives
 - **v2.4.1**: Clarified objective text to specify exact filenames (e.g., "Create config_backup.txt" instead of "Create a backup")
 - **v2.4.2**: Implemented scrollable objectives section with fixed command reference at bottom
@@ -102,6 +102,7 @@ Example for user:
 - **v2.4.5**: Auto-scroll objectives to top when loading new missions
 - **v2.4.6**: Multi-column command reference layout (2 columns) for better space utilization
 - **v2.4.7**: Auto-scroll to next objective as you complete them
+- **v2.4.8**: Added tilde (~) shortcut to command references (Review 1 & Mission 7)
 - Total objectives reduced to 138 (cleaned up redundant navigation steps)
 - Dramatically improved UX for review missions with many objectives
 - Clean, intuitive navigation system
@@ -468,11 +469,11 @@ No attribution required, but appreciated!
 ---
 
 **Last Updated:** 2025-11-11
-**Version:** 2.4.7
+**Version:** 2.4.8
 **Status:** Fully functional, production-ready, polished UX with mission navigation
 **Next Steps:** See ROADMAP.md
 
-## Recent UX Improvements (v2.4.1-2.4.7)
+## Recent UX Improvements (v2.4.1-2.4.8)
 
 ### Mission Navigation System
 - Clean navigation arrows appear only when usable: `< 5/19 >`
