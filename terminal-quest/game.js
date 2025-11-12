@@ -1017,6 +1017,13 @@ class VirtualFileSystem {
   }
 
   changeDirectory(path) {
+    // Expand tilde (~) to /home/user
+    if (path.startsWith('~/')) {
+      path = '/home/user/' + path.substring(2);
+    } else if (path === '~') {
+      path = '/home/user';
+    }
+    
     if (path === '..') {
       const parts = this.currentPath.split('/').filter(p => p);
       if (parts.length > 2) {
@@ -1028,9 +1035,19 @@ class VirtualFileSystem {
       return { success: true };
     }
 
-    if (path === '~' || path === '/home/user') {
+    if (path === '/home/user') {
       this.currentPath = '/home/user';
       return { success: true };
+    }
+
+    // Handle absolute paths starting with /
+    if (path.startsWith('/home/user/')) {
+      const newNode = this.getNode(path);
+      if (newNode && newNode.type === 'directory') {
+        this.currentPath = path;
+        return { success: true };
+      }
+      return { error: `cd: ${path}: No such file or directory` };
     }
 
     // Handle multi-level paths like "projects/website"
