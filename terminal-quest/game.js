@@ -353,8 +353,8 @@ const missions = [
       'grep -n shows line numbers: \'grep -n PATTERN file\'.'
     ],
     reference: {
-      '~': 'Tilde - shortcut for home directory',
-      'cd ~/logs': 'Navigate to logs using home shortcut',
+      '~': 'Shortcut for home directory',
+      'cd ~/': 'Navigate directly to directory',
       'grep': 'Search for patterns in files',
       'grep -i': 'Case-insensitive search',
       'grep -n': 'Show line numbers',
