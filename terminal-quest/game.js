@@ -306,8 +306,8 @@ const missions = [
       { text: 'Delete the original review1.txt file', completed: false, command: 'rm review1.txt', details: 'Use rm carefully to remove files from Mission 5.' },
       { text: 'View the last 3 lines of data.txt', completed: false, command: 'tail -n 3 data.txt', details: 'Use tail to check the end from Mission 4.' }
     ],
-    hints: ['Review commands from Missions 1-5', 'Navigation: cd, pwd, ls', 'Viewing: cat, head, tail', 'Operations: touch, mkdir, cp, mv, rm'],
-    reference: {'cd': 'Change directory', 'ls': 'List files', 'pwd': 'Print working directory', 'cat': 'Display file', 'head': 'View beginning', 'tail': 'View end', 'touch': 'Create file', 'mkdir': 'Create directory', 'cp': 'Copy', 'mv': 'Move/rename', 'rm': 'Remove'},
+    hints: ['Review commands from Missions 1-5', 'Navigation: cd, pwd, ls', 'Viewing: cat, head, tail', 'Operations: touch, mkdir, cp, mv, rm', 'Use ~ as shortcut for home'],
+    reference: {'cd': 'Change directory', 'cd ~': 'Go home (~ = home directory)', 'ls': 'List files', 'pwd': 'Print working directory', 'cat': 'Display file', 'head': 'View beginning', 'tail': 'View end', 'touch': 'Create file', 'mkdir': 'Create directory', 'cp': 'Copy', 'mv': 'Move/rename', 'rm': 'Remove'},
     xpReward: 500
   },
   {
@@ -353,6 +353,8 @@ const missions = [
       'grep -n shows line numbers: \'grep -n PATTERN file\'.'
     ],
     reference: {
+      '~': 'Tilde - shortcut for home directory',
+      'cd ~/logs': 'Navigate to logs using home shortcut',
       'grep': 'Search for patterns in files',
       'grep -i': 'Case-insensitive search',
       'grep -n': 'Show line numbers',
