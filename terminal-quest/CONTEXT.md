@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.5.1 (Mission Redesign & Polish)
+## Current Status: v2.5.2 (Mission Redesign & Polish)
 
 ### Session History
 
@@ -106,6 +106,7 @@ Example for user:
 - **v2.4.9**: Fixed tilde path expansion bug - `cd ~/logs` now works correctly
 - **v2.5.0**: Implemented grep flags (-c, -i, -n, -v) - all grep commands now functional
 - **v2.5.1**: Redesigned Mission 8 - replaced redundant head/tail with wc (word count) command
+- **v2.5.2**: Added "Restart Mission" button below mission panel for quick mission retry
 - Total objectives reduced to 138 (cleaned up redundant navigation steps)
 - Mission audit completed - eliminated redundancy while teaching new concepts
 - Dramatically improved UX for review missions with many objectives
@@ -473,11 +474,11 @@ No attribution required, but appreciated!
 ---
 
 **Last Updated:** 2025-11-11
-**Version:** 2.5.1
+**Version:** 2.5.2
 **Status:** Fully functional, production-ready, polished UX with no redundant missions
 **Next Steps:** See ROADMAP.md
 
-## Recent UX Improvements (v2.4.1-2.5.1)
+## Recent UX Improvements (v2.4.1-2.5.2)
 
 ### Mission Navigation System
 - Clean navigation arrows appear only when usable: `< 5/19 >`
