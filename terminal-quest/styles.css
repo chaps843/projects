@@ -565,6 +565,39 @@ body {
   }
 }
 
+/* Mission Actions */
+.mission-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bg-tertiary);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.restart-mission-btn {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.restart-mission-btn:hover {
+  background: var(--accent-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+}
+
+.restart-mission-btn:active {
+  transform: translateY(0);
+}
+
 /* Terminal Panel */
 .terminal-panel {
   background: var(--terminal-bg);

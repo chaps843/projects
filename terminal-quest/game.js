@@ -2249,6 +2249,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
+  // Restart Mission button
+  const restartMissionBtn = document.getElementById('restart-mission-btn');
+  if (restartMissionBtn) {
+    restartMissionBtn.addEventListener('click', () => {
+      const currentMissionIndex = gameState.currentMission;
+      writeToTerminal('', '');
+      writeToTerminal('🔄 Restarting mission...', 'terminal-info');
+      writeToTerminal('', '');
+      loadMission(currentMissionIndex);
+    });
+  }
+  
   // Keep terminal input focused (but not when clicking buttons)
   document.addEventListener('click', (e) => {
     // Don't refocus if clicking on buttons, links, or interactive elements
