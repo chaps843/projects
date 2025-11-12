@@ -1333,17 +1333,70 @@ class CommandProcessor {
 
   grep(args) {
     if (args.length < 2) {
-      return { error: 'grep: missing pattern or file\nUsage: grep PATTERN FILE\nExample: grep ERROR server.log' };
+      return { error: 'grep: missing pattern or file\nUsage: grep [OPTIONS] PATTERN FILE\nExample: grep ERROR server.log' };
     }
 
-    const pattern = args[0];
-    const filename = args[1];
+    // Parse flags
+    let flags = {
+      count: false,      // -c
+      caseInsensitive: false,  // -i
+      lineNumbers: false,      // -n
+      invert: false            // -v
+    };
+    
+    let argIndex = 0;
+    
+    // Check for flags
+    while (argIndex < args.length && args[argIndex].startsWith('-')) {
+      const flag = args[argIndex];
+      if (flag === '-c') flags.count = true;
+      else if (flag === '-i') flags.caseInsensitive = true;
+      else if (flag === '-n') flags.lineNumbers = true;
+      else if (flag === '-v') flags.invert = true;
+      argIndex++;
+    }
+    
+    // Get pattern and filename
+    if (argIndex >= args.length - 1) {
+      return { error: 'grep: missing pattern or file\nUsage: grep [OPTIONS] PATTERN FILE\nExample: grep -i ERROR server.log' };
+    }
+    
+    const pattern = args[argIndex];
+    const filename = args[argIndex + 1];
     
     const result = this.fs.readFile(filename);
     if (result.error) return { error: result.error };
     
     const lines = result.content.split('\n');
-    const matches = lines.filter(line => line.includes(pattern));
+    
+    // Filter lines based on pattern
+    let matches = [];
+    lines.forEach((line, index) => {
+      let isMatch;
+      if (flags.caseInsensitive) {
+        isMatch = line.toLowerCase().includes(pattern.toLowerCase());
+      } else {
+        isMatch = line.includes(pattern);
+      }
+      
+      // Invert match if -v flag
+      if (flags.invert) {
+        isMatch = !isMatch;
+      }
+      
+      if (isMatch) {
+        if (flags.lineNumbers) {
+          matches.push(`${index + 1}:${line}`);
+        } else {
+          matches.push(line);
+        }
+      }
+    });
+    
+    // Return count if -c flag
+    if (flags.count) {
+      return { output: matches.length.toString() };
+    }
     
     if (matches.length === 0) {
       return { output: '' };
