@@ -577,28 +577,28 @@ body {
 
 .mission-reference {
   background: var(--terminal-bg);
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 8px;
   border: 1px solid var(--accent-primary);
   flex-shrink: 1;
-  max-height: 200px;
-  min-height: 120px;
+  max-height: 250px;
+  min-height: 140px;
   overflow-y: auto;
 }
 
 .mission-reference h3 {
   color: var(--accent-primary);
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
 }
 
 .reference-box {
   font-family: 'Courier New', monospace;
   color: var(--terminal-text);
-  line-height: 1.4;
+  line-height: 1.5;
   column-count: 2;
   column-gap: 1.5rem;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .reference-item {

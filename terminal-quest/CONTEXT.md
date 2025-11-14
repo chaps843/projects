@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.10.2 (Compact Command Reference Layout)
+## Current Status: v2.10.3 (Balanced Command Reference Layout)
 
 ### Session History
 
@@ -325,6 +325,18 @@ Example for user:
 - Final Review: 8 items → 7 items (grouped related commands)
 - Now shows at least 3 objectives visible in all Review missions
 - Better use of vertical space while keeping reference accessible
+- **v2.10.3**: Balanced command reference layout (slight size increase)
+- User feedback: "a little too compact, make it a little bigger"
+- Adjusted sizing for better readability:
+  - Max height: 200px → 250px
+  - Min height: 120px → 140px
+  - Padding: 1rem → 1.2rem
+  - Font size: 0.85rem → 0.9rem
+  - Line height: 1.4 → 1.5
+  - Header font: 1rem → 1.1rem
+  - Header margin: 0.5rem → 0.75rem
+- Still shows 3+ objectives while being more readable
+- Sweet spot between compact and comfortable
 
 ### Project Stats
 
