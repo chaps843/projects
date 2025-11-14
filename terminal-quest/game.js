@@ -334,7 +334,7 @@ const missions = [
       { text: 'View the last 3 lines of data.txt (in home)', completed: false, command: 'tail -n 3 data.txt', baseXP: 25, details: 'Use tail to check the end from Mission 4.' }
     ],
     hints: ['Review commands from Missions 1-5', 'Navigation: cd, pwd, ls', 'Viewing: cat, head, tail', 'Operations: touch, mkdir, cp, mv, rm', 'Use ~ as shortcut for home'],
-    reference: {'cd': 'Change directory', 'cd ~': 'Go home (~ = home directory)', 'ls': 'List files', 'pwd': 'Print working directory', 'cat': 'Display file', 'head': 'View beginning', 'tail': 'View end', 'touch': 'Create file', 'mkdir': 'Create directory', 'cp': 'Copy', 'mv': 'Move/rename', 'rm': 'Remove'},
+    reference: {'ls': 'List files', 'cd': 'Change directory', 'pwd': 'Current location', 'cat': 'Display file', 'head -n X': 'First X lines', 'tail -n X': 'Last X lines', 'touch': 'Create file', 'mkdir': 'Make directory', 'cp': 'Copy file', 'mv': 'Move file', 'rm': 'Remove file'},
     xpReward: 500
   },
   {
@@ -622,7 +622,7 @@ const missions = [
       { text: 'Append your current directory path to error_summary.txt', completed: false, command: 'pwd >> error_summary.txt', baseXP: 40, details: 'Practice redirection! pwd shows your location, >> appends it to the file (> would overwrite, >> adds to the end). You\'re learning ahead - Mission 13 covers this in detail!' }
     ],
     hints: ['Review Missions 7-11', 'grep: search with -i, -c, -n, -v flags', 'find: search by -name or -type', 'Pipes: command1 | command2', 'Redirect: > (overwrite), >> (append)'],
-    reference: {'grep': 'Search patterns', 'grep -i': 'Case-insensitive', 'grep -c': 'Count', 'grep -n': 'Line numbers', 'grep -v': 'Inverse', 'find': 'Find files', 'find -type': 'Filter by type', '|': 'Pipe', 'wc -l': 'Count lines', 'wc -w': 'Count words', '>': 'Redirect', '>>': 'Append'},
+    reference: {'grep PATTERN FILE': 'Search text', 'grep -i': 'Ignore case', 'grep -c': 'Count matches', 'grep -v': 'Invert match', 'find . -name': 'Find by name', 'find . -type d': 'Find dirs', '|': 'Pipe output', 'wc -l': 'Count lines', '>': 'Save output', '>>': 'Append output'},
     xpReward: 600
   },
   {
@@ -948,7 +948,7 @@ const missions = [
       { text: 'Create final audit summary', completed: false, command: 'echo "Audit Complete" > master_audit/summary.txt', baseXP: 45, details: 'Mark the audit as completed - you did it!' }
     ],
     hints: ['This tests EVERYTHING from Missions 1-17', 'Navigation: cd, pwd, ls, cd ~, cd ../.., absolute paths', 'Viewing: cat, head, tail, less', 'Searching: grep with -i, -c, -n, -v, wildcards', 'Finding: find with -name, -type', 'Operations: touch, mkdir, cp, mv, rm, wildcards', 'Analysis: pipes, wc, redirection', 'Take it step by step - you know all these commands!'],
-    reference: {'All commands': 'Everything you\'ve learned', 'cd/ls/pwd': 'Navigation', 'cat/head/tail': 'Viewing', 'grep': 'Searching', 'find': 'Finding', 'cp/mv/rm': 'Operations', '|/>': 'Pipes & redirect', '*': 'Wildcards'},
+    reference: {'cd/pwd/ls': 'Navigate', 'cat/head/tail': 'View files', 'grep -i/-c/-n': 'Search', 'find -name/-type': 'Find files', 'cp/mv/rm': 'File ops', '| / > / >>': 'Pipes/redirect', '*': 'Wildcards'},
     xpReward: 1500
   }
 ];

@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.10.1 (Silent XP Tracking with Mission Summary)
+## Current Status: v2.10.2 (Compact Command Reference Layout)
 
 ### Session History
 
@@ -311,6 +311,20 @@ Example for user:
 - Added profile stats: "Hints Used" and "Copies Used" (lifetime tracking)
 - Profile now shows 6 stats: Level, Missions, Commands, Hints, Copies, Streak
 - Much cleaner UX - help usage tracked quietly, celebrated/reflected at mission end
+- **v2.10.2**: Compact command reference layout for better objective visibility
+- User feedback: "can only see 1.5 objectives, reference section too big"
+- Reduced command reference section: max-height 200px, scrollable, more compact
+- Changed flex-shrink from 0 to 1 (allows reference to shrink when needed)
+- Reduced padding (1.5rem → 1rem), font size (1em → 0.85em), line-height (1.8 → 1.4)
+- Reduced header size and margins for tighter layout
+- Added custom scrollbar to reference section
+- Trimmed Review mission command references to essentials only
+- Review 1: 12 items → 11 items (more concise descriptions)
+- Review 2: 12 items → 10 items (shortened command descriptions)
+- Review 3: Already compact at 8 items
+- Final Review: 8 items → 7 items (grouped related commands)
+- Now shows at least 3 objectives visible in all Review missions
+- Better use of vertical space while keeping reference accessible
 
 ### Project Stats
 

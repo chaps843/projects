@@ -577,34 +577,57 @@ body {
 
 .mission-reference {
   background: var(--terminal-bg);
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 8px;
   border: 1px solid var(--accent-primary);
-  flex-shrink: 0;
+  flex-shrink: 1;
+  max-height: 200px;
+  min-height: 120px;
+  overflow-y: auto;
 }
 
 .mission-reference h3 {
   color: var(--accent-primary);
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
 }
 
 .reference-box {
   font-family: 'Courier New', monospace;
   color: var(--terminal-text);
-  line-height: 1.8;
+  line-height: 1.4;
   column-count: 2;
-  column-gap: 2rem;
+  column-gap: 1.5rem;
+  font-size: 0.85rem;
 }
 
 .reference-item {
   break-inside: avoid;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.2rem;
 }
 
 .reference-box code {
   color: var(--accent-primary);
   font-weight: bold;
+}
+
+/* Custom scrollbar for reference box */
+.mission-reference::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mission-reference::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+}
+
+.mission-reference::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 3px;
+}
+
+.mission-reference::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
 }
 
 /* Single column on smaller mission panels */
