@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.9.5 (Wildcard Support & Copy Hint Feature)
+## Current Status: v2.10.0 (Per-Objective XP System with Hint/Copy Penalties)
 
 ### Session History
 
@@ -287,6 +287,21 @@ Example for user:
 - Added copy button to hint popup - click 📋 to copy command to clipboard
 - Button shows "Copied!" feedback for 2 seconds, supports Ctrl+V paste
 - Improved UX: no need to manually type long commands from hints
+- **v2.10.0**: Complete XP system redesign with per-objective rewards and penalties
+- **MAJOR SYSTEM OVERHAUL**: Each objective now has individual baseXP value
+- User feedback: "each objective should be worth XP, hint loses 50%, copy loses 75%"
+- Added baseXP field to all 134 objectives across 19 missions
+- XP values: simple commands (10-20), file ops (15-25), grep (25-40), pipes (40-55), complex (50-60)
+- Hint usage: 50% XP penalty per objective (not per mission!)
+- Copy usage: 75% XP penalty per objective
+- Per-objective tracking: hintUsed and copyUsed flags
+- Real-time feedback: "⚠️ Hint used for objective X - will lose Y XP"
+- Completion messages show earned XP with penalty explanation
+- Mission completion bonus now separate from objective XP (always full bonus)
+- Updated "no_hints" achievement to check both hints AND copy buttons
+- Fixed copy button escaping bug for commands with quotes (used data attributes)
+- Removed global `hintUsedThisMission` flag - now tracked per objective
+- System encourages learning without help while still providing support when needed
 
 ### Project Stats
 

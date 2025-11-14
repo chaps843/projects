@@ -52,30 +52,35 @@ const missions = [
         text: 'List the files in your home directory', 
         completed: false, 
         command: 'ls',
+        baseXP: 15,
         details: 'The \'ls\' command stands for "list". It shows you what files and folders are in your current location.'
       },
       { 
         text: 'Check where you are in the filesystem', 
         completed: false, 
         command: 'pwd',
+        baseXP: 10,
         details: 'The \'pwd\' command means "print working directory". It tells you exactly where you are in the filesystem.'
       },
       { 
         text: 'Navigate to the documents directory', 
         completed: false, 
         command: 'cd documents',
+        baseXP: 15,
         details: 'Use \'cd documents\' to change into the documents directory. The cd command (change directory) is how you navigate between folders.'
       },
       { 
         text: 'List files in the documents directory', 
         completed: false, 
         command: 'ls',
+        baseXP: 10,
         details: 'See what\'s inside documents. Using ls in different locations shows different files - always check your surroundings!'
       },
       { 
         text: 'Return to your home directory', 
         completed: false, 
         command: 'cd ..',
+        baseXP: 15,
         details: 'The .. notation means "parent directory". Use \'cd ..\' to go back up one level in the directory tree.'
       }
     ],
@@ -100,30 +105,35 @@ const missions = [
         text: 'Navigate to the logs directory', 
         completed: false, 
         command: 'cd logs',
+        baseXP: 15,
         details: 'Use \'cd logs\' to change into the logs directory. This is where system log files are stored.'
       },
       { 
         text: 'List the log files to see what\'s available', 
         completed: false, 
         command: 'ls',
+        baseXP: 10,
         details: 'After moving to a directory, use \'ls\' to see what\'s inside. You should find several log files here.'
       },
       { 
         text: 'Jump directly back to home using the tilde shortcut', 
         completed: false, 
         command: 'cd ~',
+        baseXP: 15,
         details: 'The tilde (~) is a shortcut for your home directory (/home/user). This is a quick way to jump back home from anywhere.'
       },
       { 
         text: 'Navigate to projects/website in one command', 
         completed: false, 
         command: 'cd projects/website',
+        baseXP: 20,
         details: 'You can navigate through multiple directories in one command. Goes into projects, then into the website subfolder.'
       },
       { 
         text: 'List the website files', 
         completed: false, 
         command: 'ls',
+        baseXP: 10,
         details: 'See what files are in the website directory. Different locations contain different files relevant to that area.'
       }
     ],
@@ -149,30 +159,35 @@ const missions = [
         text: 'Create a new file called README.md', 
         completed: false, 
         command: 'touch README.md',
+        baseXP: 20,
         details: 'Use \'touch README.md\' to create a new empty file. The touch command creates files without any content.'
       },
       { 
         text: 'Create a directory called src', 
         completed: false, 
         command: 'mkdir src',
+        baseXP: 20,
         details: 'Use \'mkdir src\' to create a new directory (folder). mkdir stands for "make directory".'
       },
       { 
         text: 'Navigate into the src directory', 
         completed: false, 
         command: 'cd src',
+        baseXP: 15,
         details: 'Move into the new directory you just created. Always good to test that your directory creation worked.'
       },
       { 
         text: 'Create a file called index.js inside src', 
         completed: false, 
         command: 'touch index.js',
+        baseXP: 20,
         details: 'Create a file in the current directory (src). You can create files anywhere you are in the filesystem.'
       },
       { 
         text: 'Create a file called package.json in the src directory', 
         completed: false, 
         command: 'touch package.json',
+        baseXP: 20,
         details: 'Practice creating another file. You\'re building a complete project structure!'
       }
     ],
@@ -199,30 +214,35 @@ const missions = [
         text: 'Display the full contents of message.txt (in home)', 
         completed: false, 
         command: 'cat message.txt',
+        baseXP: 20,
         details: 'The \'cat\' command displays entire file contents. Use \'cat message.txt\' to read the complete welcome message.'
       },
       { 
         text: 'Preview just the first 3 lines of users.txt (in home)', 
         completed: false, 
         command: 'head -n 3 users.txt',
+        baseXP: 25,
         details: 'Use \'head -n 3 users.txt\' to see just the beginning. head is perfect when you only need a quick preview of a file.'
       },
       { 
         text: 'Check the last 4 lines of data.txt (in home) for recent entries', 
         completed: false, 
         command: 'tail -n 4 data.txt',
+        baseXP: 25,
         details: 'Use \'tail -n 4 data.txt\' to see the end. tail is commonly used to check the most recent entries in log files.'
       },
       { 
         text: 'Read the complete config.txt file (in home)', 
         completed: false, 
         command: 'cat config.txt',
+        baseXP: 20,
         details: 'Use cat again to view the full configuration. Different situations call for different viewing commands.'
       },
       { 
         text: 'View the first 5 lines of test.txt (in home)', 
         completed: false, 
         command: 'head -n 5 test.txt',
+        baseXP: 25,
         details: 'Practice with head again. You\'re learning when to use each command - full view with cat, preview with head, recent data with tail!'
       }
     ],
@@ -249,30 +269,35 @@ const missions = [
         text: 'Create a backup copy of config.txt called config_backup.txt', 
         completed: false, 
         command: 'cp config.txt config_backup.txt',
+        baseXP: 25,
         details: 'Use \'cp config.txt config_backup.txt\' to copy the file. cp stands for "copy" and creates a duplicate with a new name.'
       },
       { 
         text: 'List files to verify the backup was created', 
         completed: false, 
         command: 'ls',
+        baseXP: 10,
         details: 'Use ls to see all files including your new config_backup.txt. Always good to verify your operations worked!'
       },
       { 
         text: 'Delete the unnecessary junk.txt file', 
         completed: false, 
         command: 'rm junk.txt',
+        baseXP: 20,
         details: 'Use \'rm junk.txt\' to remove the file. rm stands for "remove" - be careful, there\'s no undo! Always double-check before deleting.'
       },
       { 
         text: 'Rename old.txt to archive.txt', 
         completed: false, 
         command: 'mv old.txt archive.txt',
+        baseXP: 25,
         details: 'Use \'mv old.txt archive.txt\' to rename (move) the file. mv changes the filename while keeping the same content.'
       },
       { 
         text: 'Move config_backup.txt into the documents directory', 
         completed: false, 
         command: 'mv config_backup.txt documents/',
+        baseXP: 25,
         details: 'Move the backup file into documents for organization. mv can both rename and move files to different locations.'
       }
     ],
@@ -296,17 +321,17 @@ const missions = [
     story: 'Time to prove your skills! Your manager wants to verify you\'ve mastered the basics. Complete these tasks without hints to show you\'re ready for advanced training.',
     startDir: '/home/user/documents',
     objectives: [
-      { text: 'List all files in the current directory', completed: false, command: 'ls', details: 'Show what files exist here. Core command for seeing directory contents.' },
-      { text: 'View the complete contents of notes.txt (in current directory)', completed: false, command: 'cat notes.txt', details: 'Use cat to display the entire file. Mission 4 taught viewing commands.' },
-      { text: 'Check just the first 2 lines of report.txt (in current directory)', completed: false, command: 'head -n 2 report.txt', details: 'Use head to preview the beginning. Shows only what you need.' },
-      { text: 'Return to your home directory', completed: false, command: 'cd ~', details: 'Use the tilde shortcut to jump home from anywhere.' },
-      { text: 'Check your current location', completed: false, command: 'pwd', details: 'Verify where you are. Always good to confirm location.' },
-      { text: 'Create a new file called review1.txt', completed: false, command: 'touch review1.txt', details: 'Use touch to create an empty file from Mission 3.' },
-      { text: 'Make a copy called review1_backup.txt', completed: false, command: 'cp review1.txt review1_backup.txt', details: 'Use cp to duplicate the file from Mission 5.' },
-      { text: 'Create a directory called review_files', completed: false, command: 'mkdir review_files', details: 'Use mkdir to create a new directory from Mission 3.' },
-      { text: 'Move review1_backup.txt into review_files', completed: false, command: 'mv review1_backup.txt review_files/', details: 'Use mv to relocate the file from Mission 5.' },
-      { text: 'Delete the original review1.txt file', completed: false, command: 'rm review1.txt', details: 'Use rm carefully to remove files from Mission 5.' },
-      { text: 'View the last 3 lines of data.txt (in home)', completed: false, command: 'tail -n 3 data.txt', details: 'Use tail to check the end from Mission 4.' }
+      { text: 'List all files in the current directory', completed: false, command: 'ls', baseXP: 15, details: 'Show what files exist here. Core command for seeing directory contents.' },
+      { text: 'View the complete contents of notes.txt (in current directory)', completed: false, command: 'cat notes.txt', baseXP: 20, details: 'Use cat to display the entire file. Mission 4 taught viewing commands.' },
+      { text: 'Check just the first 2 lines of report.txt (in current directory)', completed: false, command: 'head -n 2 report.txt', baseXP: 25, details: 'Use head to preview the beginning. Shows only what you need.' },
+      { text: 'Return to your home directory', completed: false, command: 'cd ~', baseXP: 15, details: 'Use the tilde shortcut to jump home from anywhere.' },
+      { text: 'Check your current location', completed: false, command: 'pwd', baseXP: 15, details: 'Verify where you are. Always good to confirm location.' },
+      { text: 'Create a new file called review1.txt', completed: false, command: 'touch review1.txt', baseXP: 20, details: 'Use touch to create an empty file from Mission 3.' },
+      { text: 'Make a copy called review1_backup.txt', completed: false, command: 'cp review1.txt review1_backup.txt', baseXP: 25, details: 'Use cp to duplicate the file from Mission 5.' },
+      { text: 'Create a directory called review_files', completed: false, command: 'mkdir review_files', baseXP: 20, details: 'Use mkdir to create a new directory from Mission 3.' },
+      { text: 'Move review1_backup.txt into review_files', completed: false, command: 'mv review1_backup.txt review_files/', baseXP: 25, details: 'Use mv to relocate the file from Mission 5.' },
+      { text: 'Delete the original review1.txt file', completed: false, command: 'rm review1.txt', baseXP: 20, details: 'Use rm carefully to remove files from Mission 5.' },
+      { text: 'View the last 3 lines of data.txt (in home)', completed: false, command: 'tail -n 3 data.txt', baseXP: 25, details: 'Use tail to check the end from Mission 4.' }
     ],
     hints: ['Review commands from Missions 1-5', 'Navigation: cd, pwd, ls', 'Viewing: cat, head, tail', 'Operations: touch, mkdir, cp, mv, rm', 'Use ~ as shortcut for home'],
     reference: {'cd': 'Change directory', 'cd ~': 'Go home (~ = home directory)', 'ls': 'List files', 'pwd': 'Print working directory', 'cat': 'Display file', 'head': 'View beginning', 'tail': 'View end', 'touch': 'Create file', 'mkdir': 'Create directory', 'cp': 'Copy', 'mv': 'Move/rename', 'rm': 'Remove'},
@@ -321,30 +346,35 @@ const missions = [
         text: 'Navigate to the logs directory from home', 
         completed: false, 
         command: 'cd ~/logs',
+        baseXP: 15,
         details: 'Use absolute path ~/logs to navigate directly. The tilde expands to your home directory path.'
       },
       { 
         text: 'Search for ERROR entries in server.log (in current directory)', 
         completed: false, 
         command: 'grep ERROR server.log',
+        baseXP: 30,
         details: 'Searches for the text "ERROR" in server.log file. grep is case-sensitive by default. Each matching line will be displayed. You\'re now in the logs directory.'
       },
       { 
         text: 'Count how many times ERROR appears in server.log', 
         completed: false, 
         command: 'grep -c ERROR server.log',
+        baseXP: 35,
         details: 'Use \'grep -c ERROR server.log\' to count matches. The -c flag counts matching lines instead of displaying them. Great for quick statistics.'
       },
       { 
         text: 'Find "user" in access.log (case-insensitive)', 
         completed: false, 
         command: 'grep -i user access.log',
+        baseXP: 35,
         details: 'Use \'grep -i user access.log\' for case-insensitive search. The -i flag matches "user", "User", "USER", etc. Essential for flexible searching. access.log is in current directory.'
       },
       { 
         text: 'Show Permission errors with line numbers in error.log', 
         completed: false, 
         command: 'grep -n Permission error.log',
+        baseXP: 35,
         details: 'Use \'grep -n Permission error.log\' to show line numbers. The -n flag helps you locate exactly where in the file each match occurs. error.log is in current directory.'
       }
     ],
@@ -372,30 +402,35 @@ const missions = [
         text: 'Count the total lines in data.txt (in home)', 
         completed: false, 
         command: 'wc -l data.txt',
+        baseXP: 25,
         details: 'Use \'wc -l data.txt\' to count lines. The -l flag counts lines. wc stands for "word count" but does much more!'
       },
       { 
         text: 'Count the words in message.txt (in home)', 
         completed: false, 
         command: 'wc -w message.txt',
+        baseXP: 25,
         details: 'Use \'wc -w message.txt\' to count words. The -w flag counts words separated by spaces. Useful for analyzing text length.'
       },
       { 
         text: 'Count the characters in config.txt (in home)', 
         completed: false, 
         command: 'wc -c config.txt',
+        baseXP: 25,
         details: 'Use \'wc -c config.txt\' to count characters (bytes). The -c flag gives you file size in bytes. Great for checking file sizes.'
       },
       { 
         text: 'Get full statistics for users.txt (in home)', 
         completed: false, 
         command: 'wc users.txt',
+        baseXP: 25,
         details: 'Use \'wc users.txt\' without flags to see everything: lines, words, and characters all at once. Complete file statistics!'
       },
       { 
         text: 'Count how many users are in users.txt (each line = one user)', 
         completed: false, 
         command: 'wc -l users.txt',
+        baseXP: 25,
         details: 'Each line is one user account. Counting lines tells you how many users exist. Real-world use: auditing accounts!'
       }
     ],
@@ -422,24 +457,28 @@ const missions = [
         text: 'Find all lines with "developer" in users.txt (in home)', 
         completed: false, 
         command: 'grep developer users.txt',
+        baseXP: 30,
         details: 'Searches users.txt for any line containing "developer". Perfect for filtering lists and finding specific entries.'
       },
       { 
         text: 'Show all users whose role is NOT "manager"', 
         completed: false, 
         command: 'grep -v manager users.txt',
+        baseXP: 35,
         details: 'Use \'grep -v manager users.txt\' to invert the match. The -v flag shows lines that DON\'T contain the pattern. Powerful for exclusion filtering.'
       },
       { 
         text: 'Find "admin" in users.txt (any case)', 
         completed: false, 
         command: 'grep -i admin users.txt',
+        baseXP: 35,
         details: 'Use \'grep -i admin users.txt\' for case-insensitive search. Finds "admin", "Admin", "ADMIN", etc. Essential for flexible searching.'
       },
       { 
         text: 'Find lines in config.txt (in home) that don\'t contain "port"', 
         completed: false, 
         command: 'grep -v port config.txt',
+        baseXP: 35,
         details: 'Practice inverse matching with -v. This shows all configuration lines except those related to ports. Great for filtering out noise.'
       }
     ],
@@ -465,24 +504,28 @@ const missions = [
         text: 'Find all files matching the pattern "*.txt" using find command', 
         completed: false, 
         command: 'find . -name "*.txt"',
+        baseXP: 30,
         details: 'Use find with -name flag to search by filename pattern. The dot (.) means current directory. The pattern "*.txt" matches all files ending in .txt.'
       },
       { 
         text: 'Find only directories (not files)', 
         completed: false, 
         command: 'find . -type d',
+        baseXP: 30,
         details: 'Use \'find . -type d\' to list only directories. The -type d flag filters for directories, ignoring regular files. Great for seeing folder structure.'
       },
       { 
         text: 'Find only regular files (not directories)', 
         completed: false, 
         command: 'find . -type f',
+        baseXP: 30,
         details: 'Use \'find . -type f\' to list only regular files. The -type f flag filters for files, ignoring directories. Opposite of -type d.'
       },
       { 
         text: 'Find all .log files specifically', 
         completed: false, 
         command: 'find . -name "*.log"',
+        baseXP: 30,
         details: 'Back to pattern matching - find log files by extension. You can combine -name and -type for even more precise searches!'
       }
     ],
@@ -511,30 +554,35 @@ const missions = [
         text: 'First, see all ERROR lines in logs/server.log', 
         completed: false, 
         command: 'grep ERROR logs/server.log',
+        baseXP: 30,
         details: 'Start simple - just search for ERROR in the server log. You should see several error lines displayed. This is step 1 of understanding pipes.'
       },
       { 
         text: 'Count those ERROR lines using a pipe', 
         completed: false, 
         command: 'grep ERROR logs/server.log | wc -l',
+        baseXP: 50,
         details: 'Here\'s the magic! The pipe | takes grep\'s output (all those ERROR lines) and sends it to "wc -l" which counts the lines. Format: grep finds errors | wc counts them.'
       },
       { 
         text: 'Find all .txt files in your home directory', 
         completed: false, 
         command: 'find . -name "*.txt"',
+        baseXP: 30,
         details: 'Before using pipes, see what find outputs. You\'ll get a long list of .txt files. Too many to read easily! This sets up the next objective.'
       },
       { 
         text: 'Limit that .txt file list to just the first 5 results', 
         completed: false, 
         command: 'find . -name "*.txt" | head -n 5',
+        baseXP: 50,
         details: 'Use a pipe to limit the output! find lists ALL .txt files | head shows only first 5. The pipe sends find\'s long list to head, which cuts it short.'
       },
       { 
         text: 'Count how many developers exist in users.txt (in home)', 
         completed: false, 
         command: 'grep developer users.txt | wc -l',
+        baseXP: 50,
         details: 'Combine what you\'ve learned! grep finds lines with "developer" | wc -l counts how many lines matched. Two commands working together!'
       }
     ],
@@ -558,20 +606,20 @@ const missions = [
     story: 'You\'ve learned powerful search and analysis tools. Time to demonstrate your grep, find, and piping skills on real-world tasks! The last two objectives preview output redirection (covered in Mission 13).',
     startDir: '/home/user/logs',
     objectives: [
-      { text: 'Search for ERROR in server.log (in current directory)', completed: false, command: 'grep ERROR server.log', details: 'Basic grep search from Mission 7. You start in the logs directory.' },
-      { text: 'Count how many ERROR entries exist in server.log', completed: false, command: 'grep -c ERROR server.log', details: 'Use grep -c to count matches from Mission 7.' },
-      { text: 'Find all lines with "user" in access.log (case-insensitive)', completed: false, command: 'grep -i user access.log', details: 'Use grep -i for case-insensitive search from Mission 7. access.log is in current directory.' },
-      { text: 'Show WARNING lines with line numbers in server.log', completed: false, command: 'grep -n WARNING server.log', details: 'Use grep -n to show line numbers from Mission 7.' },
-      { text: 'Show lines NOT containing ERROR in server.log', completed: false, command: 'grep -v ERROR server.log', details: 'Use grep -v for inverse matching from Mission 9.' },
-      { text: 'Return home', completed: false, command: 'cd ~', details: 'Navigate back to your home directory before the next tasks.' },
-      { text: 'List all .txt files in your home tree', completed: false, command: 'find . -name "*.txt"', details: 'Use find with pattern matching from Mission 10.' },
-      { text: 'Find only directories (not files)', completed: false, command: 'find . -type d', details: 'Use find -type d to filter directories from Mission 10.' },
-      { text: 'Find only regular files', completed: false, command: 'find . -type f', details: 'Use find -type f to filter files from Mission 10.' },
-      { text: 'Count how many developers exist in users.txt (in home)', completed: false, command: 'grep developer users.txt | wc -l', details: 'Combine grep and wc with pipe from Mission 11.' },
-      { text: 'Find .txt files and show first 3', completed: false, command: 'find . -name "*.txt" | head -n 3', details: 'Chain find and head with pipe from Mission 11.' },
-      { text: 'Use cat and pipe to count words in message.txt (in home)', completed: false, command: 'cat message.txt | wc -w', details: 'Practice piping! Use cat to output the file, then pipe | to wc -w to count words. This reviews the pipe concept from Mission 11.' },
-      { text: 'Count ERRORs in all .log files and save to error_summary.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > error_summary.txt', details: 'NEW SKILL - Output Redirection! This previews Mission 13. Steps: 1) grep ERROR logs/*.log finds errors in ALL log files (*.log = wildcard), 2) | wc -l counts them, 3) > error_summary.txt saves the count to a file instead of displaying it. The > operator redirects output!' },
-      { text: 'Append your current directory path to error_summary.txt', completed: false, command: 'pwd >> error_summary.txt', details: 'Practice redirection! pwd shows your location, >> appends it to the file (> would overwrite, >> adds to the end). You\'re learning ahead - Mission 13 covers this in detail!' }
+      { text: 'Search for ERROR in server.log (in current directory)', completed: false, command: 'grep ERROR server.log', baseXP: 25, details: 'Basic grep search from Mission 7. You start in the logs directory.' },
+      { text: 'Count how many ERROR entries exist in server.log', completed: false, command: 'grep -c ERROR server.log', baseXP: 30, details: 'Use grep -c to count matches from Mission 7.' },
+      { text: 'Find all lines with "user" in access.log (case-insensitive)', completed: false, command: 'grep -i user access.log', baseXP: 30, details: 'Use grep -i for case-insensitive search from Mission 7. access.log is in current directory.' },
+      { text: 'Show WARNING lines with line numbers in server.log', completed: false, command: 'grep -n WARNING server.log', baseXP: 30, details: 'Use grep -n to show line numbers from Mission 7.' },
+      { text: 'Show lines NOT containing ERROR in server.log', completed: false, command: 'grep -v ERROR server.log', baseXP: 30, details: 'Use grep -v for inverse matching from Mission 9.' },
+      { text: 'Return home', completed: false, command: 'cd ~', baseXP: 15, details: 'Navigate back to your home directory before the next tasks.' },
+      { text: 'List all .txt files in your home tree', completed: false, command: 'find . -name "*.txt"', baseXP: 25, details: 'Use find with pattern matching from Mission 10.' },
+      { text: 'Find only directories (not files)', completed: false, command: 'find . -type d', baseXP: 25, details: 'Use find -type d to filter directories from Mission 10.' },
+      { text: 'Find only regular files', completed: false, command: 'find . -type f', baseXP: 25, details: 'Use find -type f to filter files from Mission 10.' },
+      { text: 'Count how many developers exist in users.txt (in home)', completed: false, command: 'grep developer users.txt | wc -l', baseXP: 45, details: 'Combine grep and wc with pipe from Mission 11.' },
+      { text: 'Find .txt files and show first 3', completed: false, command: 'find . -name "*.txt" | head -n 3', baseXP: 45, details: 'Chain find and head with pipe from Mission 11.' },
+      { text: 'Use cat and pipe to count words in message.txt (in home)', completed: false, command: 'cat message.txt | wc -w', baseXP: 40, details: 'Practice piping! Use cat to output the file, then pipe | to wc -w to count words. This reviews the pipe concept from Mission 11.' },
+      { text: 'Count ERRORs in all .log files and save to error_summary.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > error_summary.txt', baseXP: 55, details: 'NEW SKILL - Output Redirection! This previews Mission 13. Steps: 1) grep ERROR logs/*.log finds errors in ALL log files (*.log = wildcard), 2) | wc -l counts them, 3) > error_summary.txt saves the count to a file instead of displaying it. The > operator redirects output!' },
+      { text: 'Append your current directory path to error_summary.txt', completed: false, command: 'pwd >> error_summary.txt', baseXP: 40, details: 'Practice redirection! pwd shows your location, >> appends it to the file (> would overwrite, >> adds to the end). You\'re learning ahead - Mission 13 covers this in detail!' }
     ],
     hints: ['Review Missions 7-11', 'grep: search with -i, -c, -n, -v flags', 'find: search by -name or -type', 'Pipes: command1 | command2', 'Redirect: > (overwrite), >> (append)'],
     reference: {'grep': 'Search patterns', 'grep -i': 'Case-insensitive', 'grep -c': 'Count', 'grep -n': 'Line numbers', 'grep -v': 'Inverse', 'find': 'Find files', 'find -type': 'Filter by type', '|': 'Pipe', 'wc -l': 'Count lines', 'wc -w': 'Count words', '>': 'Redirect', '>>': 'Append'},
@@ -586,30 +634,35 @@ const missions = [
         text: 'Save your current file listing to inventory.txt', 
         completed: false, 
         command: 'ls > inventory.txt',
+        baseXP: 40,
         details: 'Redirects ls output to inventory.txt instead of screen. The > operator creates/overwrites the file. Essential for saving command results.'
       },
       { 
         text: 'Save your current location to location.txt', 
         completed: false, 
         command: 'pwd > location.txt',
+        baseXP: 40,
         details: 'Redirect pwd output to a file. Any command output can be saved this way - great for logging and documentation.'
       },
       { 
         text: 'View the saved location file to verify', 
         completed: false, 
         command: 'cat location.txt',
+        baseXP: 20,
         details: 'Displays the file you just created. Confirms the redirect worked and shows what pwd captured.'
       },
       { 
         text: 'Create status.txt and append "System Online" to it', 
         completed: false, 
         command: 'echo "System Online" >> status.txt',
+        baseXP: 45,
         details: 'Appends text to status.txt (creates if doesn\'t exist). The >> operator adds to end without erasing existing content.'
       },
       { 
         text: 'Append "All checks passed" to status.txt', 
         completed: false, 
         command: 'echo "All checks passed" >> status.txt',
+        baseXP: 45,
         details: 'Practice appending with >>. Unlike >, this adds new content while preserving what\'s already there. Perfect for building files incrementally.'
       }
     ],
@@ -636,24 +689,28 @@ const missions = [
         text: 'Show all .txt files using wildcard pattern', 
         completed: false, 
         command: 'ls *.txt',
+        baseXP: 25,
         details: 'Lists only files ending in .txt. The * wildcard matches any characters. Filters the listing to specific file types.'
       },
       { 
         text: 'Create an archives directory', 
         completed: false, 
         command: 'mkdir archives',
+        baseXP: 20,
         details: 'Create a new directory to store archived files. Organization is key!'
       },
       { 
         text: 'Copy all .txt files to archives directory', 
         completed: false, 
         command: 'cp *.txt archives/',
+        baseXP: 35,
         details: 'Copy all matching files at once! The wildcard expands to all .txt files. This is batch operation power.'
       },
       { 
         text: 'List all files to verify the copies', 
         completed: false, 
         command: 'ls archives/',
+        baseXP: 15,
         details: 'List files in archives directory to verify your batch copy worked. Always check your work after batch operations!'
       }
     ],
@@ -680,30 +737,35 @@ const missions = [
         text: 'Start from home and navigate to projects/website', 
         completed: false, 
         command: 'cd ~',
+        baseXP: 15,
         details: 'Jump to home directory first. Good practice to start from a known location.'
       },
       { 
         text: 'Navigate through multiple directories to website', 
         completed: false, 
         command: 'cd projects/website',
+        baseXP: 20,
         details: 'Navigates through multiple directories in one command. Goes into projects, then into website subfolder.'
       },
       { 
         text: 'Verify your current location', 
         completed: false, 
         command: 'pwd',
+        baseXP: 15,
         details: 'Check where you are. You should be at /home/user/projects/website. Always verify after complex navigation.'
       },
       { 
         text: 'Go up two levels to return to home', 
         completed: false, 
         command: 'cd ../..',
+        baseXP: 25,
         details: 'Navigate up two directory levels at once. Each .. goes up one level. Efficient relative path navigation.'
       },
       { 
         text: 'Navigate to logs using absolute path', 
         completed: false, 
         command: 'cd /home/user/logs',
+        baseXP: 25,
         details: 'Uses absolute path starting with /. Works from anywhere, unlike relative paths. Unambiguous navigation.'
       }
     ],
@@ -731,30 +793,35 @@ const missions = [
         text: 'Create an incident_report directory', 
         completed: false, 
         command: 'mkdir incident_report',
+        baseXP: 20,
         details: 'Create a directory to organize your investigation. Professional incident response requires organization.'
       },
       { 
         text: 'Search for ERROR entries in all log files', 
         completed: false, 
         command: 'grep ERROR logs/*.log',
+        baseXP: 35,
         details: 'Searches ALL .log files in logs/ for ERROR. Wildcard lets you search multiple files at once. See all errors first.'
       },
       { 
         text: 'Count errors and save count to incident_report/error_count.txt', 
         completed: false, 
         command: 'grep ERROR logs/*.log | wc -l > incident_report/error_count.txt',
+        baseXP: 60,
         details: 'Combines grep, pipe, wc, and redirect! Counts errors and saves count to file. This is power!'
       },
       { 
         text: 'Save all ERROR lines to incident_report/errors.txt', 
         completed: false, 
         command: 'grep ERROR logs/*.log > incident_report/errors.txt',
+        baseXP: 50,
         details: 'Redirect grep output to save all error lines. Creates a full error log for analysis. Essential for troubleshooting.'
       },
       { 
         text: 'Find all log files and save list to incident_report/files_checked.txt', 
         completed: false, 
         command: 'find logs -name "*.log" > incident_report/files_checked.txt',
+        baseXP: 50,
         details: 'Document which files were analyzed. Complete incident reports show what was checked. Professional documentation.'
       }
     ],
@@ -782,24 +849,28 @@ const missions = [
         text: 'Create the system_audit directory', 
         completed: false, 
         command: 'mkdir system_audit',
+        baseXP: 20,
         details: 'Creates directory for your audit results. Organization first!'
       },
       { 
         text: 'Find all .txt files and save inventory', 
         completed: false, 
         command: 'find . -name "*.txt" > system_audit/txt_inventory.txt',
+        baseXP: 50,
         details: 'Finds all .txt files and saves list to audit folder. Complete file inventory across entire system.'
       },
       { 
         text: 'Save developer user list from users.txt (in home) to audit directory', 
         completed: false, 
         command: 'grep developer users.txt > system_audit/developers.txt',
+        baseXP: 45,
         details: 'Extract specific user role information. Audit requires documenting who has what access.'
       },
       { 
         text: 'Count and document total ERROR entries across all logs', 
         completed: false, 
         command: 'grep ERROR logs/*.log | wc -l > system_audit/total_errors.txt',
+        baseXP: 60,
         details: 'Combines multiple skills: wildcards, grep, pipes, wc, and redirection. This is the complete picture of system health!'
       }
     ],
@@ -826,20 +897,20 @@ const missions = [
     story: 'The final skill check before graduation! Show mastery of wildcards, complex navigation, and multi-command operations.',
     startDir: '/home/user',
     objectives: [
-      { text: 'Show only .txt files using a pattern', completed: false, command: 'ls *.txt', details: 'Use wildcard to filter file listing from Mission 13.' },
-      { text: 'Create a temp directory', completed: false, command: 'mkdir temp', details: 'Create directory for organizing work from Mission 13.' },
-      { text: 'Copy all .txt files to temp', completed: false, command: 'cp *.txt temp/', details: 'Batch copy with wildcards from Mission 13.' },
-      { text: 'Navigate to projects/website in one command', completed: false, command: 'cd projects/website', details: 'Multi-level navigation from Mission 14.' },
-      { text: 'Verify your location', completed: false, command: 'pwd', details: 'Confirm you navigated correctly from Mission 14.' },
-      { text: 'Go up two levels to home', completed: false, command: 'cd ../..', details: 'Use relative path with multiple levels from Mission 14.' },
-      { text: 'Navigate to logs using absolute path', completed: false, command: 'cd /home/user/logs', details: 'Use full absolute path from Mission 14.' },
-      { text: 'Create an analysis directory', completed: false, command: 'mkdir ~/analysis', details: 'Create directory with tilde shortcut.' },
-      { text: 'Search all log files for ERROR (in current directory)', completed: false, command: 'grep ERROR *.log', details: 'Use wildcard to search multiple files from Mission 15.' },
-      { text: 'Count total errors and save to analysis', completed: false, command: 'grep ERROR *.log | wc -l > ~/analysis/error_count.txt', details: 'Combine grep, pipe, wc, redirect from Mission 15.' },
-      { text: 'Save all ERROR lines to analysis', completed: false, command: 'grep ERROR *.log > ~/analysis/all_errors.txt', details: 'Redirect grep output to file from Mission 15.' },
-      { text: 'Find all .log files and save list to analysis', completed: false, command: 'find /home/user/logs -name "*.log" > ~/analysis/log_files.txt', details: 'Document files checked from Mission 15.' },
-      { text: 'Return home and find all .txt files', completed: false, command: 'cd ~', details: 'Navigate back to continue final tasks.' },
-      { text: 'Save txt file inventory to analysis', completed: false, command: 'find . -name "*.txt" > analysis/txt_inventory.txt', details: 'Create comprehensive file inventory from Mission 17.' }
+      { text: 'Show only .txt files using a pattern', completed: false, command: 'ls *.txt', baseXP: 20, details: 'Use wildcard to filter file listing from Mission 13.' },
+      { text: 'Create a temp directory', completed: false, command: 'mkdir temp', baseXP: 20, details: 'Create directory for organizing work from Mission 13.' },
+      { text: 'Copy all .txt files to temp', completed: false, command: 'cp *.txt temp/', baseXP: 30, details: 'Batch copy with wildcards from Mission 13.' },
+      { text: 'Navigate to projects/website in one command', completed: false, command: 'cd projects/website', baseXP: 20, details: 'Multi-level navigation from Mission 14.' },
+      { text: 'Verify your location', completed: false, command: 'pwd', baseXP: 15, details: 'Confirm you navigated correctly from Mission 14.' },
+      { text: 'Go up two levels to home', completed: false, command: 'cd ../..', baseXP: 20, details: 'Use relative path with multiple levels from Mission 14.' },
+      { text: 'Navigate to logs using absolute path', completed: false, command: 'cd /home/user/logs', baseXP: 20, details: 'Use full absolute path from Mission 14.' },
+      { text: 'Create an analysis directory', completed: false, command: 'mkdir ~/analysis', baseXP: 25, details: 'Create directory with tilde shortcut.' },
+      { text: 'Search all log files for ERROR (in current directory)', completed: false, command: 'grep ERROR *.log', baseXP: 30, details: 'Use wildcard to search multiple files from Mission 15.' },
+      { text: 'Count total errors and save to analysis', completed: false, command: 'grep ERROR *.log | wc -l > ~/analysis/error_count.txt', baseXP: 55, details: 'Combine grep, pipe, wc, redirect from Mission 15.' },
+      { text: 'Save all ERROR lines to analysis', completed: false, command: 'grep ERROR *.log > ~/analysis/all_errors.txt', baseXP: 45, details: 'Redirect grep output to file from Mission 15.' },
+      { text: 'Find all .log files and save list to analysis', completed: false, command: 'find /home/user/logs -name "*.log" > ~/analysis/log_files.txt', baseXP: 50, details: 'Document files checked from Mission 15.' },
+      { text: 'Return home and find all .txt files', completed: false, command: 'cd ~', baseXP: 15, details: 'Navigate back to continue final tasks.' },
+      { text: 'Save txt file inventory to analysis', completed: false, command: 'find . -name "*.txt" > analysis/txt_inventory.txt', baseXP: 45, details: 'Create comprehensive file inventory from Mission 17.' }
     ],
     hints: ['Review Missions 13-17', 'Wildcards: * matches any characters', 'Navigation: multi-level paths, ../.., absolute paths', 'Combine: grep with wildcards, pipes, redirection', 'Complex operations: multiple commands chained'],
     reference: {'*': 'Wildcard', 'ls *.txt': 'Filter listing', 'cp *.txt dir/': 'Batch copy', 'cd ../..': 'Up levels', 'cd /abs/path': 'Absolute', 'grep pattern *.ext': 'Search multiple', '|': 'Pipe', '>': 'Redirect'},
@@ -851,30 +922,30 @@ const missions = [
     story: 'Congratulations on reaching the final challenge! Complete this comprehensive real-world scenario to prove you\'ve mastered everything. Your company needs a full system audit and incident response - use every skill you\'ve learned!',
     startDir: '/home/user',
     objectives: [
-      { text: 'Check and verify your starting location', completed: false, command: 'pwd', details: 'Always verify location before major operations.' },
-      { text: 'List all files to see what you\'re working with', completed: false, command: 'ls', details: 'Survey the landscape before starting work.' },
-      { text: 'Create a master_audit directory', completed: false, command: 'mkdir master_audit', details: 'Organization is critical for complex tasks.' },
-      { text: 'Navigate to logs directory', completed: false, command: 'cd logs', details: 'Start investigating the logs.' },
-      { text: 'View the last 5 lines of server.log (in current directory)', completed: false, command: 'tail -n 5 server.log', details: 'Check recent activity first - smart troubleshooting.' },
-      { text: 'Count total ERROR occurrences across all logs', completed: false, command: 'grep -c ERROR *.log', details: 'Get error statistics across all log files.' },
-      { text: 'Find all lines with error (case-insensitive) in server.log', completed: false, command: 'grep -i error server.log', details: 'Case-insensitive catches more issues.' },
-      { text: 'Save all ERROR lines to master_audit', completed: false, command: 'grep ERROR *.log > ~/master_audit/all_errors.txt', details: 'Document all errors for analysis.' },
-      { text: 'Count and save total error count', completed: false, command: 'grep ERROR *.log | wc -l > ~/master_audit/error_total.txt', details: 'Quantify the problem scope.' },
-      { text: 'Show admin activity with line numbers in access.log (in current directory)', completed: false, command: 'grep -n admin access.log', details: 'Track admin access for security audit.' },
-      { text: 'Show all non-ERROR lines from server.log (in current directory)', completed: false, command: 'grep -v ERROR server.log', details: 'See normal operations - inverse matching.' },
-      { text: 'Return home and search entire tree for .log files', completed: false, command: 'cd ~', details: 'Back to home for comprehensive search.' },
-      { text: 'Find and list all .log files', completed: false, command: 'find . -name "*.log"', details: 'Locate all log files in the system.' },
-      { text: 'Find only directories in your tree', completed: false, command: 'find . -type d', details: 'Map the directory structure.' },
-      { text: 'Save directory listing to audit', completed: false, command: 'find . -type d > master_audit/directory_structure.txt', details: 'Document filesystem layout.' },
-      { text: 'Find all .txt files and show first 5', completed: false, command: 'find . -name "*.txt" | head -n 5', details: 'Sample the .txt files present.' },
-      { text: 'Copy all .txt files to master_audit', completed: false, command: 'cp *.txt master_audit/', details: 'Batch backup important files.' },
-      { text: 'Navigate to projects/website', completed: false, command: 'cd projects/website', details: 'Check the web project area.' },
-      { text: 'List files in website directory', completed: false, command: 'ls', details: 'Inventory the website files.' },
-      { text: 'Go back up to home using relative path', completed: false, command: 'cd ../..', details: 'Navigate back using relative path skills.' },
-      { text: 'Count how many developer accounts exist in users.txt (in home)', completed: false, command: 'grep developer users.txt | wc -l', details: 'Audit user accounts by role.' },
-      { text: 'Save developer list to audit', completed: false, command: 'grep developer users.txt > master_audit/developers.txt', details: 'Document developer access.' },
-      { text: 'Save complete user list to audit', completed: false, command: 'cat users.txt > master_audit/all_users.txt', details: 'Full user registry for compliance.' },
-      { text: 'Create final audit summary', completed: false, command: 'echo "Audit Complete" > master_audit/summary.txt', details: 'Mark the audit as completed - you did it!' }
+      { text: 'Check and verify your starting location', completed: false, command: 'pwd', baseXP: 15, details: 'Always verify location before major operations.' },
+      { text: 'List all files to see what you\'re working with', completed: false, command: 'ls', baseXP: 15, details: 'Survey the landscape before starting work.' },
+      { text: 'Create a master_audit directory', completed: false, command: 'mkdir master_audit', baseXP: 20, details: 'Organization is critical for complex tasks.' },
+      { text: 'Navigate to logs directory', completed: false, command: 'cd logs', baseXP: 15, details: 'Start investigating the logs.' },
+      { text: 'View the last 5 lines of server.log (in current directory)', completed: false, command: 'tail -n 5 server.log', baseXP: 25, details: 'Check recent activity first - smart troubleshooting.' },
+      { text: 'Count total ERROR occurrences across all logs', completed: false, command: 'grep -c ERROR *.log', baseXP: 35, details: 'Get error statistics across all log files.' },
+      { text: 'Find all lines with error (case-insensitive) in server.log', completed: false, command: 'grep -i error server.log', baseXP: 30, details: 'Case-insensitive catches more issues.' },
+      { text: 'Save all ERROR lines to master_audit', completed: false, command: 'grep ERROR *.log > ~/master_audit/all_errors.txt', baseXP: 50, details: 'Document all errors for analysis.' },
+      { text: 'Count and save total error count', completed: false, command: 'grep ERROR *.log | wc -l > ~/master_audit/error_total.txt', baseXP: 55, details: 'Quantify the problem scope.' },
+      { text: 'Show admin activity with line numbers in access.log (in current directory)', completed: false, command: 'grep -n admin access.log', baseXP: 35, details: 'Track admin access for security audit.' },
+      { text: 'Show all non-ERROR lines from server.log (in current directory)', completed: false, command: 'grep -v ERROR server.log', baseXP: 30, details: 'See normal operations - inverse matching.' },
+      { text: 'Return home and search entire tree for .log files', completed: false, command: 'cd ~', baseXP: 15, details: 'Back to home for comprehensive search.' },
+      { text: 'Find and list all .log files', completed: false, command: 'find . -name "*.log"', baseXP: 30, details: 'Locate all log files in the system.' },
+      { text: 'Find only directories in your tree', completed: false, command: 'find . -type d', baseXP: 30, details: 'Map the directory structure.' },
+      { text: 'Save directory listing to audit', completed: false, command: 'find . -type d > master_audit/directory_structure.txt', baseXP: 50, details: 'Document filesystem layout.' },
+      { text: 'Find all .txt files and show first 5', completed: false, command: 'find . -name "*.txt" | head -n 5', baseXP: 50, details: 'Sample the .txt files present.' },
+      { text: 'Copy all .txt files to master_audit', completed: false, command: 'cp *.txt master_audit/', baseXP: 35, details: 'Batch backup important files.' },
+      { text: 'Navigate to projects/website', completed: false, command: 'cd projects/website', baseXP: 20, details: 'Check the web project area.' },
+      { text: 'List files in website directory', completed: false, command: 'ls', baseXP: 15, details: 'Inventory the website files.' },
+      { text: 'Go back up to home using relative path', completed: false, command: 'cd ../..', baseXP: 25, details: 'Navigate back using relative path skills.' },
+      { text: 'Count how many developer accounts exist in users.txt (in home)', completed: false, command: 'grep developer users.txt | wc -l', baseXP: 50, details: 'Audit user accounts by role.' },
+      { text: 'Save developer list to audit', completed: false, command: 'grep developer users.txt > master_audit/developers.txt', baseXP: 45, details: 'Document developer access.' },
+      { text: 'Save complete user list to audit', completed: false, command: 'cat users.txt > master_audit/all_users.txt', baseXP: 40, details: 'Full user registry for compliance.' },
+      { text: 'Create final audit summary', completed: false, command: 'echo "Audit Complete" > master_audit/summary.txt', baseXP: 45, details: 'Mark the audit as completed - you did it!' }
     ],
     hints: ['This tests EVERYTHING from Missions 1-17', 'Navigation: cd, pwd, ls, cd ~, cd ../.., absolute paths', 'Viewing: cat, head, tail, less', 'Searching: grep with -i, -c, -n, -v, wildcards', 'Finding: find with -name, -type', 'Operations: touch, mkdir, cp, mv, rm, wildcards', 'Analysis: pipes, wc, redirection', 'Take it step by step - you know all these commands!'],
     reference: {'All commands': 'Everything you\'ve learned', 'cd/ls/pwd': 'Navigation', 'cat/head/tail': 'Viewing', 'grep': 'Searching', 'find': 'Finding', 'cp/mv/rm': 'Operations', '|/>': 'Pipes & redirect', '*': 'Wildcards'},
@@ -1990,7 +2061,7 @@ function showAchievementNotification(achievement) {
   }, 4000);
 }
 
-function showHintPopup(objective) {
+function showHintPopup(objective, objectiveIndex) {
   const overlay = document.getElementById('hint-overlay');
   
   overlay.innerHTML = `
@@ -2013,7 +2084,7 @@ function showHintPopup(objective) {
         <div class="hint-bubble-command">
           ${objective.command}
         </div>
-        <button class="hint-copy-btn" onclick="copyCommandToClipboard('${objective.command.replace(/'/g, "\\'")}')">
+        <button class="hint-copy-btn" data-command="${objective.command.replace(/"/g, '&quot;')}" data-objective-index="${objectiveIndex}">
           <span class="copy-icon">📋</span>
           <span class="copy-text">Copy</span>
         </button>
@@ -2035,21 +2106,39 @@ function closeHintPopup() {
   }
 }
 
-function copyCommandToClipboard(command) {
+// Set up event delegation for copy buttons (since they're dynamically created)
+document.addEventListener('click', function(event) {
+  const copyBtn = event.target.closest('.hint-copy-btn');
+  if (!copyBtn) return;
+  
+  const command = copyBtn.dataset.command;
+  const objectiveIndex = parseInt(copyBtn.dataset.objectiveIndex);
+  
+  // Track copy usage for this objective
+  const mission = missions[gameState.currentMission];
+  if (mission && objectiveIndex >= 0) {
+    const obj = mission.objectives[objectiveIndex];
+    if (obj && !obj.copyUsed && !obj.completed) {
+      obj.copyUsed = true;
+      const baseXP = obj.baseXP || 25; // Fallback to 25 if baseXP not set
+      const xpLoss = Math.floor(baseXP * 0.75);
+      writeToTerminal(`⚠️  Copy used for objective ${objectiveIndex + 1} - will lose ${xpLoss} XP (75% penalty)`, 'terminal-warning');
+    }
+  }
+  
+  if (!command) return;
+  
   // Use the Clipboard API to copy the command
   navigator.clipboard.writeText(command).then(() => {
     // Visual feedback - change button text temporarily
-    const copyBtn = event.target.closest('.hint-copy-btn');
-    if (copyBtn) {
-      const originalHTML = copyBtn.innerHTML;
-      copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Copied!</span>';
-      copyBtn.classList.add('copied');
-      
-      setTimeout(() => {
-        copyBtn.innerHTML = originalHTML;
-        copyBtn.classList.remove('copied');
-      }, 2000);
-    }
+    const originalHTML = copyBtn.innerHTML;
+    copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Copied!</span>';
+    copyBtn.classList.add('copied');
+    
+    setTimeout(() => {
+      copyBtn.innerHTML = originalHTML;
+      copyBtn.classList.remove('copied');
+    }, 2000);
   }).catch(err => {
     console.error('Failed to copy command:', err);
     // Fallback for older browsers
@@ -2061,20 +2150,19 @@ function copyCommandToClipboard(command) {
     textArea.select();
     try {
       document.execCommand('copy');
-      const copyBtn = event.target.closest('.hint-copy-btn');
-      if (copyBtn) {
-        const originalHTML = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Copied!</span>';
-        setTimeout(() => {
-          copyBtn.innerHTML = originalHTML;
-        }, 2000);
-      }
+      const originalHTML = copyBtn.innerHTML;
+      copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Copied!</span>';
+      copyBtn.classList.add('copied');
+      setTimeout(() => {
+        copyBtn.innerHTML = originalHTML;
+        copyBtn.classList.remove('copied');
+      }, 2000);
     } catch (err) {
       console.error('Fallback copy failed:', err);
     }
     document.body.removeChild(textArea);
   });
-}
+});
 
 function loadMission(missionIndex) {
   if (missionIndex >= missions.length) {
@@ -2121,6 +2209,8 @@ function loadMission(missionIndex) {
   // Set objectives based on whether mission was previously completed
   mission.objectives.forEach(obj => {
     obj.completed = isMissionCompleted;
+    obj.hintUsed = false;   // Reset hint tracking
+    obj.copyUsed = false;   // Reset copy tracking
   });
   
   document.getElementById('mission-title').textContent = mission.title;
@@ -2182,14 +2272,16 @@ function loadMission(missionIndex) {
     hintBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       
-      // Mark that hint was used for this mission (affects XP)
-      if (!gameState.hintUsedThisMission) {
-        gameState.hintUsedThisMission = true;
-        writeToTerminal('⚠️  Hint used - XP reward reduced by 50%', 'terminal-warning');
+      // Mark hint used for THIS specific objective
+      if (!obj.hintUsed && !obj.completed) {
+        obj.hintUsed = true;
+        const baseXP = obj.baseXP || 25; // Fallback to 25 if baseXP not set
+        const xpLoss = Math.floor(baseXP * 0.5);
+        writeToTerminal(`⚠️  Hint used for objective ${index + 1} - will lose ${xpLoss} XP (50% penalty)`, 'terminal-warning');
       }
       
-      // Show hint popup
-      showHintPopup(obj);
+      // Show hint popup with objective index
+      showHintPopup(obj, index);
     });
     
     li.appendChild(hintBtn);
@@ -2373,6 +2465,21 @@ function checkObjectives(command) {
     // Mark objective as complete
     nextObj.completed = true;
     
+    // Calculate earned XP based on hint/copy usage
+    const baseXP = nextObj.baseXP || 25; // Fallback to 25 if baseXP not set
+    let earnedXP = baseXP;
+    let penaltyMessage = '';
+    
+    if (nextObj.copyUsed) {
+      earnedXP = Math.floor(baseXP * 0.25);  // 75% penalty = 25% remaining
+      penaltyMessage = ` (75% penalty for copy button)`;
+    } else if (nextObj.hintUsed) {
+      earnedXP = Math.floor(baseXP * 0.5);   // 50% penalty
+      penaltyMessage = ` (50% penalty for hint)`;
+    } else {
+      penaltyMessage = ` (full reward!)`;
+    }
+    
     // Update UI
     const objElement = document.querySelector(`[data-objective="${nextObjectiveIndex}"]`);
     if (objElement) {
@@ -2380,7 +2487,10 @@ function checkObjectives(command) {
       objElement.querySelector('.objective-status').textContent = '✅';
     }
     
-    addXP(25);
+    // Award XP with message
+    addXP(earnedXP);
+    const xpClass = (nextObj.copyUsed || nextObj.hintUsed) ? 'terminal-warning' : 'terminal-success';
+    writeToTerminal(`✅ Objective complete! +${earnedXP} XP${penaltyMessage}`, xpClass);
     
     // Auto-scroll to next objective
     scrollToNextObjective(nextObjectiveIndex + 1);
@@ -2434,6 +2544,8 @@ function restartMission(missionIndex) {
   const mission = missions[missionIndex];
   mission.objectives.forEach(obj => {
     obj.completed = false;
+    obj.hintUsed = false;   // Reset hint tracking
+    obj.copyUsed = false;   // Reset copy tracking
   });
   
   // IMPORTANT: Restore filesystem to state BEFORE this mission started
@@ -2457,19 +2569,13 @@ function restartMission(missionIndex) {
 function completeMission() {
   const mission = missions[gameState.currentMission];
   
-  // Calculate XP reward - reduce by 50% if hint was used
-  let xpReward = mission.xpReward;
-  if (gameState.hintUsedThisMission) {
-    xpReward = Math.floor(xpReward * 0.5);
-  }
+  // Mission completion bonus is now separate from objective XP
+  // Award full mission.xpReward always (objectives already had penalties)
+  const xpReward = mission.xpReward;
   
   writeToTerminal('', '');
   writeToTerminal('🎉 MISSION COMPLETE! 🎉', 'terminal-success');
-  if (gameState.hintUsedThisMission) {
-    writeToTerminal(`You earned ${xpReward} XP (50% penalty for using hints)`, 'terminal-warning');
-  } else {
-    writeToTerminal(`You earned ${xpReward} XP!`, 'terminal-success');
-  }
+  writeToTerminal(`Mission completion bonus: +${xpReward} XP!`, 'terminal-success');
   writeToTerminal('', '');
   
   addXP(xpReward);
@@ -2489,7 +2595,9 @@ function completeMission() {
     unlockAchievement('mission_5');
   }
   
-  if (!gameState.hintUsedThisMission) {
+  // Check if no hints OR copy buttons were used in this mission
+  const noHelpUsed = mission.objectives.every(obj => !obj.hintUsed && !obj.copyUsed);
+  if (noHelpUsed) {
     unlockAchievement('no_hints');
   }
   
