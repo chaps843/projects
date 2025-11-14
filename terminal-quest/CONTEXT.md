@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.9.3 (Review 2 Pipe Practice Clarity)
+## Current Status: v2.9.4 (Review 2 Redirection Preview Guidance)
 
 ### Session History
 
@@ -268,6 +268,16 @@ Example for user:
 - User feedback: "wc -w message.txt would work but it wants cat | wc -w - should be clearer"
 - This is a Review mission testing pipes from Mission 11, so objective should be explicit about practicing pipes
 - Updated details to explain: "Practice piping! Use cat to output, then pipe to wc -w"
+- **v2.9.4**: Review 2 (Mission 12) Objectives 13-14 detailed guidance for redirection preview
+- **FOUND MAJOR ISSUE**: Objectives 13-14 test output redirection (Mission 13 content) BEFORE Mission 13!
+- User feedback: "needs way more explanation on how to accomplish that. Uses things we haven't covered"
+- Command uses wildcards with paths (logs/*.log) and output redirection (>) - NOT taught yet!
+- Added comprehensive step-by-step explanations in details
+- Labeled as "NEW SKILL - Output Redirection!" to set expectations
+- Breaks down: 1) wildcard matching, 2) pipe, 3) redirect operator
+- Updated mission story to mention "last two objectives preview Mission 13"
+- Teaches ahead with excellent guidance rather than removing objectives
+- Students now understand they're learning something new, not just reviewing
 
 ### Project Stats
 

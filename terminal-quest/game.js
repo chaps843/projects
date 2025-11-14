@@ -555,7 +555,7 @@ const missions = [
   {
     id: 12,
     title: 'Review 2: Search & Analysis Checkpoint',
-    story: 'You\'ve learned powerful search and analysis tools. Time to demonstrate your grep, find, and piping skills on real-world tasks!',
+    story: 'You\'ve learned powerful search and analysis tools. Time to demonstrate your grep, find, and piping skills on real-world tasks! The last two objectives preview output redirection (covered in Mission 13).',
     startDir: '/home/user/logs',
     objectives: [
       { text: 'Search for ERROR in server.log (in current directory)', completed: false, command: 'grep ERROR server.log', details: 'Basic grep search from Mission 7. You start in the logs directory.' },
@@ -570,8 +570,8 @@ const missions = [
       { text: 'Count how many developers exist in users.txt (in home)', completed: false, command: 'grep developer users.txt | wc -l', details: 'Combine grep and wc with pipe from Mission 11.' },
       { text: 'Find .txt files and show first 3', completed: false, command: 'find . -name "*.txt" | head -n 3', details: 'Chain find and head with pipe from Mission 11.' },
       { text: 'Use cat and pipe to count words in message.txt (in home)', completed: false, command: 'cat message.txt | wc -w', details: 'Practice piping! Use cat to output the file, then pipe | to wc -w to count words. This reviews the pipe concept from Mission 11.' },
-      { text: 'Save ERROR count to error_summary.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > error_summary.txt', details: 'Combine grep, pipe, wc, and redirect from Mission 11.' },
-      { text: 'Append your current directory to error_summary.txt', completed: false, command: 'pwd >> error_summary.txt', details: 'Use >> to append instead of overwrite from Mission 11.' }
+      { text: 'Count ERRORs in all .log files and save to error_summary.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > error_summary.txt', details: 'NEW SKILL - Output Redirection! This previews Mission 13. Steps: 1) grep ERROR logs/*.log finds errors in ALL log files (*.log = wildcard), 2) | wc -l counts them, 3) > error_summary.txt saves the count to a file instead of displaying it. The > operator redirects output!' },
+      { text: 'Append your current directory path to error_summary.txt', completed: false, command: 'pwd >> error_summary.txt', details: 'Practice redirection! pwd shows your location, >> appends it to the file (> would overwrite, >> adds to the end). You\'re learning ahead - Mission 13 covers this in detail!' }
     ],
     hints: ['Review Missions 7-11', 'grep: search with -i, -c, -n, -v flags', 'find: search by -name or -type', 'Pipes: command1 | command2', 'Redirect: > (overwrite), >> (append)'],
     reference: {'grep': 'Search patterns', 'grep -i': 'Case-insensitive', 'grep -c': 'Count', 'grep -n': 'Line numbers', 'grep -v': 'Inverse', 'find': 'Find files', 'find -type': 'Filter by type', '|': 'Pipe', 'wc -l': 'Count lines', 'wc -w': 'Count words', '>': 'Redirect', '>>': 'Append'},
