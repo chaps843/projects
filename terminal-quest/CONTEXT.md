@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.5.2 (Mission Redesign & Polish)
+## Current Status: v2.9.2 (Review 2 Objective Text Clarity)
 
 ### Session History
 
@@ -94,7 +94,7 @@ Example for user:
 - Higher XP rewards for reviews (500-1500 XP)
 - Improved knowledge retention and skill validation
 
-#### Session 6: UX Polish & Navigation (v2.4.1-2.5.0)
+#### Session 6: UX Polish & Navigation (v2.4.1-2.5.2)
 - **v2.4.1**: Fixed review mission starting directories - removed redundant "navigate home" objectives
 - **v2.4.1**: Clarified objective text to specify exact filenames (e.g., "Create config_backup.txt" instead of "Create a backup")
 - **v2.4.2**: Implemented scrollable objectives section with fixed command reference at bottom
@@ -112,23 +112,174 @@ Example for user:
 - Dramatically improved UX for review missions with many objectives
 - Clean, intuitive navigation system
 
+#### Session 7: TAB Autocompletion (v2.6.0)
+- **v2.6.0**: Implemented full TAB autocompletion functionality
+- Command completion: Type `gr` + TAB → `grep `
+- File/directory completion: Type `cd doc` + TAB → `cd documents/`
+- Path completion: Works with relative and absolute paths
+- Multiple match handling: Shows all options when multiple matches found
+- Smart directory detection: Adds trailing slash for directories
+- Tilde expansion support: `~/doc` + TAB works correctly
+- Authentic terminal experience with real bash-like autocompletion
+
+#### Session 8: Restart Mission Bug Fix (v2.6.1)
+- **v2.6.1**: Fixed restart mission bug that was resetting all future missions
+- Added `gameState.completedMissions` array to track specific completed missions
+- Created new `restartMission()` function for proper mission reset
+- Updated `loadMission()` to preserve completion status of finished missions
+- Updated save/load system to persist completed missions array
+- Restarting a mission now only affects that mission, not future ones
+- Navigating to completed missions shows all objectives as done
+- Major UX improvement for mission replay and review
+
+#### Session 9: Free Roaming Commands (v2.7.0-2.7.6)
+- **v2.7.0**: Implemented free roaming commands for navigation flexibility
+- Always allow: `cd`, `pwd`, `ls`, `clear`, `help`, `man` regardless of objective
+- Three-color command feedback system:
+  - 🟢 Green: Completes objective (awards XP)
+  - 🟡 Yellow: Free roaming (executes but doesn't complete objective)
+  - 🔴 Red: Incorrect command (doesn't execute)
+- Solves "stuck in wrong directory" problem after mission restart
+- Players can navigate freely while still following structured learning
+- More realistic terminal experience
+- Encourages exploration without penalty
+- Major UX improvement for mission flexibility
+- **v2.7.1**: Fixed TAB completion trailing slash bug
+- Created `normalizeCommand()` function to strip trailing slashes
+- TAB-completed directories now match objectives correctly
+- `cd documents/` now matches objective expecting `cd documents`
+- Users can freely use TAB completion without penalty
+- Updated `changeDirectory()` to strip trailing slashes before filesystem lookup
+- Complete end-to-end TAB completion functionality
+- **v2.7.2**: Implemented smart mission progression
+- Created `findNextIncompleteMission()` function
+- After completing mission, jumps to first incomplete mission (not just +1)
+- Replaying old missions now seamlessly returns to current progress
+- Perfect for practice and skill review
+- **v2.7.3**: Implemented path equivalence matching
+- Created `commandsAreEquivalent()` function for flexible path comparison
+- `cd logs` now matches objectives expecting `cd ~/logs`
+- Handles relative vs absolute paths intelligently
+- Tilde expansion normalized for comparison
+- Users can navigate using any valid path format
+- **v2.7.4**: Complete mission restart with filesystem snapshots
+- Added `filesystemSnapshots` to gameState for mission-specific filesystem backups
+- Created `saveFilesystemSnapshot()` to capture state before each mission starts
+- Created `restoreFilesystemSnapshot()` to restore filesystem when restarting
+- Restarting a mission now:
+  - Resets filesystem to state before that mission (preserves previous work)
+  - Resets current directory to mission's starting directory
+  - Updates prompt to reflect new location
+  - Auto-focuses terminal for immediate play
+- Preserves work done in previous missions while fully resetting current mission
+- Perfect mission restart experience
+- **v2.7.5**: Mission cleanup and polish
+- Removed 4 redundant "return home" objectives (Missions 9, 10, 14, 17)
+- Fixed Mission 9 objective 2 text clarity ("manager" vs "managers")
+- Made Mission 10 objective 1 more intuitive and clear
+- Reduced total objectives from 138 to 134
+- Streamlined mission flow
+- Eliminated busywork navigation steps
+- **v2.7.6**: Find command -type flag support
+- Implemented `-type` flag for `find` command (was missing!)
+- `find . -type d` now works correctly (find directories only)
+- `find . -type f` now works correctly (find files only)
+- Updated `find()` function to handle both `-name` and `-type` flags
+- Updated `man find` documentation to include `-type` option
+- Fixed Mission 10 Objective 2 bug (was showing error despite completing)
+- Complete find command functionality matching real Linux behavior
+- **v2.7.7**: Mission 11 pedagogy improvement (pipes tutorial)
+- Completely redesigned Mission 11 for beginner-friendly pipe learning
+- Changed from 5 complex objectives to step-by-step learning progression
+- Objective 1-2: Learn grep alone, then grep with pipe (see transformation)
+- Objective 3-4: Learn find alone, then find with pipe (understand limiting)
+- Objective 5: Practice combining commands with confidence
+- Enhanced story to explain pipes conceptually before using them
+- Improved all objective details to guide learners step-by-step
+- Better hints explaining "command1 | command2" mental model
+- Major improvement for first-time pipe users
+- Addresses feedback: "No way as a beginner I would know this command"
+- **v2.7.8**: Mission 11 fix & hint UX improvement
+- Added `startDir: '/home/user'` to Mission 11 to fix "No such directory" error
+- Mission 11 Objective 1 now works correctly from the start
+- Created `closeHintPopup()` function for consistent hint closing behavior
+- Added auto-focus to terminal input after closing hint popup
+- Clicking X or overlay background now both focus terminal automatically
+- Same UX behavior as "Restart Mission" button
+- Improved workflow: View hint → Close popup → Immediately type command
+- No more manual clicking back to terminal after viewing hints
+- **v2.7.9**: REVERTED - Accidentally re-added redundant navigation objective
+- **v2.8.0**: Mission 11 filesystem validation (proper fix)
+- Removed redundant `cd ~` objective (we eliminated those in v2.7.5!)
+- Added filesystem validation when Mission 11 loads
+- Checks if `logs/` directory exists before mission starts
+- If logs directory is missing/corrupted, restores fresh filesystem automatically
+- Displays "Filesystem restored for this mission" message when restoration occurs
+- Mission 11 back to 5 objectives (proper pipe tutorial)
+- Proper fix without adding busywork navigation steps
+- Works reliably regardless of previous mission modifications
+- **v2.8.1**: readFile path support - THE ACTUAL ROOT CAUSE FIX!
+- **FOUND THE BUG**: `readFile()` only looked in current directory, didn't handle paths
+- `grep ERROR logs/server.log` failed because readFile couldn't parse `logs/server.log`
+- Fixed `readFile()` to handle relative paths like `logs/server.log` and `documents/report.txt`
+- Now uses `getNode()` to navigate directory structure when path contains `/`
+- Handles both absolute paths (`/home/user/logs/server.log`) and relative (`logs/server.log`)
+- Simple filenames still work as before (`server.log` when in logs directory)
+- **This was the real issue all along** - not filesystem corruption, but path parsing!
+- Mission 11 and ALL commands using files with paths now work correctly
+- **v2.8.2**: Mission 11 objective text polish
+- Changed Objective 5 from "Count how many developer users exist" to "Count how many developers exist"
+- More natural and clearer phrasing
+- Prevents confusion (user tried `grep -c developer users users.txt` with "users" as pattern)
+- **v2.9.0**: Complete objective clarity overhaul - MAJOR UX IMPROVEMENT
+- Conducted comprehensive audit of all 199 objectives across 19 missions
+- **Found 36 objectives (18%) with unclear file references**
+- Fixed ALL 36 objectives to explicitly specify file locations
+- Added location markers: "(in home)", "(in current directory)", "(in logs directory)"
+- Mission 4: 5 objectives fixed (all files in home)
+- Mission 6: 3 objectives fixed (documents directory context)
+- Mission 7: 3 objectives fixed (logs directory context)
+- Mission 8: 4 objectives fixed (all files in home)
+- Mission 9: 2 objectives fixed (file location clarity)
+- Mission 11: 1 objective fixed (users.txt location)
+- Mission 12 (Review 2): 5 objectives fixed - **addresses user's reported confusion!**
+- Mission 17: 1 objective fixed (users.txt source clarity)
+- Mission 18: 1 objective fixed (current directory context)
+- Mission 19: 5 objectives fixed (multiple file switches clarified)
+- **Eliminates confusion when objectives switch between files without warning**
+- Players now always know exactly which file to use
+- Major improvement to learning experience and reduces frustration
+- **v2.9.1**: Mission 7 & 12 location context corrections
+- Fixed Mission 7: Changed "(in logs directory)" to "(in current directory)" after cd
+- Fixed Mission 12: Changed "(in logs directory)" to "(in current directory)" since mission starts there
+- Extended filesystem validation to Mission 7 and 12 (not just Mission 11)
+- Added missionsNeedingLogs array [6, 10, 11] for Mission 7, 11, 12 validation
+- Ensures logs directory exists before missions that need it start
+- More accurate location descriptions matching actual starting directory
+- User reported: "it mentions logs directory but I'm already in logs" - FIXED!
+- **v2.9.2**: Review 2 (Mission 12) Objective 6 text clarity
+- Changed from "Return home and find all .txt files" to simply "Return home"
+- Objective 6 is just `cd ~` navigation, Objective 7 does the actual find
+- Prevents confusion about what the objective expects
+- User feedback: objective text was describing next objective, not current one
+
 ### Project Stats
 
 **Code:**
-- game.js: 1,345 lines
-- styles.css: 789 lines
-- index.html: 218 lines
-- **Total:** 2,352 lines of code
+- game.js: 2,635 lines
+- styles.css: 1,251 lines
+- index.html: 222 lines
+- **Total:** 4,108 lines of code
 
 **Content:**
-- 19 missions (138 total objectives)
+- 19 missions (134 total objectives)
 - 17 working commands
 - 12 achievements
-- 8,100 total XP
+- 8,000 total XP
 - ~6-7 hours gameplay
 
 **Size:**
-- Total project: 128KB
+- Total project: ~160KB
 - Zero dependencies
 - Works offline
 
@@ -473,9 +624,9 @@ No attribution required, but appreciated!
 
 ---
 
-**Last Updated:** 2025-11-11
-**Version:** 2.5.2
-**Status:** Fully functional, production-ready, polished UX with no redundant missions
+**Last Updated:** 2025-11-13
+**Version:** 2.9.2
+**Status:** Fully functional, production-ready, crystal-clear objectives
 **Next Steps:** See ROADMAP.md
 
 ## Recent UX Improvements (v2.4.1-2.5.2)
@@ -504,3 +655,15 @@ No attribution required, but appreciated!
 - Example: "Create config_backup.txt" not "Create a backup"
 - Reduces confusion and unnecessary hint usage
 - Users know exactly what's expected
+
+### TAB Autocompletion (v2.6.0)
+- Press TAB to autocomplete commands and paths
+- **Command completion**: Type partial command + TAB (e.g., `gr` → `grep`)
+- **File completion**: Type partial filename + TAB (e.g., `cat mes` → `cat message.txt`)
+- **Directory completion**: Auto-adds trailing slash (e.g., `cd doc` → `cd documents/`)
+- **Path navigation**: Works with relative paths (`./doc` → `./documents/`)
+- **Absolute paths**: Works with full paths (`/home/us` → `/home/user/`)
+- **Tilde expansion**: Supports `~` shortcut (`~/doc` → `~/documents/`)
+- **Multiple matches**: Shows all matching options when ambiguous
+- **Smart context**: Knows when to complete commands vs. file arguments
+- Authentic bash-like terminal experience

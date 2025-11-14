@@ -20,7 +20,9 @@ const gameState = {
   hintUsedThisMission: false,
   commandHistory: [],
   filesystem: null,
-  currentDirectory: '/home/user'
+  currentDirectory: '/home/user',
+  completedMissions: [], // Track which specific missions have been completed
+  filesystemSnapshots: {} // Store filesystem state before each mission starts
 };
 
 // Achievement definitions
@@ -194,31 +196,31 @@ const missions = [
     story: 'Important information is scattered across files. You need to read them using different viewing techniques - sometimes you need the whole file, sometimes just the beginning or end.',
     objectives: [
       { 
-        text: 'Display the full contents of message.txt', 
+        text: 'Display the full contents of message.txt (in home)', 
         completed: false, 
         command: 'cat message.txt',
         details: 'The \'cat\' command displays entire file contents. Use \'cat message.txt\' to read the complete welcome message.'
       },
       { 
-        text: 'Preview just the first 3 lines of users.txt', 
+        text: 'Preview just the first 3 lines of users.txt (in home)', 
         completed: false, 
         command: 'head -n 3 users.txt',
         details: 'Use \'head -n 3 users.txt\' to see just the beginning. head is perfect when you only need a quick preview of a file.'
       },
       { 
-        text: 'Check the last 4 lines of data.txt for recent entries', 
+        text: 'Check the last 4 lines of data.txt (in home) for recent entries', 
         completed: false, 
         command: 'tail -n 4 data.txt',
         details: 'Use \'tail -n 4 data.txt\' to see the end. tail is commonly used to check the most recent entries in log files.'
       },
       { 
-        text: 'Read the complete config.txt file', 
+        text: 'Read the complete config.txt file (in home)', 
         completed: false, 
         command: 'cat config.txt',
         details: 'Use cat again to view the full configuration. Different situations call for different viewing commands.'
       },
       { 
-        text: 'View the first 5 lines of test.txt', 
+        text: 'View the first 5 lines of test.txt (in home)', 
         completed: false, 
         command: 'head -n 5 test.txt',
         details: 'Practice with head again. You\'re learning when to use each command - full view with cat, preview with head, recent data with tail!'
@@ -295,8 +297,8 @@ const missions = [
     startDir: '/home/user/documents',
     objectives: [
       { text: 'List all files in the current directory', completed: false, command: 'ls', details: 'Show what files exist here. Core command for seeing directory contents.' },
-      { text: 'View the complete contents of notes.txt', completed: false, command: 'cat notes.txt', details: 'Use cat to display the entire file. Mission 4 taught viewing commands.' },
-      { text: 'Check just the first 2 lines of report.txt', completed: false, command: 'head -n 2 report.txt', details: 'Use head to preview the beginning. Shows only what you need.' },
+      { text: 'View the complete contents of notes.txt (in current directory)', completed: false, command: 'cat notes.txt', details: 'Use cat to display the entire file. Mission 4 taught viewing commands.' },
+      { text: 'Check just the first 2 lines of report.txt (in current directory)', completed: false, command: 'head -n 2 report.txt', details: 'Use head to preview the beginning. Shows only what you need.' },
       { text: 'Return to your home directory', completed: false, command: 'cd ~', details: 'Use the tilde shortcut to jump home from anywhere.' },
       { text: 'Check your current location', completed: false, command: 'pwd', details: 'Verify where you are. Always good to confirm location.' },
       { text: 'Create a new file called review1.txt', completed: false, command: 'touch review1.txt', details: 'Use touch to create an empty file from Mission 3.' },
@@ -304,7 +306,7 @@ const missions = [
       { text: 'Create a directory called review_files', completed: false, command: 'mkdir review_files', details: 'Use mkdir to create a new directory from Mission 3.' },
       { text: 'Move review1_backup.txt into review_files', completed: false, command: 'mv review1_backup.txt review_files/', details: 'Use mv to relocate the file from Mission 5.' },
       { text: 'Delete the original review1.txt file', completed: false, command: 'rm review1.txt', details: 'Use rm carefully to remove files from Mission 5.' },
-      { text: 'View the last 3 lines of data.txt', completed: false, command: 'tail -n 3 data.txt', details: 'Use tail to check the end from Mission 4.' }
+      { text: 'View the last 3 lines of data.txt (in home)', completed: false, command: 'tail -n 3 data.txt', details: 'Use tail to check the end from Mission 4.' }
     ],
     hints: ['Review commands from Missions 1-5', 'Navigation: cd, pwd, ls', 'Viewing: cat, head, tail', 'Operations: touch, mkdir, cp, mv, rm', 'Use ~ as shortcut for home'],
     reference: {'cd': 'Change directory', 'cd ~': 'Go home (~ = home directory)', 'ls': 'List files', 'pwd': 'Print working directory', 'cat': 'Display file', 'head': 'View beginning', 'tail': 'View end', 'touch': 'Create file', 'mkdir': 'Create directory', 'cp': 'Copy', 'mv': 'Move/rename', 'rm': 'Remove'},
@@ -322,10 +324,10 @@ const missions = [
         details: 'Use absolute path ~/logs to navigate directly. The tilde expands to your home directory path.'
       },
       { 
-        text: 'Search for ERROR entries in server.log', 
+        text: 'Search for ERROR entries in server.log (in current directory)', 
         completed: false, 
         command: 'grep ERROR server.log',
-        details: 'Searches for the text "ERROR" in server.log file. grep is case-sensitive by default. Each matching line will be displayed.'
+        details: 'Searches for the text "ERROR" in server.log file. grep is case-sensitive by default. Each matching line will be displayed. You\'re now in the logs directory.'
       },
       { 
         text: 'Count how many times ERROR appears in server.log', 
@@ -337,13 +339,13 @@ const missions = [
         text: 'Find "user" in access.log (case-insensitive)', 
         completed: false, 
         command: 'grep -i user access.log',
-        details: 'Use \'grep -i user access.log\' for case-insensitive search. The -i flag matches "user", "User", "USER", etc. Essential for flexible searching.'
+        details: 'Use \'grep -i user access.log\' for case-insensitive search. The -i flag matches "user", "User", "USER", etc. Essential for flexible searching. access.log is in current directory.'
       },
       { 
         text: 'Show Permission errors with line numbers in error.log', 
         completed: false, 
         command: 'grep -n Permission error.log',
-        details: 'Use \'grep -n Permission error.log\' to show line numbers. The -n flag helps you locate exactly where in the file each match occurs.'
+        details: 'Use \'grep -n Permission error.log\' to show line numbers. The -n flag helps you locate exactly where in the file each match occurs. error.log is in current directory.'
       }
     ],
     hints: [
@@ -367,25 +369,25 @@ const missions = [
     story: 'Sometimes you need statistics about files, not just their contents. Learn to count lines, words, and characters - essential for analyzing log files and documents!',
     objectives: [
       { 
-        text: 'Count the total lines in data.txt', 
+        text: 'Count the total lines in data.txt (in home)', 
         completed: false, 
         command: 'wc -l data.txt',
         details: 'Use \'wc -l data.txt\' to count lines. The -l flag counts lines. wc stands for "word count" but does much more!'
       },
       { 
-        text: 'Count the words in message.txt', 
+        text: 'Count the words in message.txt (in home)', 
         completed: false, 
         command: 'wc -w message.txt',
         details: 'Use \'wc -w message.txt\' to count words. The -w flag counts words separated by spaces. Useful for analyzing text length.'
       },
       { 
-        text: 'Count the characters in config.txt', 
+        text: 'Count the characters in config.txt (in home)', 
         completed: false, 
         command: 'wc -c config.txt',
         details: 'Use \'wc -c config.txt\' to count characters (bytes). The -c flag gives you file size in bytes. Great for checking file sizes.'
       },
       { 
-        text: 'Get full statistics for users.txt', 
+        text: 'Get full statistics for users.txt (in home)', 
         completed: false, 
         command: 'wc users.txt',
         details: 'Use \'wc users.txt\' without flags to see everything: lines, words, and characters all at once. Complete file statistics!'
@@ -417,19 +419,13 @@ const missions = [
     story: 'Your team needs specific information from files, including finding what\'s NOT there. Master advanced grep techniques including inverse matching!',
     objectives: [
       { 
-        text: 'Return home and search for developer entries', 
-        completed: false, 
-        command: 'cd ~',
-        details: 'Navigate to home directory where the files are located.'
-      },
-      { 
-        text: 'Find all lines with "developer" in users.txt', 
+        text: 'Find all lines with "developer" in users.txt (in home)', 
         completed: false, 
         command: 'grep developer users.txt',
         details: 'Searches users.txt for any line containing "developer". Perfect for filtering lists and finding specific entries.'
       },
       { 
-        text: 'Show all users who are NOT managers', 
+        text: 'Show all users whose role is NOT "manager"', 
         completed: false, 
         command: 'grep -v manager users.txt',
         details: 'Use \'grep -v manager users.txt\' to invert the match. The -v flag shows lines that DON\'T contain the pattern. Powerful for exclusion filtering.'
@@ -441,14 +437,13 @@ const missions = [
         details: 'Use \'grep -i admin users.txt\' for case-insensitive search. Finds "admin", "Admin", "ADMIN", etc. Essential for flexible searching.'
       },
       { 
-        text: 'Find lines in config.txt that don\'t contain "port"', 
+        text: 'Find lines in config.txt (in home) that don\'t contain "port"', 
         completed: false, 
         command: 'grep -v port config.txt',
         details: 'Practice inverse matching with -v. This shows all configuration lines except those related to ports. Great for filtering out noise.'
       }
     ],
     hints: [
-      'Use \'cd ~\' to return home.',
       'grep searches for text: \'grep PATTERN filename\'.',
       'grep -v shows lines NOT matching: \'grep -v PATTERN file\'.',
       'grep -i ignores case: \'grep -i pattern file\'.'
@@ -467,16 +462,10 @@ const missions = [
     story: 'Files and directories are scattered everywhere! You need to locate specific items by name, pattern, and type. Master find with different search techniques.',
     objectives: [
       { 
-        text: 'Return home to search the entire tree', 
-        completed: false, 
-        command: 'cd ~',
-        details: 'Start from home directory to search your entire user space. The find command searches recursively from wherever you are.'
-      },
-      { 
-        text: 'Find all .txt files in your home directory tree', 
+        text: 'Find all files matching the pattern "*.txt" using find command', 
         completed: false, 
         command: 'find . -name "*.txt"',
-        details: 'Searches from current directory (.) downward for all files matching *.txt pattern. The * wildcard matches any text before .txt.'
+        details: 'Use find with -name flag to search by filename pattern. The dot (.) means current directory. The pattern "*.txt" matches all files ending in .txt.'
       },
       { 
         text: 'Find only directories (not files)', 
@@ -515,50 +504,51 @@ const missions = [
   {
     id: 11,
     title: 'Mission 11: Pipes - The Power Combo',
-    story: 'Real power comes from combining commands! Use pipes (|) to chain commands together for complex analysis tasks.',
+    story: 'Real power comes from combining commands! The pipe operator (|) lets you send the output of one command as input to another. Think of it like a chain: command1 finds data, then | passes it to command2 for processing. Let\'s learn this step by step!',
+    startDir: '/home/user',
     objectives: [
       { 
-        text: 'Count how many ERROR lines exist in server.log', 
+        text: 'First, see all ERROR lines in logs/server.log', 
+        completed: false, 
+        command: 'grep ERROR logs/server.log',
+        details: 'Start simple - just search for ERROR in the server log. You should see several error lines displayed. This is step 1 of understanding pipes.'
+      },
+      { 
+        text: 'Count those ERROR lines using a pipe', 
         completed: false, 
         command: 'grep ERROR logs/server.log | wc -l',
-        details: 'Pipes grep output to wc (word count). The | sends grep\'s results to wc, and -l counts lines. This shows how many errors exist.'
+        details: 'Here\'s the magic! The pipe | takes grep\'s output (all those ERROR lines) and sends it to "wc -l" which counts the lines. Format: grep finds errors | wc counts them.'
       },
       { 
-        text: 'Find all .txt files but show only the first 5', 
+        text: 'Find all .txt files in your home directory', 
+        completed: false, 
+        command: 'find . -name "*.txt"',
+        details: 'Before using pipes, see what find outputs. You\'ll get a long list of .txt files. Too many to read easily! This sets up the next objective.'
+      },
+      { 
+        text: 'Limit that .txt file list to just the first 5 results', 
         completed: false, 
         command: 'find . -name "*.txt" | head -n 5',
-        details: 'Chains find with head using a pipe. find lists all .txt files, then head limits output to first 5 results. Great for limiting long outputs.'
+        details: 'Use a pipe to limit the output! find lists ALL .txt files | head shows only first 5. The pipe sends find\'s long list to head, which cuts it short.'
       },
       { 
-        text: 'Count how many developer users exist', 
+        text: 'Count how many developers exist in users.txt (in home)', 
         completed: false, 
         command: 'grep developer users.txt | wc -l',
-        details: 'Combine grep and wc to count specific entries. First grep finds developers, then wc counts how many lines matched.'
-      },
-      { 
-        text: 'Search all .log files and show only first 3 results', 
-        completed: false, 
-        command: 'find . -name "*.log" | head -n 3',
-        details: 'Chain multiple commands together. The output of find becomes the input for head, giving you exactly what you need.'
-      },
-      { 
-        text: 'Count total words in message.txt', 
-        completed: false, 
-        command: 'cat message.txt | wc -w',
-        details: 'Use wc -w to count words instead of lines. The -w flag counts words. Different wc flags give different statistics!'
+        details: 'Combine what you\'ve learned! grep finds lines with "developer" | wc -l counts how many lines matched. Two commands working together!'
       }
     ],
     hints: [
-      'The pipe | sends output from one command to another.',
-      'Format: command1 | command2',
-      'Example: grep ERROR file | wc -l counts matching lines.',
-      'find can be piped to head to limit results.'
+      'The pipe | sends output from command1 to command2.',
+      'Think: command1 | command2 means "do command1, then process with command2"',
+      'Example: grep ERROR file | wc -l means "find errors, then count them"',
+      'Pipes let you combine simple commands into powerful operations!'
     ],
     reference: {
       '|': 'Pipe: send output to another command',
-      'wc -l': 'Count lines',
-      'wc -w': 'Count words',
-      'command1 | command2': 'Chain commands'
+      'grep | wc -l': 'Search then count',
+      'find | head': 'Search then limit results',
+      'command1 | command2': 'Chain commands together'
     },
     xpReward: 400
   },
@@ -568,18 +558,18 @@ const missions = [
     story: 'You\'ve learned powerful search and analysis tools. Time to demonstrate your grep, find, and piping skills on real-world tasks!',
     startDir: '/home/user/logs',
     objectives: [
-      { text: 'Search for ERROR in server.log', completed: false, command: 'grep ERROR server.log', details: 'Basic grep search from Mission 7.' },
-      { text: 'Count how many ERROR entries exist', completed: false, command: 'grep -c ERROR server.log', details: 'Use grep -c to count matches from Mission 7.' },
-      { text: 'Find all lines with "user" (case-insensitive)', completed: false, command: 'grep -i user access.log', details: 'Use grep -i for case-insensitive search from Mission 7.' },
-      { text: 'Show WARNING lines with line numbers', completed: false, command: 'grep -n WARNING server.log', details: 'Use grep -n to show line numbers from Mission 7.' },
-      { text: 'Show lines NOT containing ERROR', completed: false, command: 'grep -v ERROR server.log', details: 'Use grep -v for inverse matching from Mission 9.' },
-      { text: 'Return home and find all .txt files', completed: false, command: 'cd ~', details: 'Navigate home before searching the directory tree.' },
+      { text: 'Search for ERROR in server.log (in current directory)', completed: false, command: 'grep ERROR server.log', details: 'Basic grep search from Mission 7. You start in the logs directory.' },
+      { text: 'Count how many ERROR entries exist in server.log', completed: false, command: 'grep -c ERROR server.log', details: 'Use grep -c to count matches from Mission 7.' },
+      { text: 'Find all lines with "user" in access.log (case-insensitive)', completed: false, command: 'grep -i user access.log', details: 'Use grep -i for case-insensitive search from Mission 7. access.log is in current directory.' },
+      { text: 'Show WARNING lines with line numbers in server.log', completed: false, command: 'grep -n WARNING server.log', details: 'Use grep -n to show line numbers from Mission 7.' },
+      { text: 'Show lines NOT containing ERROR in server.log', completed: false, command: 'grep -v ERROR server.log', details: 'Use grep -v for inverse matching from Mission 9.' },
+      { text: 'Return home', completed: false, command: 'cd ~', details: 'Navigate back to your home directory before the next tasks.' },
       { text: 'List all .txt files in your home tree', completed: false, command: 'find . -name "*.txt"', details: 'Use find with pattern matching from Mission 10.' },
       { text: 'Find only directories (not files)', completed: false, command: 'find . -type d', details: 'Use find -type d to filter directories from Mission 10.' },
       { text: 'Find only regular files', completed: false, command: 'find . -type f', details: 'Use find -type f to filter files from Mission 10.' },
-      { text: 'Count how many developers exist in users.txt', completed: false, command: 'grep developer users.txt | wc -l', details: 'Combine grep and wc with pipe from Mission 11.' },
+      { text: 'Count how many developers exist in users.txt (in home)', completed: false, command: 'grep developer users.txt | wc -l', details: 'Combine grep and wc with pipe from Mission 11.' },
       { text: 'Find .txt files and show first 3', completed: false, command: 'find . -name "*.txt" | head -n 3', details: 'Chain find and head with pipe from Mission 11.' },
-      { text: 'Count total words in message.txt', completed: false, command: 'cat message.txt | wc -w', details: 'Use cat, pipe, and wc -w from Mission 11.' },
+      { text: 'Count total words in message.txt (in home)', completed: false, command: 'cat message.txt | wc -w', details: 'Use cat, pipe, and wc -w from Mission 11.' },
       { text: 'Save ERROR count to error_summary.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > error_summary.txt', details: 'Combine grep, pipe, wc, and redirect from Mission 11.' },
       { text: 'Append your current directory to error_summary.txt', completed: false, command: 'pwd >> error_summary.txt', details: 'Use >> to append instead of overwrite from Mission 11.' }
     ],
@@ -642,12 +632,6 @@ const missions = [
     title: 'Mission 14: Wildcards',
     story: 'Working with multiple files at once is essential. Master wildcards to match file patterns and perform batch operations like a pro!',
     objectives: [
-      { 
-        text: 'Return home and list only .txt files', 
-        completed: false, 
-        command: 'cd ~',
-        details: 'Navigate to home directory to start working with wildcards.'
-      },
       { 
         text: 'Show all .txt files using wildcard pattern', 
         completed: false, 
@@ -795,13 +779,7 @@ const missions = [
     story: 'Congratulations on making it this far! Your final test: complete a complex real-world task using everything you\'ve learned. The company needs a complete system audit with full documentation.',
     objectives: [
       { 
-        text: 'Return home and create a system_audit directory', 
-        completed: false, 
-        command: 'cd ~',
-        details: 'Start from home directory. Professional audits begin from a consistent starting point.'
-      },
-      { 
-        text: 'Create the audit directory', 
+        text: 'Create the system_audit directory', 
         completed: false, 
         command: 'mkdir system_audit',
         details: 'Creates directory for your audit results. Organization first!'
@@ -813,7 +791,7 @@ const missions = [
         details: 'Finds all .txt files and saves list to audit folder. Complete file inventory across entire system.'
       },
       { 
-        text: 'Save developer user list to audit directory', 
+        text: 'Save developer user list from users.txt (in home) to audit directory', 
         completed: false, 
         command: 'grep developer users.txt > system_audit/developers.txt',
         details: 'Extract specific user role information. Audit requires documenting who has what access.'
@@ -856,7 +834,7 @@ const missions = [
       { text: 'Go up two levels to home', completed: false, command: 'cd ../..', details: 'Use relative path with multiple levels from Mission 14.' },
       { text: 'Navigate to logs using absolute path', completed: false, command: 'cd /home/user/logs', details: 'Use full absolute path from Mission 14.' },
       { text: 'Create an analysis directory', completed: false, command: 'mkdir ~/analysis', details: 'Create directory with tilde shortcut.' },
-      { text: 'Search all log files for ERROR', completed: false, command: 'grep ERROR *.log', details: 'Use wildcard to search multiple files from Mission 15.' },
+      { text: 'Search all log files for ERROR (in current directory)', completed: false, command: 'grep ERROR *.log', details: 'Use wildcard to search multiple files from Mission 15.' },
       { text: 'Count total errors and save to analysis', completed: false, command: 'grep ERROR *.log | wc -l > ~/analysis/error_count.txt', details: 'Combine grep, pipe, wc, redirect from Mission 15.' },
       { text: 'Save all ERROR lines to analysis', completed: false, command: 'grep ERROR *.log > ~/analysis/all_errors.txt', details: 'Redirect grep output to file from Mission 15.' },
       { text: 'Find all .log files and save list to analysis', completed: false, command: 'find /home/user/logs -name "*.log" > ~/analysis/log_files.txt', details: 'Document files checked from Mission 15.' },
@@ -877,13 +855,13 @@ const missions = [
       { text: 'List all files to see what you\'re working with', completed: false, command: 'ls', details: 'Survey the landscape before starting work.' },
       { text: 'Create a master_audit directory', completed: false, command: 'mkdir master_audit', details: 'Organization is critical for complex tasks.' },
       { text: 'Navigate to logs directory', completed: false, command: 'cd logs', details: 'Start investigating the logs.' },
-      { text: 'View the last 5 lines of server.log', completed: false, command: 'tail -n 5 server.log', details: 'Check recent activity first - smart troubleshooting.' },
+      { text: 'View the last 5 lines of server.log (in current directory)', completed: false, command: 'tail -n 5 server.log', details: 'Check recent activity first - smart troubleshooting.' },
       { text: 'Count total ERROR occurrences across all logs', completed: false, command: 'grep -c ERROR *.log', details: 'Get error statistics across all log files.' },
-      { text: 'Find all lines with error (case-insensitive)', completed: false, command: 'grep -i error server.log', details: 'Case-insensitive catches more issues.' },
+      { text: 'Find all lines with error (case-insensitive) in server.log', completed: false, command: 'grep -i error server.log', details: 'Case-insensitive catches more issues.' },
       { text: 'Save all ERROR lines to master_audit', completed: false, command: 'grep ERROR *.log > ~/master_audit/all_errors.txt', details: 'Document all errors for analysis.' },
       { text: 'Count and save total error count', completed: false, command: 'grep ERROR *.log | wc -l > ~/master_audit/error_total.txt', details: 'Quantify the problem scope.' },
-      { text: 'Show admin activity with line numbers', completed: false, command: 'grep -n admin access.log', details: 'Track admin access for security audit.' },
-      { text: 'Show all non-ERROR lines from server.log', completed: false, command: 'grep -v ERROR server.log', details: 'See normal operations - inverse matching.' },
+      { text: 'Show admin activity with line numbers in access.log (in current directory)', completed: false, command: 'grep -n admin access.log', details: 'Track admin access for security audit.' },
+      { text: 'Show all non-ERROR lines from server.log (in current directory)', completed: false, command: 'grep -v ERROR server.log', details: 'See normal operations - inverse matching.' },
       { text: 'Return home and search entire tree for .log files', completed: false, command: 'cd ~', details: 'Back to home for comprehensive search.' },
       { text: 'Find and list all .log files', completed: false, command: 'find . -name "*.log"', details: 'Locate all log files in the system.' },
       { text: 'Find only directories in your tree', completed: false, command: 'find . -type d', details: 'Map the directory structure.' },
@@ -893,7 +871,7 @@ const missions = [
       { text: 'Navigate to projects/website', completed: false, command: 'cd projects/website', details: 'Check the web project area.' },
       { text: 'List files in website directory', completed: false, command: 'ls', details: 'Inventory the website files.' },
       { text: 'Go back up to home using relative path', completed: false, command: 'cd ../..', details: 'Navigate back using relative path skills.' },
-      { text: 'Count how many developer accounts exist', completed: false, command: 'grep developer users.txt | wc -l', details: 'Audit user accounts by role.' },
+      { text: 'Count how many developer accounts exist in users.txt (in home)', completed: false, command: 'grep developer users.txt | wc -l', details: 'Audit user accounts by role.' },
       { text: 'Save developer list to audit', completed: false, command: 'grep developer users.txt > master_audit/developers.txt', details: 'Document developer access.' },
       { text: 'Save complete user list to audit', completed: false, command: 'cat users.txt > master_audit/all_users.txt', details: 'Full user registry for compliance.' },
       { text: 'Create final audit summary', completed: false, command: 'echo "Audit Complete" > master_audit/summary.txt', details: 'Mark the audit as completed - you did it!' }
@@ -1005,6 +983,24 @@ class VirtualFileSystem {
   }
 
   readFile(filename) {
+    // Handle paths with directories (e.g., logs/server.log)
+    if (filename.includes('/')) {
+      // Build the full path from current directory
+      let fullPath;
+      if (filename.startsWith('/')) {
+        fullPath = filename;
+      } else {
+        // Relative path - append to current path
+        fullPath = this.currentPath + '/' + filename;
+      }
+      
+      const file = this.getNode(fullPath);
+      if (!file) return { error: `cat: ${filename}: No such file or directory` };
+      if (file.type === 'directory') return { error: `cat: ${filename}: Is a directory` };
+      return { content: file.content };
+    }
+    
+    // Simple filename in current directory
     const dir = this.getCurrentDir();
     if (!dir) return { error: `cat: ${filename}: No such file or directory` };
     
@@ -1017,6 +1013,11 @@ class VirtualFileSystem {
   }
 
   changeDirectory(path) {
+    // Strip trailing slashes (except for root /)
+    if (path !== '/' && path.endsWith('/')) {
+      path = path.slice(0, -1);
+    }
+    
     // Expand tilde (~) to /home/user
     if (path.startsWith('~/')) {
       path = '/home/user/' + path.substring(2);
@@ -1408,32 +1409,76 @@ class CommandProcessor {
 
   find(args) {
     if (args.length < 2 || args[0] !== '.') {
-      return { error: 'find: usage\nUsage: find . -name PATTERN\nExample: find . -name "*.txt"' };
+      return { error: 'find: usage\nUsage: find . -name PATTERN or find . -type TYPE\nExample: find . -name "*.txt" or find . -type d' };
     }
 
-    if (args[1] !== '-name' || args.length < 3) {
-      return { error: 'find: -name option required\nUsage: find . -name PATTERN\nExample: find . -name "*.txt"' };
-    }
-
-    const pattern = args[2].replace(/"/g, '').replace(/\*/g, '.*');
-    const regex = new RegExp(pattern);
+    const option = args[1];
     
-    const results = [];
-    const searchDir = (path, dirObj) => {
-      const contents = dirObj.type === 'directory' ? dirObj.contents : dirObj;
-      for (const [name, item] of Object.entries(contents)) {
-        const fullPath = `${path}/${name}`;
-        if (regex.test(name)) {
-          results.push(fullPath);
-        }
-        if (item.type === 'directory') {
-          searchDir(fullPath, item);
-        }
+    // Handle -type flag (find by type: d for directories, f for files)
+    if (option === '-type') {
+      if (args.length < 3) {
+        return { error: 'find: -type requires an argument\nUsage: find . -type TYPE\nExample: find . -type d (directories) or find . -type f (files)' };
       }
-    };
+      
+      const typeFilter = args[2];
+      
+      if (typeFilter !== 'd' && typeFilter !== 'f') {
+        return { error: 'find: -type accepts d (directory) or f (file)\nExample: find . -type d' };
+      }
+      
+      const results = [];
+      const searchDir = (path, dirObj) => {
+        const contents = dirObj.type === 'directory' ? dirObj.contents : dirObj;
+        for (const [name, item] of Object.entries(contents)) {
+          const fullPath = `${path}/${name}`;
+          
+          // Filter by type
+          if (typeFilter === 'd' && item.type === 'directory') {
+            results.push(fullPath);
+          } else if (typeFilter === 'f' && item.type === 'file') {
+            results.push(fullPath);
+          }
+          
+          // Recurse into directories
+          if (item.type === 'directory') {
+            searchDir(fullPath, item);
+          }
+        }
+      };
+      
+      searchDir('.', this.fs.getCurrentDir());
+      return { output: results.join('\n') };
+    }
     
-    searchDir('.', this.fs.getCurrentDir());
-    return { output: results.join('\n') };
+    // Handle -name flag (find by name pattern)
+    if (option === '-name') {
+      if (args.length < 3) {
+        return { error: 'find: -name requires a pattern\nUsage: find . -name PATTERN\nExample: find . -name "*.txt"' };
+      }
+      
+      const pattern = args[2].replace(/"/g, '').replace(/\*/g, '.*');
+      const regex = new RegExp(pattern);
+      
+      const results = [];
+      const searchDir = (path, dirObj) => {
+        const contents = dirObj.type === 'directory' ? dirObj.contents : dirObj;
+        for (const [name, item] of Object.entries(contents)) {
+          const fullPath = `${path}/${name}`;
+          if (regex.test(name)) {
+            results.push(fullPath);
+          }
+          if (item.type === 'directory') {
+            searchDir(fullPath, item);
+          }
+        }
+      };
+      
+      searchDir('.', this.fs.getCurrentDir());
+      return { output: results.join('\n') };
+    }
+    
+    // Unknown option
+    return { error: `find: unknown option '${option}'\nUsage: find . -name PATTERN or find . -type TYPE\nExample: find . -name "*.txt" or find . -type d` };
   }
 
   head(args) {
@@ -1638,7 +1683,7 @@ Advanced:
       mv: 'mv - move (rename) files\n\nDESCRIPTION\n  Rename SOURCE to DEST, or move SOURCE to DIRECTORY.',
       rm: 'rm - remove files\n\nDESCRIPTION\n  Remove (unlink) files. Use with caution!',
       grep: 'grep - search for patterns\n\nDESCRIPTION\n  Search for PATTERN in each FILE.\n\nEXAMPLES\n  grep ERROR log.txt\n  grep developer users.txt',
-      find: 'find - search for files\n\nDESCRIPTION\n  Search for files in directory hierarchy.\n\nEXAMPLES\n  find . -name "*.txt"\n  find . -name config.txt',
+      find: 'find - search for files\n\nDESCRIPTION\n  Search for files in directory hierarchy.\n\nOPTIONS\n  -name PATTERN  Find by filename pattern\n  -type TYPE     Find by type (d=directory, f=file)\n\nEXAMPLES\n  find . -name "*.txt"\n  find . -name config.txt\n  find . -type d\n  find . -type f',
       head: 'head - output first part of files\n\nDESCRIPTION\n  Print the first 10 lines of each FILE.\n\nOPTIONS\n  -n NUM  Print first NUM lines\n\nEXAMPLES\n  head data.txt\n  head -n 5 data.txt',
       tail: 'tail - output last part of files\n\nDESCRIPTION\n  Print the last 10 lines of each FILE.\n\nOPTIONS\n  -n NUM  Print last NUM lines\n\nEXAMPLES\n  tail data.txt\n  tail -n 5 data.txt',
       wc: 'wc - word, line, and byte count\n\nDESCRIPTION\n  Print line, word, and byte counts for each FILE.\n\nOPTIONS\n  -l  Print only line count\n\nEXAMPLES\n  wc data.txt\n  wc -l data.txt'
@@ -1654,6 +1699,131 @@ Advanced:
     }
 
     return { output: page };
+  }
+}
+
+// ===========================
+// TAB COMPLETION
+// ===========================
+
+function getTabCompletion(input) {
+  if (!input) {
+    return { type: 'none' };
+  }
+  
+  // Parse the input to find what we're completing
+  const parts = input.trim().split(/\s+/);
+  
+  // If only one word, complete command names
+  if (parts.length === 1) {
+    return completeCommand(parts[0]);
+  }
+  
+  // Otherwise, complete file/directory paths
+  const command = parts[0];
+  const lastArg = parts[parts.length - 1];
+  
+  // Commands that take file/directory arguments
+  const fileCommands = ['cd', 'cat', 'touch', 'mkdir', 'cp', 'mv', 'rm', 'grep', 'find', 'head', 'tail', 'wc', 'ls'];
+  
+  if (fileCommands.includes(command)) {
+    return completePathArgument(input, lastArg);
+  }
+  
+  return { type: 'none' };
+}
+
+function completeCommand(partial) {
+  const commands = ['ls', 'pwd', 'cd', 'cat', 'touch', 'mkdir', 'cp', 'mv', 'rm', 
+                    'grep', 'find', 'head', 'tail', 'wc', 'help', 'clear', 'man', 'echo'];
+  
+  const matches = commands.filter(cmd => cmd.startsWith(partial));
+  
+  if (matches.length === 0) {
+    return { type: 'none' };
+  } else if (matches.length === 1) {
+    return { type: 'complete', value: matches[0] + ' ' };
+  } else {
+    return { type: 'multiple', matches };
+  }
+}
+
+function completePathArgument(fullInput, partial) {
+  // Handle tilde expansion
+  if (partial.startsWith('~')) {
+    partial = partial.replace('~', '/home/user');
+  }
+  
+  // Determine if it's an absolute or relative path
+  let searchPath, prefix, searchPattern;
+  
+  if (partial.startsWith('/')) {
+    // Absolute path
+    const lastSlash = partial.lastIndexOf('/');
+    searchPath = partial.substring(0, lastSlash) || '/';
+    searchPattern = partial.substring(lastSlash + 1);
+    prefix = searchPath === '/' ? '/' : searchPath + '/';
+  } else {
+    // Relative path
+    const lastSlash = partial.lastIndexOf('/');
+    if (lastSlash === -1) {
+      // No slashes - searching in current directory
+      searchPath = gameState.filesystem.currentPath;
+      searchPattern = partial;
+      prefix = '';
+    } else {
+      // Has slashes - navigate to that directory first
+      const dirPath = partial.substring(0, lastSlash);
+      searchPattern = partial.substring(lastSlash + 1);
+      
+      // Resolve the directory path
+      if (dirPath === '..') {
+        const pathParts = gameState.filesystem.currentPath.split('/').filter(p => p);
+        pathParts.pop();
+        searchPath = '/' + pathParts.join('/');
+      } else if (dirPath === '.') {
+        searchPath = gameState.filesystem.currentPath;
+      } else {
+        // Try to navigate to the directory
+        const node = gameState.filesystem.getNode(dirPath);
+        if (node && node.type === 'directory') {
+          searchPath = node.path;
+        } else {
+          return { type: 'none' };
+        }
+      }
+      prefix = dirPath + '/';
+    }
+  }
+  
+  // Get files in the search directory
+  const node = gameState.filesystem.getNode(searchPath);
+  if (!node || node.type !== 'directory') {
+    return { type: 'none' };
+  }
+  
+  const entries = Object.keys(node.contents || {});
+  const matches = entries.filter(name => name.startsWith(searchPattern));
+  
+  if (matches.length === 0) {
+    return { type: 'none' };
+  } else if (matches.length === 1) {
+    // Check if it's a directory to add trailing slash
+    const matchedNode = node.contents[matches[0]];
+    const suffix = matchedNode.type === 'directory' ? '/' : ' ';
+    
+    // Replace the last argument in the full input
+    const inputParts = fullInput.split(/\s+/);
+    inputParts[inputParts.length - 1] = prefix + matches[0] + suffix;
+    
+    return { type: 'complete', value: inputParts.join(' ') };
+  } else {
+    // Multiple matches - add trailing slash for directories
+    const formattedMatches = matches.map(name => {
+      const matchedNode = node.contents[name];
+      return matchedNode.type === 'directory' ? name + '/' : name;
+    });
+    return { type: 'multiple', matches: formattedMatches };
   }
 }
 
@@ -1770,7 +1940,7 @@ function showHintPopup(objective) {
   
   overlay.innerHTML = `
     <div class="hint-bubble">
-      <button class="hint-bubble-close" onclick="document.getElementById('hint-overlay').classList.remove('visible')">✕</button>
+      <button class="hint-bubble-close" onclick="closeHintPopup()">✕</button>
       
       <div class="hint-bubble-objective">
         ${objective.text}
@@ -1793,6 +1963,17 @@ function showHintPopup(objective) {
   overlay.classList.add('visible');
 }
 
+function closeHintPopup() {
+  const overlay = document.getElementById('hint-overlay');
+  overlay.classList.remove('visible');
+  
+  // Auto-focus terminal input after closing hint
+  const terminalInput = document.getElementById('terminal-input');
+  if (terminalInput) {
+    terminalInput.focus();
+  }
+}
+
 function loadMission(missionIndex) {
   if (missionIndex >= missions.length) {
     writeToTerminal('🎉 Congratulations! You\'ve completed all available missions!', 'terminal-success');
@@ -1810,12 +1991,34 @@ function loadMission(missionIndex) {
   gameState.hintsUsed = 0;
   gameState.hintUsedThisMission = false;
   
+  // Special handling for missions that use logs directory
+  // If filesystem was corrupted by previous missions, restore it
+  const missionsNeedingLogs = [6, 10, 11]; // Mission 7, 11, 12 (0-indexed)
+  if (missionsNeedingLogs.includes(missionIndex)) {
+    const logsPath = '/home/user/logs';
+    const logsNode = gameState.filesystem.getNode(logsPath);
+    if (!logsNode || logsNode.type !== 'directory') {
+      // logs directory doesn't exist, restore fresh filesystem
+      gameState.filesystem = new VirtualFileSystem();
+      writeToTerminal('Filesystem restored for this mission.', 'terminal-info');
+    }
+  }
+  
+  // Save filesystem snapshot BEFORE starting this mission (if not already saved)
+  // This allows us to restore to this state if the mission is restarted
+  if (!gameState.filesystemSnapshots[missionIndex]) {
+    saveFilesystemSnapshot(missionIndex);
+  }
+  
   // Auto-navigate to mission's starting directory (defaults to home)
   gameState.filesystem.currentPath = mission.startDir || '/home/user';
   
-  // Reset all objectives to uncompleted for this mission
+  // Check if this mission has been completed before
+  const isMissionCompleted = gameState.completedMissions.includes(missionIndex);
+  
+  // Set objectives based on whether mission was previously completed
   mission.objectives.forEach(obj => {
-    obj.completed = false;
+    obj.completed = isMissionCompleted;
   });
   
   document.getElementById('mission-title').textContent = mission.title;
@@ -1842,7 +2045,7 @@ function loadMission(missionIndex) {
     // Close on overlay click
     hintOverlay.addEventListener('click', (e) => {
       if (e.target === hintOverlay) {
-        hintOverlay.classList.remove('visible');
+        closeHintPopup();
       }
     });
   }
@@ -1852,9 +2055,14 @@ function loadMission(missionIndex) {
     li.className = 'objective-item';
     li.dataset.objective = index;
     
+    // Mark as completed if objective is already done
+    if (obj.completed) {
+      li.classList.add('completed');
+    }
+    
     const statusSpan = document.createElement('span');
     statusSpan.className = 'objective-status';
-    statusSpan.textContent = '⬜';
+    statusSpan.textContent = obj.completed ? '✅' : '⬜';
     
     const textSpan = document.createElement('span');
     textSpan.className = 'objective-text';
@@ -1925,6 +2133,68 @@ function updateNavigationButtons() {
   }
 }
 
+function saveFilesystemSnapshot(missionIndex) {
+  // Deep clone the filesystem state before starting a mission
+  gameState.filesystemSnapshots[missionIndex] = JSON.parse(JSON.stringify(gameState.filesystem.files));
+}
+
+function restoreFilesystemSnapshot(missionIndex) {
+  // Restore filesystem to the state it was before this mission started
+  if (gameState.filesystemSnapshots[missionIndex]) {
+    gameState.filesystem.files = JSON.parse(JSON.stringify(gameState.filesystemSnapshots[missionIndex]));
+  } else {
+    // No snapshot exists, create fresh filesystem
+    gameState.filesystem = new VirtualFileSystem();
+  }
+}
+
+function normalizeCommand(command) {
+  // Normalize command by removing trailing slashes from directory arguments
+  // This allows "cd documents/" to match "cd documents"
+  const parts = command.trim().split(/\s+/);
+  
+  // For cd commands, remove trailing slash from directory argument
+  if (parts.length === 2 && parts[0] === 'cd' && parts[1].endsWith('/')) {
+    parts[1] = parts[1].slice(0, -1);
+  }
+  
+  return parts.join(' ');
+}
+
+function commandsAreEquivalent(command1, command2) {
+  // Check if two commands are functionally equivalent
+  // Handles cases like "cd logs" vs "cd ~/logs"
+  
+  const parts1 = command1.trim().split(/\s+/);
+  const parts2 = command2.trim().split(/\s+/);
+  
+  // Must be same command type
+  if (parts1[0] !== parts2[0]) {
+    return false;
+  }
+  
+  // For cd commands, check if paths lead to same directory
+  if (parts1[0] === 'cd' && parts1.length === 2 && parts2.length === 2) {
+    const path1 = parts1[1].replace(/\/+$/, ''); // Remove trailing slashes
+    const path2 = parts2[1].replace(/\/+$/, '');
+    
+    // Expand tilde in both paths
+    const expandedPath1 = path1.startsWith('~/') ? '/home/user/' + path1.substring(2) : 
+                          path1 === '~' ? '/home/user' : path1;
+    const expandedPath2 = path2.startsWith('~/') ? '/home/user/' + path2.substring(2) :
+                          path2 === '~' ? '/home/user' : path2;
+    
+    // If one is relative and one is absolute, make them comparable
+    const absolutePath1 = expandedPath1.startsWith('/') ? expandedPath1 : '/home/user/' + expandedPath1;
+    const absolutePath2 = expandedPath2.startsWith('/') ? expandedPath2 : '/home/user/' + expandedPath2;
+    
+    return absolutePath1 === absolutePath2;
+  }
+  
+  // For other commands, they must match exactly (after normalization)
+  return command1 === command2;
+}
+
 function willCommandMatchObjective(command) {
   const mission = missions[gameState.currentMission];
   if (!mission) return false;
@@ -1943,9 +2213,25 @@ function willCommandMatchObjective(command) {
     return true;
   }
   
+  // Extract the base command (first word)
+  const baseCommand = command.trim().split(/\s+/)[0];
+  
+  // Always allow "free roaming" commands - these help with navigation/exploration
+  const freeRoamingCommands = ['cd', 'pwd', 'ls', 'clear', 'help', 'man'];
+  if (freeRoamingCommands.includes(baseCommand)) {
+    return true;
+  }
+  
   // Check if command matches the next objective
   const nextObj = mission.objectives[nextObjectiveIndex];
-  const commandMatches = command.trim() === nextObj.command || command.trim().startsWith(nextObj.command + ' ');
+  
+  // Normalize both commands for comparison (handles trailing slashes)
+  const normalizedCommand = normalizeCommand(command);
+  const normalizedObjective = normalizeCommand(nextObj.command);
+  
+  const commandMatches = normalizedCommand === normalizedObjective || 
+                         normalizedCommand.startsWith(normalizedObjective + ' ') ||
+                         commandsAreEquivalent(normalizedCommand, normalizedObjective);
   
   return commandMatches;
 }
@@ -1971,8 +2257,15 @@ function checkObjectives(command) {
   // Check if the command matches the NEXT objective only (no skipping!)
   const nextObj = mission.objectives[nextObjectiveIndex];
   
+  // Normalize both commands for comparison (handles trailing slashes)
+  const normalizedCommand = normalizeCommand(command);
+  const normalizedObjective = normalizeCommand(nextObj.command);
+  
   // Check if command matches the objective command
-  const commandMatches = command.trim() === nextObj.command || command.trim().startsWith(nextObj.command + ' ');
+  // First try exact match, then check equivalence (for paths like "cd logs" vs "cd ~/logs")
+  const commandMatches = normalizedCommand === normalizedObjective || 
+                         normalizedCommand.startsWith(normalizedObjective + ' ') ||
+                         commandsAreEquivalent(normalizedCommand, normalizedObjective);
   
   if (commandMatches) {
     // Mark objective as complete
@@ -2028,6 +2321,37 @@ function scrollToNextObjective(nextIndex) {
   }
 }
 
+function restartMission(missionIndex) {
+  // Remove this mission from completed list to force reset
+  const completedIndex = gameState.completedMissions.indexOf(missionIndex);
+  if (completedIndex !== -1) {
+    gameState.completedMissions.splice(completedIndex, 1);
+  }
+  
+  // Force reset objectives for this mission
+  const mission = missions[missionIndex];
+  mission.objectives.forEach(obj => {
+    obj.completed = false;
+  });
+  
+  // IMPORTANT: Restore filesystem to state BEFORE this mission started
+  // This removes files/dirs created during THIS mission, but preserves work from PREVIOUS missions
+  restoreFilesystemSnapshot(missionIndex);
+  
+  // Delete the snapshot so it gets recreated with current state next time mission loads
+  delete gameState.filesystemSnapshots[missionIndex];
+  
+  // Reset to mission's starting directory
+  const startDir = mission.startDir || '/home/user';
+  gameState.filesystem.currentPath = startDir;
+  
+  // Now load the mission normally (will also set directory, but we do it early for consistency)
+  loadMission(missionIndex);
+  
+  // Update the prompt to show the new directory
+  updatePrompt();
+}
+
 function completeMission() {
   const mission = missions[gameState.currentMission];
   
@@ -2047,7 +2371,12 @@ function completeMission() {
   writeToTerminal('', '');
   
   addXP(xpReward);
-  gameState.player.missionsCompleted++;
+  
+  // Track this specific mission as completed (if not already)
+  if (!gameState.completedMissions.includes(gameState.currentMission)) {
+    gameState.completedMissions.push(gameState.currentMission);
+    gameState.player.missionsCompleted++;
+  }
   
   // Mission-specific achievements
   if (gameState.currentMission === 0) {
@@ -2062,9 +2391,24 @@ function completeMission() {
     unlockAchievement('no_hints');
   }
   
+  // Find next incomplete mission to load
   setTimeout(() => {
-    loadMission(gameState.currentMission + 1);
+    const nextMission = findNextIncompleteMission();
+    loadMission(nextMission);
   }, 3000);
+}
+
+function findNextIncompleteMission() {
+  // Find the first mission that hasn't been completed yet
+  for (let i = 0; i < missions.length; i++) {
+    if (!gameState.completedMissions.includes(i)) {
+      return i;
+    }
+  }
+  
+  // If all missions are complete, go to the next mission after current
+  // (will show "all missions complete" message)
+  return gameState.currentMission + 1;
 }
 
 function renderAchievements() {
@@ -2149,7 +2493,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // Terminal input
   const terminalInput = document.getElementById('terminal-input');
   terminalInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Tab') {
+      e.preventDefault(); // Prevent default tab behavior (focus switching)
+      
+      const currentInput = terminalInput.value;
+      const completion = getTabCompletion(currentInput);
+      
+      if (completion.type === 'complete') {
+        // Single match - complete it
+        terminalInput.value = completion.value;
+      } else if (completion.type === 'multiple') {
+        // Multiple matches - show them
+        writeToTerminal(`${gameState.filesystem.currentPath.replace('/home/user', '~')}$ ${currentInput}`, 'terminal-text');
+        writeToTerminal(completion.matches.join('  '), 'terminal-text');
+      }
+      // If no matches, do nothing
+      
+    } else if (e.key === 'Enter') {
       const command = terminalInput.value.trim();
       terminalInput.value = '';
       
@@ -2157,9 +2517,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check if command would match objective FIRST (before executing)
         const wouldMatchObjective = willCommandMatchObjective(command);
         
-        // Only execute command if it matches objective
+        // Only execute command if it matches objective or is a free roaming command
         if (wouldMatchObjective) {
-          // Write command in green and execute it
+          // Write command and execute it
           writeToTerminal(`${gameState.filesystem.currentPath.replace('/home/user', '~')}$ ${command}`, 'terminal-command');
           gameState.commandHistory.push(command);
           
@@ -2168,10 +2528,16 @@ document.addEventListener('DOMContentLoaded', () => {
           // Mark objective as complete and check if mission complete
           const objectiveResult = checkObjectives(command);
           
-          // Color command green
+          // Color command based on whether it completed an objective
           const lastLine = document.getElementById('terminal-output').lastElementChild;
           if (lastLine) {
-            lastLine.classList.add('command-correct');
+            if (objectiveResult.matched) {
+              // Command completed the objective - show in green
+              lastLine.classList.add('command-correct');
+            } else {
+              // Free roaming command - show in neutral yellow/cyan
+              lastLine.classList.add('command-neutral');
+            }
           }
           
           if (result.clear) {
@@ -2254,10 +2620,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (restartMissionBtn) {
     restartMissionBtn.addEventListener('click', () => {
       const currentMissionIndex = gameState.currentMission;
+      const mission = missions[currentMissionIndex];
+      const startDir = mission.startDir || '/home/user';
+      const displayDir = startDir.replace('/home/user', '~');
+      
       writeToTerminal('', '');
       writeToTerminal('🔄 Restarting mission...', 'terminal-info');
+      writeToTerminal(`📂 Resetting to: ${displayDir}`, 'terminal-info');
       writeToTerminal('', '');
-      loadMission(currentMissionIndex);
+      restartMission(currentMissionIndex);
+      
+      // Refocus terminal input so user can immediately start typing
+      terminalInput.focus();
     });
   }
   
@@ -2278,6 +2652,7 @@ function saveGame() {
   localStorage.setItem('terminalQuest', JSON.stringify({
     player: gameState.player,
     currentMission: gameState.currentMission,
+    completedMissions: gameState.completedMissions,
     achievements: achievements.map(a => ({ id: a.id, unlocked: a.unlocked, progress: a.progress }))
   }));
 }
@@ -2288,6 +2663,7 @@ function loadGame() {
     const data = JSON.parse(saved);
     Object.assign(gameState.player, data.player);
     gameState.currentMission = data.currentMission || 0;
+    gameState.completedMissions = data.completedMissions || [];
     
     if (data.achievements) {
       data.achievements.forEach(savedAch => {

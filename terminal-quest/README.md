@@ -20,6 +20,9 @@ An interactive, game-based Linux terminal learning experience. Master Linux comm
 - Virtual filesystem that persists
 - Real Linux command parsing
 - Support for pipes, arguments, and options
+- **TAB autocompletion** for commands and paths
+- **Free roaming navigation** - explore freely during missions
+- Three-color command feedback (green/yellow/red)
 - Command history
 - Accurate error messages
 
@@ -55,6 +58,30 @@ Then open: **http://localhost:8081**
 3. **Complete objectives**: Each mission has objectives to complete
 4. **Level up**: Earn XP, unlock achievements, and progress through missions
 5. **Have fun!**: Learning Linux has never been this engaging
+
+## Tips & Tricks
+
+### TAB Autocompletion ⌨️
+- Press **TAB** to autocomplete commands: `gr` + TAB → `grep`
+- Press **TAB** to autocomplete file/directory names: `cd doc` + TAB → `cd documents/`
+- Works with paths: `cat logs/ser` + TAB → `cat logs/server.log`
+- Shows all options if multiple matches exist
+- Directories automatically get a trailing slash: `documents/`
+
+### Free Roaming Navigation 🗺️
+- **Green commands** complete objectives and award XP
+- **Yellow commands** are "free roaming" - navigate anytime without penalty
+- **Red commands** don't match the objective and won't execute
+- Free roaming commands: `cd`, `pwd`, `ls`, `clear`, `help`, `man`
+- Never get stuck! Navigate freely while learning
+
+### Efficiency Tips
+- Use `cd ~` to quickly return home
+- Use `cd ..` to go up one directory
+- Use TAB completion to avoid typos and save time
+- Use `pwd` anytime to check your location
+- Use `ls` anytime to see what's available
+- Check your objectives frequently to stay on track
 
 ## Supported Commands
 

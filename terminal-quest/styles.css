@@ -696,6 +696,14 @@ body {
   color: var(--accent-primary) !important;
 }
 
+.command-neutral {
+  color: #ffd700 !important; /* Gold/yellow for free roaming commands */
+}
+
+.command-neutral span {
+  color: #ffd700 !important;
+}
+
 .command-incorrect {
   color: var(--accent-danger) !important;
 }
