@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.10.0 (Per-Objective XP System with Hint/Copy Penalties)
+## Current Status: v2.10.1 (Silent XP Tracking with Mission Summary)
 
 ### Session History
 
@@ -302,6 +302,15 @@ Example for user:
 - Fixed copy button escaping bug for commands with quotes (used data attributes)
 - Removed global `hintUsedThisMission` flag - now tracked per objective
 - System encourages learning without help while still providing support when needed
+- **v2.10.1**: Silent XP tracking with beautiful mission completion summary
+- User feedback: "don't need hazard warnings, show summary at mission end"
+- Removed terminal warnings when hints/copies are used (silent background tracking)
+- Added comprehensive mission completion XP summary with ASCII art borders
+- Summary shows: objectives XP earned, XP lost, hints used, copies used, mission bonus
+- Example: "Objectives XP earned: +125 XP" / "XP lost to help usage: -45 XP"
+- Added profile stats: "Hints Used" and "Copies Used" (lifetime tracking)
+- Profile now shows 6 stats: Level, Missions, Commands, Hints, Copies, Streak
+- Much cleaner UX - help usage tracked quietly, celebrated/reflected at mission end
 
 ### Project Stats
 

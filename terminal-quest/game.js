@@ -2009,6 +2009,8 @@ function updateStats() {
   document.getElementById('profile-level').textContent = gameState.player.level;
   document.getElementById('profile-missions').textContent = gameState.player.missionsCompleted;
   document.getElementById('profile-commands').textContent = gameState.commandsUsed;
+  document.getElementById('profile-hints').textContent = gameState.player.totalHintsUsed || 0;
+  document.getElementById('profile-copies').textContent = gameState.player.totalCopiesUsed || 0;
   document.getElementById('profile-streak').textContent = gameState.player.streak;
   document.getElementById('profile-name').textContent = gameState.player.name;
   document.getElementById('profile-title').textContent = gameState.player.title;
@@ -2114,15 +2116,15 @@ document.addEventListener('click', function(event) {
   const command = copyBtn.dataset.command;
   const objectiveIndex = parseInt(copyBtn.dataset.objectiveIndex);
   
-  // Track copy usage for this objective
+  // Track copy usage for this objective (silent tracking)
   const mission = missions[gameState.currentMission];
   if (mission && objectiveIndex >= 0) {
     const obj = mission.objectives[objectiveIndex];
     if (obj && !obj.copyUsed && !obj.completed) {
       obj.copyUsed = true;
-      const baseXP = obj.baseXP || 25; // Fallback to 25 if baseXP not set
-      const xpLoss = Math.floor(baseXP * 0.75);
-      writeToTerminal(`⚠️  Copy used for objective ${objectiveIndex + 1} - will lose ${xpLoss} XP (75% penalty)`, 'terminal-warning');
+      // Track globally for profile stats
+      if (!gameState.player.totalCopiesUsed) gameState.player.totalCopiesUsed = 0;
+      gameState.player.totalCopiesUsed++;
     }
   }
   
@@ -2272,12 +2274,12 @@ function loadMission(missionIndex) {
     hintBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       
-      // Mark hint used for THIS specific objective
+      // Mark hint used for THIS specific objective (silent tracking)
       if (!obj.hintUsed && !obj.completed) {
         obj.hintUsed = true;
-        const baseXP = obj.baseXP || 25; // Fallback to 25 if baseXP not set
-        const xpLoss = Math.floor(baseXP * 0.5);
-        writeToTerminal(`⚠️  Hint used for objective ${index + 1} - will lose ${xpLoss} XP (50% penalty)`, 'terminal-warning');
+        // Track globally for profile stats
+        if (!gameState.player.totalHintsUsed) gameState.player.totalHintsUsed = 0;
+        gameState.player.totalHintsUsed++;
       }
       
       // Show hint popup with objective index
@@ -2487,10 +2489,8 @@ function checkObjectives(command) {
       objElement.querySelector('.objective-status').textContent = '✅';
     }
     
-    // Award XP with message
+    // Award XP silently (summary shown at mission completion)
     addXP(earnedXP);
-    const xpClass = (nextObj.copyUsed || nextObj.hintUsed) ? 'terminal-warning' : 'terminal-success';
-    writeToTerminal(`✅ Objective complete! +${earnedXP} XP${penaltyMessage}`, xpClass);
     
     // Auto-scroll to next objective
     scrollToNextObjective(nextObjectiveIndex + 1);
@@ -2569,13 +2569,52 @@ function restartMission(missionIndex) {
 function completeMission() {
   const mission = missions[gameState.currentMission];
   
-  // Mission completion bonus is now separate from objective XP
-  // Award full mission.xpReward always (objectives already had penalties)
+  // Calculate XP summary for this mission
+  let totalPossibleXP = 0;
+  let totalEarnedXP = 0;
+  let totalLostXP = 0;
+  let hintsUsedCount = 0;
+  let copiesUsedCount = 0;
+  
+  mission.objectives.forEach(obj => {
+    const baseXP = obj.baseXP || 25;
+    totalPossibleXP += baseXP;
+    
+    let earnedXP = baseXP;
+    if (obj.copyUsed) {
+      earnedXP = Math.floor(baseXP * 0.25);
+      copiesUsedCount++;
+    } else if (obj.hintUsed) {
+      earnedXP = Math.floor(baseXP * 0.5);
+      hintsUsedCount++;
+    }
+    
+    totalEarnedXP += earnedXP;
+    totalLostXP += (baseXP - earnedXP);
+  });
+  
+  // Mission completion bonus
   const xpReward = mission.xpReward;
   
   writeToTerminal('', '');
   writeToTerminal('🎉 MISSION COMPLETE! 🎉', 'terminal-success');
-  writeToTerminal(`Mission completion bonus: +${xpReward} XP!`, 'terminal-success');
+  writeToTerminal('', '');
+  writeToTerminal('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'terminal-info');
+  writeToTerminal('           XP SUMMARY', 'terminal-info');
+  writeToTerminal('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'terminal-info');
+  writeToTerminal('', '');
+  writeToTerminal(`Objectives XP earned:     +${totalEarnedXP} XP`, 'terminal-success');
+  if (totalLostXP > 0) {
+    writeToTerminal(`XP lost to help usage:    -${totalLostXP} XP`, 'terminal-warning');
+    writeToTerminal(`  • Hints used: ${hintsUsedCount}`, 'terminal-muted');
+    writeToTerminal(`  • Copies used: ${copiesUsedCount}`, 'terminal-muted');
+  } else {
+    writeToTerminal(`Perfect! No help needed!  💯`, 'terminal-success');
+  }
+  writeToTerminal(`Mission completion bonus: +${xpReward} XP`, 'terminal-success');
+  writeToTerminal('', '');
+  writeToTerminal(`TOTAL XP GAINED: +${totalEarnedXP + xpReward} XP`, 'terminal-success');
+  writeToTerminal('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'terminal-info');
   writeToTerminal('', '');
   
   addXP(xpReward);
