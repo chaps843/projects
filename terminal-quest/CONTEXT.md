@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.9.2 (Review 2 Objective Text Clarity)
+## Current Status: v2.9.3 (Review 2 Pipe Practice Clarity)
 
 ### Session History
 
@@ -262,6 +262,12 @@ Example for user:
 - Objective 6 is just `cd ~` navigation, Objective 7 does the actual find
 - Prevents confusion about what the objective expects
 - User feedback: objective text was describing next objective, not current one
+- **v2.9.3**: Review 2 (Mission 12) Objective 12 pipe practice clarity
+- Changed from "Count total words in message.txt" to "Use cat and pipe to count words in message.txt"
+- Makes it explicit that the objective is testing pipe skills, not just word counting
+- User feedback: "wc -w message.txt would work but it wants cat | wc -w - should be clearer"
+- This is a Review mission testing pipes from Mission 11, so objective should be explicit about practicing pipes
+- Updated details to explain: "Practice piping! Use cat to output, then pipe to wc -w"
 
 ### Project Stats
 
@@ -625,8 +631,8 @@ No attribution required, but appreciated!
 ---
 
 **Last Updated:** 2025-11-13
-**Version:** 2.9.2
-**Status:** Fully functional, production-ready, crystal-clear objectives
+**Version:** 2.9.3
+**Status:** Fully functional, production-ready, precise objective expectations
 **Next Steps:** See ROADMAP.md
 
 ## Recent UX Improvements (v2.4.1-2.5.2)

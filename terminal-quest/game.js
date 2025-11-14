@@ -569,7 +569,7 @@ const missions = [
       { text: 'Find only regular files', completed: false, command: 'find . -type f', details: 'Use find -type f to filter files from Mission 10.' },
       { text: 'Count how many developers exist in users.txt (in home)', completed: false, command: 'grep developer users.txt | wc -l', details: 'Combine grep and wc with pipe from Mission 11.' },
       { text: 'Find .txt files and show first 3', completed: false, command: 'find . -name "*.txt" | head -n 3', details: 'Chain find and head with pipe from Mission 11.' },
-      { text: 'Count total words in message.txt (in home)', completed: false, command: 'cat message.txt | wc -w', details: 'Use cat, pipe, and wc -w from Mission 11.' },
+      { text: 'Use cat and pipe to count words in message.txt (in home)', completed: false, command: 'cat message.txt | wc -w', details: 'Practice piping! Use cat to output the file, then pipe | to wc -w to count words. This reviews the pipe concept from Mission 11.' },
       { text: 'Save ERROR count to error_summary.txt', completed: false, command: 'grep ERROR logs/*.log | wc -l > error_summary.txt', details: 'Combine grep, pipe, wc, and redirect from Mission 11.' },
       { text: 'Append your current directory to error_summary.txt', completed: false, command: 'pwd >> error_summary.txt', details: 'Use >> to append instead of overwrite from Mission 11.' }
     ],
