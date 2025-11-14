@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.10.3 (Balanced Command Reference Layout)
+## Current Status: v2.11.0 (Auto-Insert Command to Terminal)
 
 ### Session History
 
@@ -337,6 +337,20 @@ Example for user:
   - Header margin: 0.5rem → 0.75rem
 - Still shows 3+ objectives while being more readable
 - Sweet spot between compact and comfortable
+- **v2.11.0**: Auto-insert command to terminal (seamless help usage)
+- User feedback: "if they're gonna lose XP, may as well make it seamless"
+- Changed copy button behavior from clipboard copy to direct terminal insertion
+- Button now inserts command directly into terminal input field
+- Auto-focuses terminal after insertion (ready to press Enter)
+- Auto-closes hint popup after command inserted
+- Updated button text: "Copy" → "Copy to Terminal"
+- Changed icon: 📋 → ⚡ (lightning bolt suggests instant action)
+- Feedback text: "Copied!" → "Inserted!" (more accurate)
+- Adjusted button styling: min-width 70px → 90px, white-space: nowrap
+- Font size: 0.75rem → 0.7rem (fits longer text better)
+- Removed clipboard API code (no longer needed)
+- Much more streamlined workflow: click button → press Enter → objective complete
+- XP penalty justified by convenience - one-click command execution
 
 ### Project Stats
 

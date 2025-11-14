@@ -2087,8 +2087,8 @@ function showHintPopup(objective, objectiveIndex) {
           ${objective.command}
         </div>
         <button class="hint-copy-btn" data-command="${objective.command.replace(/"/g, '&quot;')}" data-objective-index="${objectiveIndex}">
-          <span class="copy-icon">📋</span>
-          <span class="copy-text">Copy</span>
+          <span class="copy-icon">⚡</span>
+          <span class="copy-text">Copy to Terminal</span>
         </button>
       </div>
     </div>
@@ -2130,40 +2130,25 @@ document.addEventListener('click', function(event) {
   
   if (!command) return;
   
-  // Use the Clipboard API to copy the command
-  navigator.clipboard.writeText(command).then(() => {
+  // Insert command directly into terminal input
+  const terminalInput = document.getElementById('terminal-input');
+  if (terminalInput) {
+    terminalInput.value = command;
+    terminalInput.focus();
+    
     // Visual feedback - change button text temporarily
     const originalHTML = copyBtn.innerHTML;
-    copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Copied!</span>';
+    copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Inserted!</span>';
     copyBtn.classList.add('copied');
+    
+    // Close the hint popup after inserting
+    closeHintPopup();
     
     setTimeout(() => {
       copyBtn.innerHTML = originalHTML;
       copyBtn.classList.remove('copied');
     }, 2000);
-  }).catch(err => {
-    console.error('Failed to copy command:', err);
-    // Fallback for older browsers
-    const textArea = document.createElement('textarea');
-    textArea.value = command;
-    textArea.style.position = 'fixed';
-    textArea.style.opacity = '0';
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      document.execCommand('copy');
-      const originalHTML = copyBtn.innerHTML;
-      copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Copied!</span>';
-      copyBtn.classList.add('copied');
-      setTimeout(() => {
-        copyBtn.innerHTML = originalHTML;
-        copyBtn.classList.remove('copied');
-      }, 2000);
-    } catch (err) {
-      console.error('Fallback copy failed:', err);
-    }
-    document.body.removeChild(textArea);
-  });
+  }
 });
 
 function loadMission(missionIndex) {
