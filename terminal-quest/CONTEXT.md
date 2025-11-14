@@ -37,7 +37,7 @@ Example for user:
 ./launch stop   # Stop the project
 ```
 
-## Current Status: v2.9.4 (Review 2 Redirection Preview Guidance)
+## Current Status: v2.9.5 (Wildcard Support & Copy Hint Feature)
 
 ### Session History
 
@@ -278,6 +278,15 @@ Example for user:
 - Updated mission story to mention "last two objectives preview Mission 13"
 - Teaches ahead with excellent guidance rather than removing objectives
 - Students now understand they're learning something new, not just reviewing
+- **v2.9.5**: Add wildcard expansion to grep + copy button in hints
+- **CRITICAL BUG FIX**: `grep ERROR logs/*.log` failed - grep couldn't handle wildcards!
+- User feedback: "second to last objective returned error 'cat: logs/*.log: No such file or directory'"
+- Root cause: grep() only read single files, treated "logs/*.log" as literal filename
+- Implemented wildcard expansion in grep - now expands *.log to all matching files
+- Searches across multiple files, prefixes output with filename (like real grep)
+- Added copy button to hint popup - click 📋 to copy command to clipboard
+- Button shows "Copied!" feedback for 2 seconds, supports Ctrl+V paste
+- Improved UX: no need to manually type long commands from hints
 
 ### Project Stats
 

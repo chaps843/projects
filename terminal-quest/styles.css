@@ -437,7 +437,15 @@ body {
   font-size: 1.2rem;
 }
 
+.hint-bubble-command-container {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
 .hint-bubble-command {
+  flex: 1;
   background: var(--terminal-bg);
   border-left: 4px solid var(--accent-warning);
   border-radius: 8px;
@@ -447,6 +455,47 @@ body {
   color: var(--accent-primary);
   letter-spacing: 0.5px;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hint-copy-btn {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  min-width: 70px;
+}
+
+.hint-copy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.hint-copy-btn:active {
+  transform: translateY(0);
+}
+
+.hint-copy-btn.copied {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.copy-icon {
+  font-size: 1.2rem;
+}
+
+.copy-text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 @keyframes fadeIn {

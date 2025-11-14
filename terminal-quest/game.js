@@ -1357,54 +1357,109 @@ class CommandProcessor {
       argIndex++;
     }
     
-    // Get pattern and filename
+    // Get pattern and filename/pattern
     if (argIndex >= args.length - 1) {
       return { error: 'grep: missing pattern or file\nUsage: grep [OPTIONS] PATTERN FILE\nExample: grep -i ERROR server.log' };
     }
     
     const pattern = args[argIndex];
-    const filename = args[argIndex + 1];
+    const filePattern = args[argIndex + 1];
     
-    const result = this.fs.readFile(filename);
-    if (result.error) return { error: result.error };
-    
-    const lines = result.content.split('\n');
-    
-    // Filter lines based on pattern
-    let matches = [];
-    lines.forEach((line, index) => {
-      let isMatch;
-      if (flags.caseInsensitive) {
-        isMatch = line.toLowerCase().includes(pattern.toLowerCase());
-      } else {
-        isMatch = line.includes(pattern);
-      }
+    // Check if filePattern contains a wildcard
+    let filesToSearch = [];
+    if (filePattern.includes('*')) {
+      // Expand wildcard - handle paths like "logs/*.log"
+      const pathParts = filePattern.split('/');
+      const dirPath = pathParts.slice(0, -1).join('/');
+      const fileGlob = pathParts[pathParts.length - 1];
       
-      // Invert match if -v flag
-      if (flags.invert) {
-        isMatch = !isMatch;
-      }
-      
-      if (isMatch) {
-        if (flags.lineNumbers) {
-          matches.push(`${index + 1}:${line}`);
-        } else {
-          matches.push(line);
+      // Get the directory to search in
+      let searchPath = this.fs.currentPath;
+      if (dirPath) {
+        const dir = this.fs.getNode(this.fs.currentPath + '/' + dirPath);
+        if (!dir || dir.type !== 'directory') {
+          return { error: `grep: ${dirPath}: No such file or directory` };
         }
+        searchPath = this.fs.currentPath + '/' + dirPath;
       }
-    });
+      
+      // Get files from directory
+      const filesInDir = this.fs.listFiles(searchPath);
+      if (!filesInDir || filesInDir.length === 0) {
+        return { error: `grep: ${filePattern}: No such file or directory` };
+      }
+      
+      // Match files against glob pattern
+      const globRegex = new RegExp('^' + fileGlob.replace(/\*/g, '.*').replace(/\?/g, '.') + '$');
+      const matchedFiles = filesInDir.filter(f => globRegex.test(f));
+      
+      if (matchedFiles.length === 0) {
+        return { error: `grep: ${filePattern}: No such file or directory` };
+      }
+      
+      // Build full paths
+      filesToSearch = matchedFiles.map(f => dirPath ? `${dirPath}/${f}` : f);
+    } else {
+      // Single file
+      filesToSearch = [filePattern];
+    }
+    
+    // Search through all matched files
+    let allMatches = [];
+    let totalMatches = 0;
+    
+    for (const filename of filesToSearch) {
+      const result = this.fs.readFile(filename);
+      if (result.error) {
+        // If searching multiple files, skip files that can't be read
+        if (filesToSearch.length > 1) continue;
+        return { error: result.error };
+      }
+      
+      const lines = result.content.split('\n');
+      
+      // Filter lines based on pattern
+      lines.forEach((line, index) => {
+        let isMatch;
+        if (flags.caseInsensitive) {
+          isMatch = line.toLowerCase().includes(pattern.toLowerCase());
+        } else {
+          isMatch = line.includes(pattern);
+        }
+        
+        // Invert match if -v flag
+        if (flags.invert) {
+          isMatch = !isMatch;
+        }
+        
+        if (isMatch) {
+          totalMatches++;
+          if (!flags.count) {
+            let matchLine = line;
+            if (flags.lineNumbers) {
+              matchLine = `${index + 1}:${line}`;
+            }
+            // If multiple files, prefix with filename
+            if (filesToSearch.length > 1) {
+              matchLine = `${filename}:${matchLine}`;
+            }
+            allMatches.push(matchLine);
+          }
+        }
+      });
+    }
     
     // Return count if -c flag
     if (flags.count) {
-      return { output: matches.length.toString() };
+      return { output: totalMatches.toString() };
     }
     
-    if (matches.length === 0) {
+    if (allMatches.length === 0) {
       return { output: '' };
     }
     
     unlockAchievement('grep_guru');
-    return { output: matches.join('\n') };
+    return { output: allMatches.join('\n') };
   }
 
   find(args) {
@@ -1954,8 +2009,14 @@ function showHintPopup(objective) {
         Hint: Command to Use
       </div>
       
-      <div class="hint-bubble-command">
-        ${objective.command}
+      <div class="hint-bubble-command-container">
+        <div class="hint-bubble-command">
+          ${objective.command}
+        </div>
+        <button class="hint-copy-btn" onclick="copyCommandToClipboard('${objective.command.replace(/'/g, "\\'")}')">
+          <span class="copy-icon">📋</span>
+          <span class="copy-text">Copy</span>
+        </button>
       </div>
     </div>
   `;
@@ -1972,6 +2033,47 @@ function closeHintPopup() {
   if (terminalInput) {
     terminalInput.focus();
   }
+}
+
+function copyCommandToClipboard(command) {
+  // Use the Clipboard API to copy the command
+  navigator.clipboard.writeText(command).then(() => {
+    // Visual feedback - change button text temporarily
+    const copyBtn = event.target.closest('.hint-copy-btn');
+    if (copyBtn) {
+      const originalHTML = copyBtn.innerHTML;
+      copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Copied!</span>';
+      copyBtn.classList.add('copied');
+      
+      setTimeout(() => {
+        copyBtn.innerHTML = originalHTML;
+        copyBtn.classList.remove('copied');
+      }, 2000);
+    }
+  }).catch(err => {
+    console.error('Failed to copy command:', err);
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea');
+    textArea.value = command;
+    textArea.style.position = 'fixed';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      const copyBtn = event.target.closest('.hint-copy-btn');
+      if (copyBtn) {
+        const originalHTML = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<span class="copy-icon">✓</span><span class="copy-text">Copied!</span>';
+        setTimeout(() => {
+          copyBtn.innerHTML = originalHTML;
+        }, 2000);
+      }
+    } catch (err) {
+      console.error('Fallback copy failed:', err);
+    }
+    document.body.removeChild(textArea);
+  });
 }
 
 function loadMission(missionIndex) {
